@@ -1,0 +1,12 @@
+{
+  "arbExample1": "arb示例1",
+  "arbExample2": "arb示例2 {name}",
+  "@arbExample2": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "settings": "设置"
+}

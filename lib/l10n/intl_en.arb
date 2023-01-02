@@ -1,0 +1,12 @@
+{
+  "arbExample1": "arbExample1",
+  "arbExample2": "arbExample2 {name}",
+  "@arbExample2": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "settings": "Settings"
+}

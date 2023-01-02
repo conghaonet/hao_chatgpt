@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.app2m.chatgpt.hao_chatgpt">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="hao_chatgpt"
+        android:label="HaoChatGPT"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
