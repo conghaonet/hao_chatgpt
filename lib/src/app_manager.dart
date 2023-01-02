@@ -1,10 +1,12 @@
 import 'package:flutter/services.dart';
+import 'package:hao_chatgpt/src/preferences_manager.dart';
 import 'package:yaml/yaml.dart';
 
 class AppManager {
   bool _isInitialized = false;
 
   bool get isInitialized => _isInitialized;
+
   String? _openaiApiKey;
 
   String? get openaiApiKey => _openaiApiKey;
@@ -17,6 +19,7 @@ class AppManager {
 
   Future<void> init() async {
     if (!_isInitialized) {
+      await appPref.init();
       await _loadOpenaiKeys();
     }
     _isInitialized = true;

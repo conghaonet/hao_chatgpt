@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hao_chatgpt/src/preferences_manager.dart';
 
 import 'l10n/generated/l10n.dart';
 import 'src/page/chat_page.dart';
@@ -22,8 +23,8 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-final StateProvider<ThemeMode> themeProvider = StateProvider((ref) => ThemeMode.system);
-final StateProvider<Locale?> localeProvider = StateProvider((ref) => null);
+final StateProvider<ThemeMode> themeProvider = StateProvider((ref) => appPref.themeMode);
+final StateProvider<Locale?> localeProvider = StateProvider((ref) => appPref.locale);
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
