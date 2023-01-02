@@ -1,17 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomePage extends ConsumerStatefulWidget {
+import '../../l10n/generated/l10n.dart';
+
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    
-    return const Placeholder();
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            OutlinedButton(
+              onPressed: () {
+
+              },
+              child: Text('${S.of(context).openAI} ${S.of(context).chatGPT}'),
+            ),
+            OutlinedButton(
+              onPressed: () {
+
+              },
+              child: Text(S.of(context).settings),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

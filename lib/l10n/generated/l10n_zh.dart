@@ -14,4 +14,31 @@ class SZh extends S {
 
   @override
   String get settings => '设置';
+
+  @override
+  String get openAI => 'OpenAI';
+
+  @override
+  String get chatGPT => 'ChatGPT';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get themeSystem => 'System';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get langEnglish => 'English';
+
+  @override
+  String get langChinese => 'Chinese';
+
+  @override
+  String get settingsReset => 'Reset';
 }
