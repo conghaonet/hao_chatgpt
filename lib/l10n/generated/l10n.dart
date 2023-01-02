@@ -111,6 +111,54 @@ abstract class S {
   /// **'Settings'**
   String get settings;
 
+  /// No description provided for @theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// No description provided for @chooseTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose theme'**
+  String get chooseTheme;
+
+  /// No description provided for @light.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get light;
+
+  /// No description provided for @dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get dark;
+
+  /// No description provided for @systemDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'System default'**
+  String get systemDefault;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @settingsReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get settingsReset;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
   /// No description provided for @openAI.
   ///
   /// In en, this message translates to:
@@ -123,30 +171,6 @@ abstract class S {
   /// **'ChatGPT'**
   String get chatGPT;
 
-  /// No description provided for @themeLight.
-  ///
-  /// In en, this message translates to:
-  /// **'Light'**
-  String get themeLight;
-
-  /// No description provided for @themeDark.
-  ///
-  /// In en, this message translates to:
-  /// **'Dark'**
-  String get themeDark;
-
-  /// No description provided for @themeSystem.
-  ///
-  /// In en, this message translates to:
-  /// **'System'**
-  String get themeSystem;
-
-  /// No description provided for @language.
-  ///
-  /// In en, this message translates to:
-  /// **'Language'**
-  String get language;
-
   /// No description provided for @langEnglish.
   ///
   /// In en, this message translates to:
@@ -156,14 +180,8 @@ abstract class S {
   /// No description provided for @langChinese.
   ///
   /// In en, this message translates to:
-  /// **'Chinese'**
+  /// **'简体中文'**
   String get langChinese;
-
-  /// No description provided for @settingsReset.
-  ///
-  /// In en, this message translates to:
-  /// **'Reset'**
-  String get settingsReset;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

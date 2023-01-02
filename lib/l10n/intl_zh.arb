@@ -9,12 +9,12 @@
     }
   },
   "settings": "设置",
-  "themeLight": "Light",
-  "themeDark": "Dark",
-  "themeSystem": "System",
-  "language": "Language",
-  "langEnglish": "English",
-  "langChinese": "Chinese",
-  "settingsReset": "Reset"
-
+  "theme": "主题",
+  "chooseTheme": "选择主题",
+  "light": "亮色模式",
+  "dark": "暗色模式",
+  "systemDefault": "系统默认",
+  "language": "语言",
+  "settingsReset": "重置",
+  "cancel": "取消"
 }

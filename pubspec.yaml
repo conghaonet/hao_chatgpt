@@ -45,6 +45,7 @@ dependencies:
   riverpod: ^2.1.3
   loading_animation_widget: ^1.2.0+4
   shared_preferences: ^2.0.15
+  go_router: ^6.0.0
 
 dev_dependencies:
   flutter_test:

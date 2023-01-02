@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../l10n/generated/l10n.dart';
 
@@ -14,22 +15,34 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            OutlinedButton(
-              onPressed: () {
-
-              },
-              child: Text('${S.of(context).openAI} ${S.of(context).chatGPT}'),
-            ),
-            OutlinedButton(
-              onPressed: () {
-
-              },
-              child: Text(S.of(context).settings),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.chat),
+                title: Text('${S.of(context).openAI} ${S.of(context).chatGPT}'),
+                trailing: const Icon(Icons.keyboard_arrow_right),
+                onTap: () {
+                  context.go('/chat_page');
+                },
+              ),
+              Container(
+                height: 1,
+                width: double.infinity,
+                color: Theme.of(context).primaryColorLight,
+              ),
+              ListTile(
+                leading: const Icon(Icons.settings),
+                title: Text(S.of(context).settings),
+                trailing: const Icon(Icons.keyboard_arrow_right),
+                onTap: () {
+                  context.go('/settings');
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

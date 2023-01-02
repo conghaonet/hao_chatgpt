@@ -16,29 +16,38 @@ class SEn extends S {
   String get settings => 'Settings';
 
   @override
+  String get theme => 'Theme';
+
+  @override
+  String get chooseTheme => 'Choose theme';
+
+  @override
+  String get light => 'Light';
+
+  @override
+  String get dark => 'Dark';
+
+  @override
+  String get systemDefault => 'System default';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get settingsReset => 'Reset';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
   String get openAI => 'OpenAI';
 
   @override
   String get chatGPT => 'ChatGPT';
 
   @override
-  String get themeLight => 'Light';
-
-  @override
-  String get themeDark => 'Dark';
-
-  @override
-  String get themeSystem => 'System';
-
-  @override
-  String get language => 'Language';
-
-  @override
   String get langEnglish => 'English';
 
   @override
-  String get langChinese => 'Chinese';
-
-  @override
-  String get settingsReset => 'Reset';
+  String get langChinese => '简体中文';
 }

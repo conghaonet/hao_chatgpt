@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:hao_chatgpt/app_router.dart';
 import 'package:hao_chatgpt/src/app_manager.dart';
+import 'package:hao_chatgpt/src/extensions.dart';
 import 'package:hao_chatgpt/src/my_colors.dart';
 import 'package:hao_chatgpt/src/page/home_page.dart';
 import 'package:flutter/material.dart';
@@ -32,13 +34,14 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (Platform.isAndroid) {
-      Brightness brightness = WidgetsBinding.instance.window.platformBrightness;
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        systemNavigationBarColor: brightness == Brightness.dark ? Colors.black : Colors.white,
-      ));
-    }
-    return MaterialApp(
+    // if (Platform.isAndroid) {
+    //   Brightness brightness = WidgetsBinding.instance.window.platformBrightness;
+    //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //     systemNavigationBarColor: brightness == Brightness.dark ? Colors.black : Colors.white,
+    //   ));
+    // }
+    setSystemNavigationBarColor(ref.watch(themeProvider));
+    return MaterialApp.router(
       title: 'HaoChatGPT',
       locale: ref.watch(localeProvider),
       localizationsDelegates: const [
@@ -58,7 +61,7 @@ class MyApp extends ConsumerWidget {
       darkTheme: ThemeData.dark(useMaterial3: true).copyWith(
         extensions: <ThemeExtension<dynamic>>[MyColors.dark],
       ),
-      home: const HomePage(),
+      routerConfig: AppRouter().goRouter,
     );
   }
 }
