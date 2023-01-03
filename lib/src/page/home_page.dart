@@ -21,14 +21,14 @@ class _HomePageState extends State<HomePage> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(flex: 2, child: Container()),
-            Text('${S.of(context).openAI} ${S.of(context).chatGPT}', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            Text(S.of(context).haoChat, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
             const SizedBox(height: 16,),
             const ImageIcon(AssetImage('assets/images/openai.png'), size: 48,),
             const SizedBox(height: 32,),
             Expanded(flex: 3, child: Container()),
             ListTile(
               leading: const Icon(Icons.chat),
-              title: Text('${S.of(context).openAI} ${S.of(context).chatGPT}'),
+              title: Text(S.of(context).chatGPT),
               trailing: const Icon(Icons.keyboard_arrow_right),
               onTap: () {
                 context.go('/chat_page');
@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
             ),
             ListTile(
               leading: const Icon(Icons.info),
-              title: Text('${S.of(context).about} ${S.of(context).chatGPT}'),
+              title: Text('${S.of(context).openAI} ${S.of(context).chatGPT}'),
               trailing: const Icon(Icons.keyboard_arrow_right),
               onTap: () {
                 context.push('/webview?title=ChatGPT&url=${Constants.aboutChatGPTUrl}');
