@@ -32,7 +32,8 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     setSystemNavigationBarColor(ref.watch(themeProvider));
     return MaterialApp.router(
-      title: 'HaoChatGPT',
+      title: 'Hao ChatGPT',
+      onGenerateTitle: (context) => S.of(context).haoChatGPT,
       locale: ref.watch(localeProvider),
       localizationsDelegates: const [
         S.delegate,

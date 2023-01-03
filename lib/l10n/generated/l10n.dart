@@ -165,6 +165,12 @@ abstract class S {
   /// **'Reset'**
   String get settingsReset;
 
+  /// No description provided for @haoChatGPT.
+  ///
+  /// In en, this message translates to:
+  /// **'Hao ChatGPT'**
+  String get haoChatGPT;
+
   /// No description provided for @openAI.
   ///
   /// In en, this message translates to:

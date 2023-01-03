@@ -14,35 +14,40 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: const Icon(Icons.chat),
-                title: Text('${S.of(context).openAI} ${S.of(context).chatGPT}'),
-                trailing: const Icon(Icons.keyboard_arrow_right),
-                onTap: () {
-                  context.go('/chat_page');
-                },
-              ),
-              Container(
-                height: 1,
-                width: double.infinity,
-                color: Theme.of(context).primaryColorLight,
-              ),
-              ListTile(
-                leading: const Icon(Icons.settings),
-                title: Text(S.of(context).settings),
-                trailing: const Icon(Icons.keyboard_arrow_right),
-                onTap: () {
-                  context.go('/settings');
-                },
-              ),
-            ],
-          ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(flex: 2, child: Container()),
+            Text(S.of(context).haoChatGPT, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            const SizedBox(height: 16,),
+            const ImageIcon(AssetImage('assets/images/openai.png'), size: 48,),
+            const SizedBox(height: 32,),
+            Expanded(flex: 3, child: Container()),
+            ListTile(
+              leading: const Icon(Icons.chat),
+              title: Text('${S.of(context).openAI} ${S.of(context).chatGPT}'),
+              trailing: const Icon(Icons.keyboard_arrow_right),
+              onTap: () {
+                context.go('/chat_page');
+              },
+            ),
+            Container(
+              height: 1,
+              width: double.infinity,
+              color: Theme.of(context).primaryColorLight.withOpacity(0.5),
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: Text(S.of(context).settings),
+              trailing: const Icon(Icons.keyboard_arrow_right),
+              onTap: () {
+                context.go('/settings');
+              },
+            ),
+            Expanded(flex: 3, child: Container()),
+          ],
         ),
       ),
     );
