@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hao_chatgpt/src/constants.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 class WebviewPage extends StatefulWidget {
   final String? url;
@@ -24,14 +24,7 @@ class _WebviewPageState extends State<WebviewPage> {
     super.initState();
     _title = widget.title ?? '';
     _url = widget.url.isNotBlank ? widget.url! : Constants.blankUrl;
-    // #docregion platform_features
-    final PlatformWebViewControllerCreationParams params = WebViewPlatform.instance is WebKitWebViewPlatform
-        ? WebKitWebViewControllerCreationParams(
-      allowsInlineMediaPlayback: true,
-      mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},)
-        : const PlatformWebViewControllerCreationParams();
-
-    _controller = WebViewController.fromPlatformCreationParams(params)
+    _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(NavigationDelegate(
         onProgress: (int progress) {
@@ -59,6 +52,17 @@ class _WebviewPageState extends State<WebviewPage> {
               await _controller.reload();
             },
             icon: const Icon(Icons.refresh),
+          ),
+          IconButton(
+            onPressed: () async {
+              var currentUrl = await _controller.currentUrl();
+              if(currentUrl.isNotBlank) {
+                if (!await launchUrl(Uri.parse(currentUrl!), mode: LaunchMode.externalApplication)) {
+                  debugPrint("can not open: $currentUrl");
+                }
+              }
+            },
+            icon: const Icon(Icons.open_in_browser),
           ),
         ],
       ),

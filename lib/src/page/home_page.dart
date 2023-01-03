@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../l10n/generated/l10n.dart';
 import '../constants.dart';
@@ -56,8 +59,14 @@ class _HomePageState extends State<HomePage> {
               leading: const Icon(Icons.info),
               title: Text('${S.of(context).openAI} ${S.of(context).chatGPT}'),
               trailing: const Icon(Icons.keyboard_arrow_right),
-              onTap: () {
-                context.push('/webview?title=ChatGPT&url=${Constants.aboutChatGPTUrl}');
+              onTap: () async {
+                if(Platform.isAndroid || Platform.isIOS) {
+                  context.push('/webview?title=ChatGPT&url=${Constants.aboutChatGPTUrl}');
+                } else {
+                  if (!await launchUrl(Uri.parse(Constants.aboutChatGPTUrl), mode: LaunchMode.externalApplication)) {
+                    debugPrint("can not open: ${Constants.aboutChatGPTUrl}");
+                  }
+                }
               },
             ),
             Expanded(flex: 3, child: Container()),

@@ -43,9 +43,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       themeName = S.of(context).light;
     }
     Map<ThemeMode, String> themeModeMap = {
+      ThemeMode.system: S.of(context).systemDefault,
       ThemeMode.light: S.of(context).light,
       ThemeMode.dark: S.of(context).dark,
-      ThemeMode.system: S.of(context).systemDefault,
     };
     return ListTile(
       leading: const Icon(Icons.brightness_4),
@@ -87,6 +87,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       },
     );
   }
+
   Widget _buildLanguageSetting(BuildContext context) {
     String getLanguageName() {
       String languageName = S.of(context).systemDefault;
