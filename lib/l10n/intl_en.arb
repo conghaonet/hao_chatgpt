@@ -15,8 +15,9 @@
   "dark": "Dark",
   "systemDefault": "System default",
   "language": "Language",
-  "settingsReset": "Reset",
+  "chooseLanguage": "Choose language",
   "cancel": "Cancel",
+  "settingsReset": "Reset",
 
   "openAI": "OpenAI",
   "chatGPT": "ChatGPT",

@@ -34,10 +34,13 @@ class SZh extends S {
   String get language => '语言';
 
   @override
-  String get settingsReset => '重置';
+  String get chooseLanguage => 'Choose language';
 
   @override
   String get cancel => '取消';
+
+  @override
+  String get settingsReset => '重置';
 
   @override
   String get openAI => 'OpenAI';

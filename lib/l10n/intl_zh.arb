@@ -15,6 +15,7 @@
   "dark": "暗色模式",
   "systemDefault": "系统默认",
   "language": "语言",
-  "settingsReset": "重置",
-  "cancel": "取消"
+  "chooseLanguage": "Choose language",
+  "cancel": "取消",
+  "settingsReset": "重置"
 }

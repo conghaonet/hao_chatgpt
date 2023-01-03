@@ -34,10 +34,13 @@ class SEn extends S {
   String get language => 'Language';
 
   @override
-  String get settingsReset => 'Reset';
+  String get chooseLanguage => 'Choose language';
 
   @override
   String get cancel => 'Cancel';
+
+  @override
+  String get settingsReset => 'Reset';
 
   @override
   String get openAI => 'OpenAI';

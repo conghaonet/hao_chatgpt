@@ -147,17 +147,23 @@ abstract class S {
   /// **'Language'**
   String get language;
 
-  /// No description provided for @settingsReset.
+  /// No description provided for @chooseLanguage.
   ///
   /// In en, this message translates to:
-  /// **'Reset'**
-  String get settingsReset;
+  /// **'Choose language'**
+  String get chooseLanguage;
 
   /// No description provided for @cancel.
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
+
+  /// No description provided for @settingsReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get settingsReset;
 
   /// No description provided for @openAI.
   ///
