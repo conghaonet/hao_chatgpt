@@ -11,7 +11,7 @@ part 'openai_service.g.dart';
 /// flutter pub run build_runner build --delete-conflicting-outputs
 @RestApi()
 abstract class OpenaiService {
-  factory OpenaiService(Dio dio) = _OpenaiService;
+  factory OpenaiService(Dio dio, {String? baseUrl}) = _OpenaiService;
 
   @GET('/models')
   Future<ModelsEntity> getModels();
