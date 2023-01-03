@@ -49,6 +49,9 @@ class SZh extends S {
   String get prompt => '提示';
 
   @override
+  String get customizeAPI => '自定义 API';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override
@@ -62,4 +65,10 @@ class SZh extends S {
 
   @override
   String get langChinese => '简体中文';
+
+  @override
+  String get gpt3 => 'GPT-3';
+
+  @override
+  String get model => 'Model';
 }

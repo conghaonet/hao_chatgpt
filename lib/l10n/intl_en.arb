@@ -20,10 +20,13 @@
   "settingsReset": "Reset",
   "about": "About",
   "prompt": "Prompt",
+  "customizeAPI": "Customize API",
 
   "haoChat": "HaoChat",
   "openAI": "OpenAI",
   "chatGPT": "ChatGPT",
   "langEnglish": "English",
-  "langChinese": "简体中文"
+  "langChinese": "简体中文",
+  "gpt3": "GPT-3",
+  "model": "Model"
 }

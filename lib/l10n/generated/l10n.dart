@@ -177,6 +177,12 @@ abstract class S {
   /// **'Prompt'**
   String get prompt;
 
+  /// No description provided for @customizeAPI.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize API'**
+  String get customizeAPI;
+
   /// No description provided for @haoChat.
   ///
   /// In en, this message translates to:
@@ -206,6 +212,18 @@ abstract class S {
   /// In en, this message translates to:
   /// **'简体中文'**
   String get langChinese;
+
+  /// No description provided for @gpt3.
+  ///
+  /// In en, this message translates to:
+  /// **'GPT-3'**
+  String get gpt3;
+
+  /// No description provided for @model.
+  ///
+  /// In en, this message translates to:
+  /// **'Model'**
+  String get model;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

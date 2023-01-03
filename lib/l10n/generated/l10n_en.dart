@@ -49,6 +49,9 @@ class SEn extends S {
   String get prompt => 'Prompt';
 
   @override
+  String get customizeAPI => 'Customize API';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override
@@ -62,4 +65,10 @@ class SEn extends S {
 
   @override
   String get langChinese => '简体中文';
+
+  @override
+  String get gpt3 => 'GPT-3';
+
+  @override
+  String get model => 'Model';
 }

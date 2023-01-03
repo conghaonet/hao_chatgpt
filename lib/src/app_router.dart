@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/src/page/chat_page.dart';
+import 'package:hao_chatgpt/src/page/customize_gpt3_page.dart';
 import 'package:hao_chatgpt/src/page/home_page.dart';
 import 'package:hao_chatgpt/src/page/settings_page.dart';
 
@@ -27,6 +28,12 @@ class AppRouter {
           GoRoute(
             path: 'chat_page',
             builder: (BuildContext context, GoRouterState state) => const ChatPage(),
+            routes: <RouteBase>[
+              GoRoute(
+                path: 'customize_gpt3',
+                builder: (BuildContext context, GoRouterState state) => const CustomizeGpt3Page(),
+              ),
+            ],
           ),
           GoRoute(
             path: 'webview',

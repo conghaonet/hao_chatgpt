@@ -34,7 +34,7 @@ class CompletionsQueryEntity {
 
   /// https://beta.openai.com/docs/guides/completion/conversation
   CompletionsQueryEntity.conversation({
-    this.model = Constants.gpt3Model,
+    this.model = Constants.gpt3ModelDavinci003,
     this.prompt = '',
     this.maxTokens = 150,
     this.temperature = 0.9,
@@ -46,7 +46,7 @@ class CompletionsQueryEntity {
 
   /// https://beta.openai.com/docs/guides/completion/generation
   CompletionsQueryEntity.generation({
-    this.model = Constants.gpt3Model,
+    this.model = Constants.gpt3ModelDavinci003,
     this.prompt = '',
     this.maxTokens = 150,
     this.temperature = 0.6,
@@ -57,7 +57,7 @@ class CompletionsQueryEntity {
   });
   /// https://beta.openai.com/docs/guides/completion/translation
   CompletionsQueryEntity.translation({
-    this.model = Constants.gpt3Model,
+    this.model = Constants.gpt3ModelDavinci003,
     this.prompt = '',
     this.maxTokens = 150,
     this.temperature = 0.3,

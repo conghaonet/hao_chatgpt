@@ -11,6 +11,7 @@ import '../network/entity/openai/completions_entity.dart';
 import '../network/entity/openai/completions_query_entity.dart';
 import '../network/openai_service.dart';
 
+import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 
 class ChatPage extends StatefulWidget {
@@ -93,8 +94,16 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Hello'),
+        title: Text(S.of(context).chatGPT),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.go('/chat_page/customize_gpt3');
+            },
+            icon: const Icon(Icons.dashboard_customize),
+          ),
+        ],
       ),
       body: Column(
         children: [

@@ -19,5 +19,6 @@
   "cancel": "取消",
   "settingsReset": "重置",
   "about": "关于",
-  "prompt": "提示"
+  "prompt": "提示",
+  "customizeAPI": "自定义 API"
 }
