@@ -4,6 +4,8 @@ import 'package:hao_chatgpt/src/page/chat_page.dart';
 import 'package:hao_chatgpt/src/page/home_page.dart';
 import 'package:hao_chatgpt/src/page/settings_page.dart';
 
+import 'page/webview_page.dart';
+
 class AppRouter {
   AppRouter._internal();
   static final AppRouter _appRouter = AppRouter._internal();
@@ -25,6 +27,13 @@ class AppRouter {
           GoRoute(
             path: 'chat_page',
             builder: (BuildContext context, GoRouterState state) => const ChatPage(),
+          ),
+          GoRoute(
+            path: 'webview',
+            builder: (BuildContext context, GoRouterState state) => WebviewPage(
+              url: state.queryParams['url'],
+              title: state.queryParams['title'],
+            ),
           ),
         ],
       ),

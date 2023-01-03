@@ -7,6 +7,9 @@ class Constants {
 
   static const Locale enLocale = Locale('en', '');
   static const Locale zhLocale = Locale('zh', '');
+
+  static const String aboutChatGPTUrl = 'https://openai.com/blog/chatgpt/';
+  static const String blankUrl = 'about:blank';
 }
 
 

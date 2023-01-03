@@ -43,7 +43,10 @@ class SZh extends S {
   String get settingsReset => '重置';
 
   @override
-  String get haoChatGPT => 'Hao ChatGPT';
+  String get about => '关于';
+
+  @override
+  String get haoChat => 'HaoChat';
 
   @override
   String get openAI => 'OpenAI';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../l10n/generated/l10n.dart';
+import '../constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(flex: 2, child: Container()),
-            Text(S.of(context).haoChatGPT, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            Text('${S.of(context).openAI} ${S.of(context).chatGPT}', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
             const SizedBox(height: 16,),
             const ImageIcon(AssetImage('assets/images/openai.png'), size: 48,),
             const SizedBox(height: 32,),
@@ -44,6 +45,19 @@ class _HomePageState extends State<HomePage> {
               trailing: const Icon(Icons.keyboard_arrow_right),
               onTap: () {
                 context.go('/settings');
+              },
+            ),
+            Container(
+              height: 1,
+              width: double.infinity,
+              color: Theme.of(context).primaryColorLight.withOpacity(0.5),
+            ),
+            ListTile(
+              leading: const Icon(Icons.info),
+              title: Text('${S.of(context).about} ${S.of(context).chatGPT}'),
+              trailing: const Icon(Icons.keyboard_arrow_right),
+              onTap: () {
+                context.push('/webview?title=ChatGPT&url=${Constants.aboutChatGPTUrl}');
               },
             ),
             Expanded(flex: 3, child: Container()),

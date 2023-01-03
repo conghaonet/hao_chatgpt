@@ -2,7 +2,7 @@
     package="com.app2m.chatgpt.hao_chatgpt">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="HaoChatGPT"
+        android:label="HaoChat"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

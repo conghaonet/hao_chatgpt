@@ -18,8 +18,9 @@
   "chooseLanguage": "Choose language",
   "cancel": "Cancel",
   "settingsReset": "Reset",
+  "about": "About",
 
-  "haoChatGPT": "Hao ChatGPT",
+  "haoChat": "HaoChat",
   "openAI": "OpenAI",
   "chatGPT": "ChatGPT",
   "langEnglish": "English",

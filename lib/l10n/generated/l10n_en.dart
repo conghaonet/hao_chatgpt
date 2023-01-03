@@ -43,7 +43,10 @@ class SEn extends S {
   String get settingsReset => 'Reset';
 
   @override
-  String get haoChatGPT => 'Hao ChatGPT';
+  String get about => 'About';
+
+  @override
+  String get haoChat => 'HaoChat';
 
   @override
   String get openAI => 'OpenAI';

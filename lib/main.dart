@@ -1,4 +1,4 @@
-import 'package:hao_chatgpt/app_router.dart';
+import 'package:hao_chatgpt/src/app_router.dart';
 import 'package:hao_chatgpt/src/app_manager.dart';
 import 'package:hao_chatgpt/src/constants.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
@@ -32,8 +32,8 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     setSystemNavigationBarColor(ref.watch(themeProvider));
     return MaterialApp.router(
-      title: 'Hao ChatGPT',
-      onGenerateTitle: (context) => S.of(context).haoChatGPT,
+      title: 'HaoChat',
+      onGenerateTitle: (context) => S.of(context).haoChat,
       locale: ref.watch(localeProvider),
       localizationsDelegates: const [
         S.delegate,

@@ -17,5 +17,6 @@
   "language": "语言",
   "chooseLanguage": "Choose language",
   "cancel": "取消",
-  "settingsReset": "重置"
+  "settingsReset": "重置",
+  "about": "关于"
 }
