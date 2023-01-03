@@ -10,7 +10,7 @@ class MyColors extends ThemeExtension<MyColors> {
   static const dark = MyColors(
     systemNavigationBarColor: Colors.black,
     promptBackgroundColor: Colors.black45,
-    completionBackgroundColor: Colors.black38,
+    completionBackgroundColor: Colors.black26,
   );
 
   const MyColors({

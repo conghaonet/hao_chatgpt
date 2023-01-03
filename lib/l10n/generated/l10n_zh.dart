@@ -46,6 +46,9 @@ class SZh extends S {
   String get about => '关于';
 
   @override
+  String get prompt => '提示';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override

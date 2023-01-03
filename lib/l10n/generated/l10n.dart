@@ -171,6 +171,12 @@ abstract class S {
   /// **'About'**
   String get about;
 
+  /// No description provided for @prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Prompt'**
+  String get prompt;
+
   /// No description provided for @haoChat.
   ///
   /// In en, this message translates to:

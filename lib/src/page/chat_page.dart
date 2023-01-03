@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../../l10n/generated/l10n.dart';
 import '../network/entity/openai/completions_entity.dart';
 import '../network/entity/openai/completions_query_entity.dart';
 import '../network/openai_service.dart';
@@ -90,13 +91,17 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    final myColors = Theme.of(context).extension<MyColors>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Hello'),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: Column(
         children: [
+          Container(
+            height: 1,
+            color: Theme.of(context).primaryColorLight,
+          ),
           Expanded(
             child: ListView.builder(
               controller: _listController,
@@ -113,63 +118,87 @@ class _ChatPageState extends State<ChatPage> {
                   );
                 } else {
                   if (_data[index] is PromptItem) {
-                    return Container(
-                      color: myColors?.promptBackgroundColor,
-                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Icon(Icons.account_circle),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Expanded(
-                              child: SelectableText(
-                                (_data[index] as PromptItem).inputMessage,
-                              )),
-                        ],
-                      ),
-                    );
+                    return _buildPromptItem(context, index);
                   } else if (_data[index] is CompletionItem) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                      color: myColors?.completionBackgroundColor,
-                      child: SelectableText((_data[index] as CompletionItem).text),
-                    );
+                    return _buildCompletionItem(context, index);
                   } else {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                      color: myColors?.completionBackgroundColor,
-                      child: Column(
-                        children: [
-                          Text(
-                            'Error',
-                            style: TextStyle(color: Theme.of(context).colorScheme.error, fontWeight: FontWeight.bold),
-                          ),
-                          SelectableText(
-                            (_data[index] as ErrorItem).error.message ?? 'ERROR!',
-                            style: TextStyle(color: Theme.of(context).colorScheme.error),
-                          ),
-                        ],
-                      ),
-                    );
+                    return _buildErrorItem(context, index);
                   }
                 }
               },
             ),
           ),
-          _buildPromptInput(),
+          Container(
+            height: 1,
+            color: Theme.of(context).primaryColorLight,
+          ),
+          _buildPromptInput(context),
         ],
       ),
     );
   }
 
-  Row _buildPromptInput() {
+  Widget _buildPromptItem(BuildContext context, int index) {
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(Icons.account_circle),
+          const SizedBox(
+            width: 8,
+          ),
+          Expanded(
+            child: SelectableText((_data[index] as PromptItem).inputMessage,),
+          ),
+        ],
+      ),
+    );
+  }
+  Widget _buildCompletionItem(BuildContext context, int index) {
+    final myColors = Theme.of(context).extension<MyColors>();
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      color: myColors?.completionBackgroundColor,
+      child: SelectableText((_data[index] as CompletionItem).text),
+    );
+  }
+
+  Widget _buildErrorItem(BuildContext context, int index) {
+    final myColors = Theme.of(context).extension<MyColors>();
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      color: myColors?.completionBackgroundColor,
+      child: Column(
+        children: [
+          Text('Error',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.error,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SelectableText((_data[index] as ErrorItem).error.message ?? 'ERROR!',
+            style: TextStyle(color: Theme.of(context).colorScheme.error),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPromptInput(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Expanded(
           child: TextField(
+            maxLines: 6,
+            minLines: 1,
+            autofocus: true,
+            decoration: InputDecoration(
+              hintText: S.of(context).prompt,
+              contentPadding: const EdgeInsets.only(left: 16.0),
+            ),
             controller: _msgController,
             onChanged: (value) {
               if (value.isNotBlank) {
@@ -190,11 +219,6 @@ class _ChatPageState extends State<ChatPage> {
                 }
               }
             },
-            maxLines: null,
-            decoration: const InputDecoration(
-              hintText: 'Message',
-              contentPadding: EdgeInsets.only(left: 16.0),
-            ),
           ),
         ),
         IconButton(
@@ -203,7 +227,7 @@ class _ChatPageState extends State<ChatPage> {
               : () {
                   setState(() {
                     _isRequesting = true;
-                    _inputMessage = _msgController.text;
+                    _inputMessage = _msgController.text.trim();
                     var promptItem = PromptItem(inputMessage: _inputMessage, appendedPrompt: _appendPrompt());
                     _data.add(promptItem);
                     _sendPrompt(promptItem);

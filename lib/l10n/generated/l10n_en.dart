@@ -46,6 +46,9 @@ class SEn extends S {
   String get about => 'About';
 
   @override
+  String get prompt => 'Prompt';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override
