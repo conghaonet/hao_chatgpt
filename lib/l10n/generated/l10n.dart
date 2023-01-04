@@ -224,6 +224,36 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Model'**
   String get model;
+
+  /// No description provided for @temperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature'**
+  String get temperature;
+
+  /// No description provided for @maximumLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum length'**
+  String get maximumLength;
+
+  /// No description provided for @topP.
+  ///
+  /// In en, this message translates to:
+  /// **'Top P'**
+  String get topP;
+
+  /// No description provided for @frequencyPenalty.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequency penalty'**
+  String get frequencyPenalty;
+
+  /// No description provided for @presencePenalty.
+  ///
+  /// In en, this message translates to:
+  /// **'Presence penalty'**
+  String get presencePenalty;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

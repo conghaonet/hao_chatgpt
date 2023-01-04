@@ -71,4 +71,19 @@ class SEn extends S {
 
   @override
   String get model => 'Model';
+
+  @override
+  String get temperature => 'Temperature';
+
+  @override
+  String get maximumLength => 'Maximum length';
+
+  @override
+  String get topP => 'Top P';
+
+  @override
+  String get frequencyPenalty => 'Frequency penalty';
+
+  @override
+  String get presencePenalty => 'Presence penalty';
 }

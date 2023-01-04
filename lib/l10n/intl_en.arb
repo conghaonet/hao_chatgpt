@@ -28,5 +28,10 @@
   "langEnglish": "English",
   "langChinese": "简体中文",
   "gpt3": "GPT-3",
-  "model": "Model"
+  "model": "Model",
+  "temperature": "Temperature",
+  "maximumLength": "Maximum length",
+  "topP": "Top P",
+  "frequencyPenalty": "Frequency penalty",
+  "presencePenalty": "Presence penalty"
 }
