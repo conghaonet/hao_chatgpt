@@ -14,7 +14,6 @@ class CustomizeGpt3Page extends StatefulWidget {
   @override
   State<CustomizeGpt3Page> createState() => _CustomizeGpt3PageState();
 }
-/// https://beta.openai.com/docs/guides/completion/generation
 
 class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
   late CompletionsQueryEntity _queryEntity;
@@ -30,11 +29,9 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
   final _presenceTextFocusNode = FocusNode();
   final _presenceTextController = TextEditingController();
   final _confirmButtonFocusNode = FocusNode();
-  static const List<double> temperatureRange = [0.0, 1.0];
+  static const List<double> rangeZeroToOne = [0.0, 1.0];
   static const List<int> maxLengthRange = [1, 4000];
-  static const List<double> topPRange = [0.0, 1.0];
-  static const List<double> frequencyRange = [0.0, 2.0];
-  static const List<double> presenceRange = [0.0, 2.0];
+  static const List<double> rangeZeroToTwo = [0.0, 2.0];
 
   @override
   void initState() {
@@ -45,7 +42,7 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
       controller: _temperatureTextController,
       focusNode: _temperatureTextFocusNode,
       defaultValue: _queryEntity.temperature,
-      range: temperatureRange,
+      range: rangeZeroToOne,
     );
     _initController(
       controller: _maxLengthTextController,
@@ -57,19 +54,19 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
       controller: _topPTextController,
       focusNode: _topPTextFocusNode,
       defaultValue: _queryEntity.topP,
-      range: topPRange,
+      range: rangeZeroToOne,
     );
     _initController(
       controller: _frequencyTextController,
       focusNode: _frequencyTextFocusNode,
       defaultValue: _queryEntity.frequencyPenalty,
-      range: frequencyRange,
+      range: rangeZeroToTwo,
     );
     _initController(
       controller: _presenceTextController,
       focusNode: _presenceTextFocusNode,
       defaultValue: _queryEntity.presencePenalty,
-      range: presenceRange,
+      range: rangeZeroToTwo,
     );
   }
 
@@ -110,15 +107,45 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
             children: [
               _buildModel(),
               const Divider(height: 4, thickness: 4,),
-              _buildTemperature(),
+              _buildNumberSetting(
+                label: S.of(context).temperature,
+                controller: _temperatureTextController,
+                focusNode: _temperatureTextFocusNode,
+                defaultValue: _queryEntity.temperature,
+                valueRange: rangeZeroToOne,
+              ),
               const Divider(height: 1,),
-              _buildMaximumLength(),
+              _buildNumberSetting(
+                label: S.of(context).maximumLength,
+                controller: _maxLengthTextController,
+                focusNode: _maxLengthTextFocusNode,
+                defaultValue: _queryEntity.maxTokens,
+                valueRange: maxLengthRange,
+              ),
               const Divider(height: 1,),
-              _buildTopP(),
+              _buildNumberSetting(
+                label: S.of(context).topP,
+                controller: _topPTextController,
+                focusNode: _topPTextFocusNode,
+                defaultValue: _queryEntity.topP,
+                valueRange: rangeZeroToOne,
+              ),
               const Divider(height: 1,),
-              _buildFrequency(),
+              _buildNumberSetting(
+                label: S.of(context).frequencyPenalty,
+                controller: _frequencyTextController,
+                focusNode: _frequencyTextFocusNode,
+                defaultValue: _queryEntity.frequencyPenalty,
+                valueRange: rangeZeroToTwo,
+              ),
               const Divider(height: 1,),
-              _buildPresence(),
+              _buildNumberSetting(
+                label: S.of(context).presencePenalty,
+                controller: _presenceTextController,
+                focusNode: _presenceTextFocusNode,
+                defaultValue: _queryEntity.presencePenalty,
+                valueRange: rangeZeroToTwo,
+              ),
             ],
           ),
         ),
@@ -184,7 +211,13 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
     );
   }
 
-  Widget _buildTemperature() {
+  Widget _buildNumberSetting({
+    required String label,
+    required TextEditingController controller,
+    required FocusNode focusNode,
+    required num defaultValue,
+    required List<num> valueRange,
+  }) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -193,22 +226,25 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
         children: [
           Row(
             children: [
-              Text(S.of(context).temperature),
+              Text(label),
               const SizedBox(width: 8,),
               SizedBox(
-                width: 60,
+                width: defaultValue is double ? 60 : 80,
                 height: 40,
                 child: TextField(
                   textAlign: TextAlign.end,
-                  focusNode: _temperatureTextFocusNode,
-                  controller: _temperatureTextController,
+                  focusNode: focusNode,
+                  controller: controller,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     contentPadding: EdgeInsets.symmetric(horizontal: 8),
                   ),
                   keyboardType: TextInputType.number,
                   inputFormatters: [
-                    FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
+                    FilteringTextInputFormatter(
+                      RegExp(defaultValue is double ? "[0-9.]" : "[0-9]"),
+                      allow: true,
+                    ),
                   ],
                 ),
               ),
@@ -216,202 +252,13 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
             ],
           ),
           Slider(
-            value: double.tryParse(_temperatureTextController.text) ?? _queryEntity.temperature,
-            min: temperatureRange[0],
-            max: temperatureRange[1],
-            divisions: temperatureRange[1] ~/ 0.01,
+            value: double.tryParse(controller.text) ?? defaultValue.toDouble(),
+            min: valueRange[0].toDouble(),
+            max: valueRange[1].toDouble(),
+            divisions: defaultValue is double ? valueRange[1] ~/ 0.01 : valueRange[1].toInt(),
             onChanged: (double value) {
               setState(() {
-                _temperatureTextController.text = value.toString();
-              });
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMaximumLength() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(S.of(context).maximumLength),
-              const SizedBox(width: 8,),
-              SizedBox(
-                width: 80,
-                height: 40,
-                child: TextField(
-                  textAlign: TextAlign.end,
-                  focusNode: _maxLengthTextFocusNode,
-                  controller: _maxLengthTextController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter(RegExp("[0-9]"), allow: true),
-                  ],
-                ),
-              ),
-              Expanded(child: Container()),
-            ],
-          ),
-          Slider(
-            value: double.tryParse(_maxLengthTextController.text) ?? _queryEntity.maxTokens.toDouble(),
-            min: maxLengthRange[0].toDouble(),
-            max: maxLengthRange[1].toDouble(),
-            divisions: maxLengthRange[1],
-            onChanged: (double value) {
-              setState(() {
-                _maxLengthTextController.text = value.toInt().toString();
-              });
-            },
-          ),
-
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTopP() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(S.of(context).topP),
-              const SizedBox(width: 8,),
-              SizedBox(
-                width: 60,
-                height: 40,
-                child: TextField(
-                  textAlign: TextAlign.end,
-                  focusNode: _topPTextFocusNode,
-                  controller: _topPTextController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                  ],
-                ),
-              ),
-              Expanded(child: Container()),
-            ],
-          ),
-          Slider(
-            value: double.tryParse(_topPTextController.text) ?? _queryEntity.topP,
-            min: topPRange[0],
-            max: topPRange[1],
-            divisions: topPRange[1] ~/ 0.01,
-            onChanged: (double value) {
-              setState(() {
-                _topPTextController.text = value.toString();
-              });
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFrequency() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(S.of(context).frequencyPenalty),
-              const SizedBox(width: 8,),
-              SizedBox(
-                width: 60,
-                height: 40,
-                child: TextField(
-                  textAlign: TextAlign.end,
-                  focusNode: _frequencyTextFocusNode,
-                  controller: _frequencyTextController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                  ],
-                ),
-              ),
-              Expanded(child: Container()),
-            ],
-          ),
-          Slider(
-            value: double.tryParse(_frequencyTextController.text) ?? _queryEntity.frequencyPenalty,
-            min: frequencyRange[0],
-            max: frequencyRange[1],
-            divisions: frequencyRange[1]~/0.01,
-            onChanged: (double value) {
-              setState(() {
-                _frequencyTextController.text = value.toString();
-              });
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPresence() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(S.of(context).presencePenalty),
-              const SizedBox(width: 8,),
-              SizedBox(
-                width: 60,
-                height: 40,
-                child: TextField(
-                  textAlign: TextAlign.end,
-                  focusNode: _presenceTextFocusNode,
-                  controller: _presenceTextController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
-                  ],
-                ),
-              ),
-              Expanded(child: Container()),
-            ],
-          ),
-          Slider(
-            value: double.tryParse(_presenceTextController.text) ?? _queryEntity.presencePenalty,
-            min: presenceRange[0],
-            max: presenceRange[1],
-            divisions: presenceRange[1]~/0.01,
-            onChanged: (double value) {
-              setState(() {
-                _presenceTextController.text = value.toString();
+                controller.text = defaultValue is double ? value.toString() : value.toInt().toString();
               });
             },
           ),
