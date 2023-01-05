@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../l10n/generated/l10n.dart';
 import '../constants.dart';
@@ -18,10 +21,10 @@ class CustomizeGpt3Page extends StatefulWidget {
 class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
   late CompletionsQueryEntity _queryEntity;
   late String _selectedModel;
-  final _temperatureFocus = FocusNode();
-  final _temperatureController = TextEditingController();
   final _maxLengthFocus = FocusNode();
   final _maxLengthController = TextEditingController();
+  final _temperatureFocus = FocusNode();
+  final _temperatureController = TextEditingController();
   final _topPFocus = FocusNode();
   final _topPController = TextEditingController();
   final _frequencyFocus = FocusNode();
@@ -39,16 +42,16 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
     _queryEntity = appPref.gpt3GenerationSettings ?? CompletionsQueryEntity.generation();
     _initValues();
     _initListener(
-      controller: _temperatureController,
-      focusNode: _temperatureFocus,
-      defaultValue: _queryEntity.temperature,
-      range: rangeZeroToOne,
-    );
-    _initListener(
       controller: _maxLengthController,
       focusNode: _maxLengthFocus,
       defaultValue: _queryEntity.maxTokens,
       range: maxLengthRange,
+    );
+    _initListener(
+      controller: _temperatureController,
+      focusNode: _temperatureFocus,
+      defaultValue: _queryEntity.temperature,
+      range: rangeZeroToOne,
     );
     _initListener(
       controller: _topPController,
@@ -72,8 +75,8 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
 
   void _initValues() {
     _selectedModel = _queryEntity.model;
-    _temperatureController.text = _queryEntity.temperature.toString();
     _maxLengthController.text = _queryEntity.maxTokens.toString();
+    _temperatureController.text = _queryEntity.temperature.toString();
     _topPController.text = _queryEntity.topP.toString();
     _frequencyController.text = _queryEntity.frequencyPenalty.toString();
     _presenceController.text = _queryEntity.presencePenalty.toString();
@@ -105,8 +108,8 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
   Future<void> _save() async {
     await Future(() async {
       _queryEntity.model = _selectedModel;
-      _queryEntity.temperature = double.parse(_temperatureController.text);
       _queryEntity.maxTokens = int.parse(_maxLengthController.text);
+      _queryEntity.temperature = double.parse(_temperatureController.text);
       _queryEntity.topP = double.parse(_topPController.text);
       _queryEntity.frequencyPenalty = double.parse(_frequencyController.text);
       _queryEntity.presencePenalty = double.parse(_presenceController.text);
@@ -122,6 +125,19 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
       appBar: AppBar(
         title: Text(S.of(context).gpt3),
         actions: [
+          IconButton(
+            onPressed: () async {
+              if(Platform.isAndroid || Platform.isIOS) {
+                context.push('/webview?title=Request body&url=${Constants.apiCompletionsUrl}');
+              } else {
+                if (!await launchUrl(Uri.parse(Constants.apiCompletionsUrl), mode: LaunchMode.externalApplication)) {
+                  debugPrint("can not open: ${Constants.apiCompletionsUrl}");
+                }
+              }
+            },
+            icon: const Icon(Icons.help),
+          ),
+
           IconButton(
             onPressed: () {
               setState(() {
@@ -141,19 +157,19 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
               _buildModel(),
               const Divider(height: 4, thickness: 4,),
               _buildNumberSetting(
-                label: S.of(context).temperature,
-                controller: _temperatureController,
-                focusNode: _temperatureFocus,
-                defaultValue: _queryEntity.temperature,
-                valueRange: rangeZeroToOne,
-              ),
-              const Divider(height: 2, thickness: 2,),
-              _buildNumberSetting(
                 label: S.of(context).maximumLength,
                 controller: _maxLengthController,
                 focusNode: _maxLengthFocus,
                 defaultValue: _queryEntity.maxTokens,
                 valueRange: maxLengthRange,
+              ),
+              const Divider(height: 2, thickness: 2,),
+              _buildNumberSetting(
+                label: S.of(context).temperature,
+                controller: _temperatureController,
+                focusNode: _temperatureFocus,
+                defaultValue: _queryEntity.temperature,
+                valueRange: rangeZeroToOne,
               ),
               const Divider(height: 2, thickness: 2,),
               _buildNumberSetting(
@@ -228,6 +244,19 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
               });
               debugPrint(value);
             },
+          ),
+          IconButton(
+            color: Colors.blue,
+            onPressed: () async {
+              if(Platform.isAndroid || Platform.isIOS) {
+                context.push('/webview?title=GPT-3 models&url=${Constants.aboutGPT3ModelsUrl}');
+              } else {
+                if (!await launchUrl(Uri.parse(Constants.aboutGPT3ModelsUrl), mode: LaunchMode.externalApplication)) {
+                  debugPrint("can not open: ${Constants.aboutGPT3ModelsUrl}");
+                }
+              }
+            },
+            icon: const Icon(Icons.info_outline),
           ),
         ],
       ),

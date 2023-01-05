@@ -25,10 +25,9 @@ class Constants {
   static const Locale zhLocale = Locale('zh', '');
 
   static const String aboutChatGPTUrl = 'https://openai.com/blog/chatgpt/';
-  static const String aboutGPT3ModelUrl = 'https://beta.openai.com/docs/models/gpt-3';
-  static const String aboutCodexModelUrl = 'https://beta.openai.com/docs/models/codex';
-  static const String apiCompletionsUrl = 'https://beta.openai.com/docs/api-reference/completions';
-
+  static const String aboutGPT3ModelsUrl = 'https://beta.openai.com/docs/models/gpt-3';
+  static const String aboutCodexModelsUrl = 'https://beta.openai.com/docs/models/codex';
+  static const String apiCompletionsUrl = 'https://beta.openai.com/docs/api-reference/completions/create';
 
   static const String blankUrl = 'about:blank';
 }
