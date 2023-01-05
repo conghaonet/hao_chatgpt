@@ -18,16 +18,16 @@ class CustomizeGpt3Page extends StatefulWidget {
 class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
   late CompletionsQueryEntity _queryEntity;
   late String _selectedModel;
-  final _temperatureTextFocusNode = FocusNode();
-  final _temperatureTextController = TextEditingController();
-  final _maxLengthTextFocusNode = FocusNode();
-  final _maxLengthTextController = TextEditingController();
-  final _topPTextFocusNode = FocusNode();
-  final _topPTextController = TextEditingController();
-  final _frequencyTextFocusNode = FocusNode();
-  final _frequencyTextController = TextEditingController();
-  final _presenceTextFocusNode = FocusNode();
-  final _presenceTextController = TextEditingController();
+  final _temperatureFocus = FocusNode();
+  final _temperatureController = TextEditingController();
+  final _maxLengthFocus = FocusNode();
+  final _maxLengthController = TextEditingController();
+  final _topPFocus = FocusNode();
+  final _topPController = TextEditingController();
+  final _frequencyFocus = FocusNode();
+  final _frequencyController = TextEditingController();
+  final _presenceFocus = FocusNode();
+  final _presenceController = TextEditingController();
   final _confirmButtonFocusNode = FocusNode();
   static const List<double> rangeZeroToOne = [0.0, 1.0];
   static const List<int> maxLengthRange = [1, 4000];
@@ -39,32 +39,32 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
     _queryEntity = appPref.gpt3GenerationSettings ?? CompletionsQueryEntity.generation();
     _selectedModel = _queryEntity.model;
     _initController(
-      controller: _temperatureTextController,
-      focusNode: _temperatureTextFocusNode,
+      controller: _temperatureController,
+      focusNode: _temperatureFocus,
       defaultValue: _queryEntity.temperature,
       range: rangeZeroToOne,
     );
     _initController(
-      controller: _maxLengthTextController,
-      focusNode: _maxLengthTextFocusNode,
+      controller: _maxLengthController,
+      focusNode: _maxLengthFocus,
       defaultValue: _queryEntity.maxTokens,
       range: maxLengthRange,
     );
     _initController(
-      controller: _topPTextController,
-      focusNode: _topPTextFocusNode,
+      controller: _topPController,
+      focusNode: _topPFocus,
       defaultValue: _queryEntity.topP,
       range: rangeZeroToOne,
     );
     _initController(
-      controller: _frequencyTextController,
-      focusNode: _frequencyTextFocusNode,
+      controller: _frequencyController,
+      focusNode: _frequencyFocus,
       defaultValue: _queryEntity.frequencyPenalty,
       range: rangeZeroToTwo,
     );
     _initController(
-      controller: _presenceTextController,
-      focusNode: _presenceTextFocusNode,
+      controller: _presenceController,
+      focusNode: _presenceFocus,
       defaultValue: _queryEntity.presencePenalty,
       range: rangeZeroToTwo,
     );
@@ -109,40 +109,40 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
               const Divider(height: 4, thickness: 4,),
               _buildNumberSetting(
                 label: S.of(context).temperature,
-                controller: _temperatureTextController,
-                focusNode: _temperatureTextFocusNode,
+                controller: _temperatureController,
+                focusNode: _temperatureFocus,
                 defaultValue: _queryEntity.temperature,
                 valueRange: rangeZeroToOne,
               ),
               const Divider(height: 1,),
               _buildNumberSetting(
                 label: S.of(context).maximumLength,
-                controller: _maxLengthTextController,
-                focusNode: _maxLengthTextFocusNode,
+                controller: _maxLengthController,
+                focusNode: _maxLengthFocus,
                 defaultValue: _queryEntity.maxTokens,
                 valueRange: maxLengthRange,
               ),
               const Divider(height: 1,),
               _buildNumberSetting(
                 label: S.of(context).topP,
-                controller: _topPTextController,
-                focusNode: _topPTextFocusNode,
+                controller: _topPController,
+                focusNode: _topPFocus,
                 defaultValue: _queryEntity.topP,
                 valueRange: rangeZeroToOne,
               ),
               const Divider(height: 1,),
               _buildNumberSetting(
                 label: S.of(context).frequencyPenalty,
-                controller: _frequencyTextController,
-                focusNode: _frequencyTextFocusNode,
+                controller: _frequencyController,
+                focusNode: _frequencyFocus,
                 defaultValue: _queryEntity.frequencyPenalty,
                 valueRange: rangeZeroToTwo,
               ),
               const Divider(height: 1,),
               _buildNumberSetting(
                 label: S.of(context).presencePenalty,
-                controller: _presenceTextController,
-                focusNode: _presenceTextFocusNode,
+                controller: _presenceController,
+                focusNode: _presenceFocus,
                 defaultValue: _queryEntity.presencePenalty,
                 valueRange: rangeZeroToTwo,
               ),
@@ -162,11 +162,11 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
                   FocusScope.of(context).requestFocus(_confirmButtonFocusNode);
                   Future(() async {
                     _queryEntity.model = _selectedModel;
-                    _queryEntity.temperature = double.parse(_temperatureTextController.text);
-                    _queryEntity.maxTokens = int.parse(_maxLengthTextController.text);
-                    _queryEntity.topP = double.parse(_topPTextController.text);
-                    _queryEntity.frequencyPenalty = double.parse(_frequencyTextController.text);
-                    _queryEntity.presencePenalty = double.parse(_presenceTextController.text);
+                    _queryEntity.temperature = double.parse(_temperatureController.text);
+                    _queryEntity.maxTokens = int.parse(_maxLengthController.text);
+                    _queryEntity.topP = double.parse(_topPController.text);
+                    _queryEntity.frequencyPenalty = double.parse(_frequencyController.text);
+                    _queryEntity.presencePenalty = double.parse(_presenceController.text);
                     await appPref.setGpt3GenerationSettings(_queryEntity);
                   }).then((value) {
                     context.pop();
@@ -269,16 +269,16 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
 
   @override
   void dispose() {
-    _temperatureTextFocusNode.dispose();
-    _temperatureTextController.dispose();
-    _maxLengthTextFocusNode.dispose();
-    _maxLengthTextController.dispose();
-    _topPTextFocusNode.dispose();
-    _topPTextController.dispose();
-    _frequencyTextFocusNode.dispose();
-    _frequencyTextController.dispose();
-    _presenceTextFocusNode.dispose();
-    _presenceTextController.dispose();
+    _temperatureFocus.dispose();
+    _temperatureController.dispose();
+    _maxLengthFocus.dispose();
+    _maxLengthController.dispose();
+    _topPFocus.dispose();
+    _topPController.dispose();
+    _frequencyFocus.dispose();
+    _frequencyController.dispose();
+    _presenceFocus.dispose();
+    _presenceController.dispose();
     _confirmButtonFocusNode.dispose();
     super.dispose();
   }
