@@ -31,7 +31,7 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
   final _presenceTextController = TextEditingController();
   final _confirmButtonFocusNode = FocusNode();
   static const List<double> temperatureRange = [0.0, 1.0];
-  static const List<double> maxLengthRange = [1.0, 4000.0];
+  static const List<int> maxLengthRange = [1, 4000];
   static const List<double> topPRange = [0.0, 1.0];
   static const List<double> frequencyRange = [0.0, 2.0];
   static const List<double> presenceRange = [0.0, 2.0];
@@ -41,76 +41,60 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
     super.initState();
     _queryEntity = appPref.gpt3GenerationSettings ?? CompletionsQueryEntity.generation();
     _selectedModel = _queryEntity.model;
-    _temperatureTextController.text = _queryEntity.temperature.toString();
-    _temperatureTextFocusNode.addListener(() {
-      if(!_temperatureTextFocusNode.hasFocus) {
-        setState(() {
-          var value = double.tryParse(_temperatureTextController.text);
-          if(value == null || value < temperatureRange[0] || value > temperatureRange[1]) {
-            _temperatureTextController.text = _queryEntity.temperature.toString();
-          }
-          _temperatureTextController.text = double.parse(_temperatureTextController.text).toStringAsFixedNoRound(2, isTight: true);
-        });
-      }
-    });
-    _maxLengthTextController.text = _queryEntity.maxTokens.toStringAsFixed(0);
-    _maxLengthTextFocusNode.addListener(() {
-      if(!_maxLengthTextFocusNode.hasFocus) {
-        setState(() {
-          var value = int.tryParse(_maxLengthTextController.text);
-          if(value == null || value < maxLengthRange[0] || value > maxLengthRange[1]) {
-            _maxLengthTextController.text = _queryEntity.maxTokens.toString();
-          }
-        });
-      }
-    });
-    _topPTextController.text = _queryEntity.topP.toString();
-    _topPTextFocusNode.addListener(() {
-      if(!_topPTextFocusNode.hasFocus) {
-        setState(() {
-          var value = double.tryParse(_topPTextController.text);
-          if(value == null || value < topPRange[0] || value > topPRange[1]) {
-            _topPTextController.text = _queryEntity.topP.toString();
-          }
-          _topPTextController.text = double.parse(_topPTextController.text).toStringAsFixedNoRound(2, isTight: true);
-        });
-      }
-    });
-    _frequencyTextController.text = _queryEntity.frequencyPenalty.toString();
-    _frequencyTextFocusNode.addListener(() {
-      if(!_frequencyTextFocusNode.hasFocus) {
-        setState(() {
-          var value = double.tryParse(_frequencyTextController.text);
-          if(value == null || value < frequencyRange[0] || value > frequencyRange[1]) {
-            _frequencyTextController.text = _queryEntity.frequencyPenalty.toString();
-          }
-          _frequencyTextController.text = double.parse(_frequencyTextController.text).toStringAsFixedNoRound(2, isTight: true);
-        });
-      }
-    });
-    _presenceTextController.text = _queryEntity.presencePenalty.toString();
-    _presenceTextFocusNode.addListener(() {
-      if(!_presenceTextFocusNode.hasFocus) {
-        setState(() {
-          var value = double.tryParse(_presenceTextController.text);
-          if(value == null || value < presenceRange[0] || value > presenceRange[1]) {
-            _presenceTextController.text = _queryEntity.presencePenalty.toString();
-          }
-          _presenceTextController.text = double.parse(_presenceTextController.text).toStringAsFixedNoRound(2, isTight: true);
-        });
-      }
-    });
-
+    _initController(
+      controller: _temperatureTextController,
+      focusNode: _temperatureTextFocusNode,
+      defaultValue: _queryEntity.temperature,
+      range: temperatureRange,
+    );
+    _initController(
+      controller: _maxLengthTextController,
+      focusNode: _maxLengthTextFocusNode,
+      defaultValue: _queryEntity.maxTokens,
+      range: maxLengthRange,
+    );
+    _initController(
+      controller: _topPTextController,
+      focusNode: _topPTextFocusNode,
+      defaultValue: _queryEntity.topP,
+      range: topPRange,
+    );
+    _initController(
+      controller: _frequencyTextController,
+      focusNode: _frequencyTextFocusNode,
+      defaultValue: _queryEntity.frequencyPenalty,
+      range: frequencyRange,
+    );
+    _initController(
+      controller: _presenceTextController,
+      focusNode: _presenceTextFocusNode,
+      defaultValue: _queryEntity.presencePenalty,
+      range: presenceRange,
+    );
   }
 
   void _initController({
     required TextEditingController controller,
     required FocusNode focusNode,
-    required String defaultValue,
+    required num defaultValue,
     required List<num> range,
-
   }) {
-
+    controller.text = defaultValue.toString();
+    focusNode.addListener(() {
+      if(!focusNode.hasFocus) {
+        setState(() {
+          var value = double.tryParse(controller.text);
+          if(value == null || value < range[0] || value > range[1]) {
+            controller.text = defaultValue.toString();
+          }
+          if(defaultValue is double) {
+            controller.text = double.parse(controller.text).toStringAsFixedNoRound(2, isTight: true);
+          } else {
+            controller.text = int.parse(controller.text).toString();
+          }
+        });
+      }
+    });
   }
 
   @override
@@ -280,12 +264,12 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
           ),
           Slider(
             value: double.tryParse(_maxLengthTextController.text) ?? _queryEntity.maxTokens.toDouble(),
-            min: maxLengthRange[0],
-            max: maxLengthRange[1],
-            divisions: maxLengthRange[1].toInt(),
+            min: maxLengthRange[0].toDouble(),
+            max: maxLengthRange[1].toDouble(),
+            divisions: maxLengthRange[1],
             onChanged: (double value) {
               setState(() {
-                _maxLengthTextController.text = value.toStringAsFixed(0);
+                _maxLengthTextController.text = value.toInt().toString();
               });
             },
           ),
