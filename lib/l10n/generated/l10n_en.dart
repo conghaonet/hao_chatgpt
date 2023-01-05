@@ -52,6 +52,9 @@ class SEn extends S {
   String get customizeAPI => 'Customize API';
 
   @override
+  String get confirm => 'Confirm';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override

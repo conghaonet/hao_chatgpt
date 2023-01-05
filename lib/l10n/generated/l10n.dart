@@ -183,6 +183,12 @@ abstract class S {
   /// **'Customize API'**
   String get customizeAPI;
 
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
   /// No description provided for @haoChat.
   ///
   /// In en, this message translates to:

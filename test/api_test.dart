@@ -48,4 +48,18 @@ void main() async {
       logger.e(e.toEioErrorEntity.toString());
     }
   });
+
+  test('parse', () {
+    try {
+      logger.i(double.tryParse("abc") ?? 'is null');
+    } catch(e) {
+      logger.e(e);
+    }
+  });
+  test('double format', () {
+    var a = 0.456;
+    logger.i(a.toStringAsFixed(2));
+    logger.i(a.toStringAsExponential(2));
+    logger.i(a.toStringAsPrecision(2));
+  });
 }

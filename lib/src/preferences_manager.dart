@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'extensions.dart';
+import 'network/entity/openai/completions_query_entity.dart';
 
 class PreferencesManager {
   PreferencesManager._internal();
@@ -56,6 +59,22 @@ class PreferencesManager {
   int? get maxTokens => _preferences.getInt(SharedPreferencesKey.maxTokens);
   Future<bool> setMaxTokens(int value) => _preferences.setInt(SharedPreferencesKey.maxTokens, value);
 
+  CompletionsQueryEntity? get gpt3GenerationSettings {
+    String? value = _preferences.getString(SharedPreferencesKey.gpt3GenerationSettings);
+    if(value.isNotBlank) {
+      try {
+        dynamic jsonMap = jsonDecode(value!);
+        return CompletionsQueryEntity.fromJson(jsonMap);
+      } catch(e) {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+  Future<bool> setGpt3GenerationSettings(CompletionsQueryEntity entity) {
+    return _preferences.setString(SharedPreferencesKey.gpt3GenerationSettings, jsonEncode(entity));
+  }
 }
 
 class SharedPreferencesKey {
@@ -64,6 +83,7 @@ class SharedPreferencesKey {
   static const apiKey = 'api_key';
   static const temperature = 'temperature';
   static const maxTokens = 'max_tokens';
+  static const gpt3GenerationSettings = 'gpt3_generation_settings';
 }
 
 PreferencesManager appPref = PreferencesManager();

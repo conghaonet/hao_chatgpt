@@ -21,6 +21,7 @@
   "about": "About",
   "prompt": "Prompt",
   "customizeAPI": "Customize API",
+  "confirm": "Confirm",
 
   "haoChat": "HaoChat",
   "openAI": "OpenAI",

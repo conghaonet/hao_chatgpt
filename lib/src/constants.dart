@@ -27,6 +27,9 @@ class Constants {
   static const String aboutChatGPTUrl = 'https://openai.com/blog/chatgpt/';
   static const String aboutGPT3ModelUrl = 'https://beta.openai.com/docs/models/gpt-3';
   static const String aboutCodexModelUrl = 'https://beta.openai.com/docs/models/codex';
+  static const String apiCompletionsUrl = 'https://beta.openai.com/docs/api-reference/completions';
+
+
   static const String blankUrl = 'about:blank';
 }
 

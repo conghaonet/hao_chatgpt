@@ -52,6 +52,9 @@ class SZh extends S {
   String get customizeAPI => '自定义 API';
 
   @override
+  String get confirm => '确定';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override

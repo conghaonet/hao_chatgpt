@@ -4,6 +4,7 @@ import 'package:hao_chatgpt/src/network/entity/dio_error_entity.dart';
 import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
+import 'package:hao_chatgpt/src/preferences_manager.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../l10n/generated/l10n.dart';
@@ -29,18 +30,12 @@ class _ChatPageState extends State<ChatPage> {
   final List<ListItem> _data = [];
   String _inputMessage = '';
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   Future<void> _sendPrompt(PromptItem promptItem) async {
-    var query = CompletionsQueryEntity.generation(
-      prompt: promptItem.appendedPrompt,
-      maxTokens: 1000,
-    );
+    CompletionsQueryEntity queryEntity = appPref.gpt3GenerationSettings ?? CompletionsQueryEntity.generation();
+    logger.i(queryEntity.toJson());
+    queryEntity.prompt = promptItem.appendedPrompt;
     try {
-      CompletionsEntity entity = await openaiService.getCompletions(query);
+      CompletionsEntity entity = await openaiService.getCompletions(queryEntity);
       logger.i(entity.toJson());
       if (entity.choices != null && entity.choices!.isNotEmpty) {
         _data.add(CompletionItem(

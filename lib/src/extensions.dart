@@ -32,6 +32,23 @@ extension ExceptionExt on Exception {
   }
 }
 
+extension DoubleExt on double {
+  String toStringAsFixedNoRound(int fractionDigits, {bool isTight = false}) {
+    String str = toString();
+    String parsedStr = "0";
+    if(str.length <= 2+fractionDigits) {
+      parsedStr = toStringAsFixed(fractionDigits);
+    } else {
+      parsedStr = double.parse(str.substring(0, 4)).toStringAsFixed(fractionDigits);
+    }
+    if(fractionDigits > 1 && parsedStr.endsWith('0')) {
+      return parsedStr.substring(0, parsedStr.length -1);
+    } else {
+      return parsedStr;
+    }
+  }
+}
+
 void setSystemNavigationBarColor(ThemeMode themeMode) {
   if (Platform.isAndroid) {
     Brightness brightness = WidgetsBinding.instance.window.platformBrightness;
