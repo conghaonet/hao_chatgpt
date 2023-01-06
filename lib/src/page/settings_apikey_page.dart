@@ -15,7 +15,7 @@ class SettingsApikeyPage extends StatefulWidget {
 }
 
 class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
-  List<APIKeyEntity> keys = [];
+  List<ApiKeyEntity> keys = [];
 
   @override
   void initState() {
@@ -108,7 +108,7 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
           actions: [
             TextButton(
               onPressed: () async {
-                await appPref.removeAPIKey(keyValue).then((_) => Navigator.of(ctx).pop(true));
+                await appPref.removeApiKey(keyValue).then((_) => Navigator.of(ctx).pop(true));
               },
               child: Text(S.of(ctx).remove),
             ),
@@ -149,8 +149,8 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
                     appPref.apiKeys.firstWhere((element) => element.key == keyValue);
                     Navigator.of(ctx).pop(false);
                   } catch (e) {
-                    APIKeyEntity entity = APIKeyEntity(keyValue!, DateTime.now());
-                    await appPref.addAPIKey(entity).then((_) => Navigator.of(ctx).pop(true));
+                    ApiKeyEntity entity = ApiKeyEntity(keyValue!, DateTime.now());
+                    await appPref.addApiKey(entity).then((_) => Navigator.of(ctx).pop(true));
                   }
                 }
               },

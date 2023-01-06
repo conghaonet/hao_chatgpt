@@ -51,9 +51,6 @@ class SZh extends S {
   String get prompt => '提示';
 
   @override
-  String get customizeAPI => '自定义 API';
-
-  @override
   String get confirm => '确定';
 
   @override

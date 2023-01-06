@@ -112,33 +112,33 @@ class PreferencesManager {
   }
 
 
-  List<APIKeyEntity> get apiKeys {
+  List<ApiKeyEntity> get apiKeys {
     String? value = _preferences.getString(SharedPreferencesKey.apiKeys);
     if(value.isNotBlank) {
       List<dynamic> jsonMap = jsonDecode(value!);
-      return jsonMap.map((e) => APIKeyEntity.fromJson(e)).toList();
+      return jsonMap.map((e) => ApiKeyEntity.fromJson(e)).toList();
     } else {
       return [];
     }
   }
-  Future<bool> setAPIKeys(List<APIKeyEntity>? keys) {
+  Future<bool> setApiKeys(List<ApiKeyEntity>? keys) {
     if(keys == null || keys.isEmpty) {
       return _preferences.remove(SharedPreferencesKey.apiKeys);
     } else {
       return _preferences.setString(SharedPreferencesKey.apiKeys, jsonEncode(keys));
     }
   }
-  Future<bool> addAPIKey(APIKeyEntity keyEntity) {
-    List<APIKeyEntity> entities = apiKeys;
+  Future<bool> addApiKey(ApiKeyEntity keyEntity) {
+    List<ApiKeyEntity> entities = apiKeys;
     entities.add(keyEntity);
-    return setAPIKeys(entities);
+    return setApiKeys(entities);
   }
-  Future<bool> removeAPIKey(String apiKey) {
-    List<APIKeyEntity> entities = apiKeys;
+  Future<bool> removeApiKey(String apiKey) {
+    List<ApiKeyEntity> entities = apiKeys;
     try {
-      APIKeyEntity entity = entities.firstWhere((element) => element.key == apiKey);
+      ApiKeyEntity entity = entities.firstWhere((element) => element.key == apiKey);
       entities.remove(entity);
-      return setAPIKeys(entities);
+      return setApiKeys(entities);
     } catch(e) {
       return Future(() => false);
     }

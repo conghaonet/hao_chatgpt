@@ -13,7 +13,6 @@
   "settingsReset": "重置",
   "about": "关于",
   "prompt": "提示",
-  "customizeAPI": "自定义 API",
   "confirm": "确定",
   "remove": "移除",
   "removeKeyNotice": "这个API key将立即被移除。",

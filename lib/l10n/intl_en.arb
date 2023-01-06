@@ -20,7 +20,6 @@
   "settingsReset": "Reset",
   "about": "About",
   "prompt": "Prompt",
-  "customizeAPI": "Customize API",
   "confirm": "Confirm",
   "remove": "Remove",
   "removeKeyNotice": "This API key will immediately be removed.",

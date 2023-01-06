@@ -51,9 +51,6 @@ class SEn extends S {
   String get prompt => 'Prompt';
 
   @override
-  String get customizeAPI => 'Customize API';
-
-  @override
   String get confirm => 'Confirm';
 
   @override

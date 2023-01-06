@@ -6,12 +6,12 @@ part of 'api_key_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-APIKeyEntity _$APIKeyEntityFromJson(Map<String, dynamic> json) => APIKeyEntity(
+ApiKeyEntity _$ApiKeyEntityFromJson(Map<String, dynamic> json) => ApiKeyEntity(
       json['key'] as String,
       DateTime.parse(json['createdTime'] as String),
     );
 
-Map<String, dynamic> _$APIKeyEntityToJson(APIKeyEntity instance) =>
+Map<String, dynamic> _$ApiKeyEntityToJson(ApiKeyEntity instance) =>
     <String, dynamic>{
       'key': instance.key,
       'createdTime': instance.createdTime.toIso8601String(),

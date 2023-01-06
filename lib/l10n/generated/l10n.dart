@@ -177,12 +177,6 @@ abstract class S {
   /// **'Prompt'**
   String get prompt;
 
-  /// No description provided for @customizeAPI.
-  ///
-  /// In en, this message translates to:
-  /// **'Customize API'**
-  String get customizeAPI;
-
   /// No description provided for @confirm.
   ///
   /// In en, this message translates to:
