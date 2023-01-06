@@ -71,6 +71,9 @@ class SZh extends S {
   String get default_ => '默认';
 
   @override
+  String get duplicateApiKey => '重复的 API key！';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override

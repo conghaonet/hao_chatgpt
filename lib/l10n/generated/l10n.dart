@@ -207,6 +207,12 @@ abstract class S {
   /// **'Default'**
   String get default_;
 
+  /// No description provided for @duplicateApiKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate API key!'**
+  String get duplicateApiKey;
+
   /// No description provided for @haoChat.
   ///
   /// In en, this message translates to:

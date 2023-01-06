@@ -71,6 +71,9 @@ class SEn extends S {
   String get default_ => 'Default';
 
   @override
+  String get duplicateApiKey => 'Duplicate API key!';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override

@@ -146,11 +146,23 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
                 if(keyValue.isNotBlank) {
                   keyValue = keyValue!.trim();
                   try {
+                    // duplicate API key
                     appPref.apiKeys.firstWhere((element) => element.key == keyValue);
+                    ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+                      content: Text(S.of(ctx).duplicateApiKey),
+                    ));
                     Navigator.of(ctx).pop(false);
                   } catch (e) {
-                    ApiKeyEntity entity = ApiKeyEntity(keyValue!, DateTime.now());
-                    await appPref.addApiKey(entity).then((_) => Navigator.of(ctx).pop(true));
+                    if(keyValue == appManager.innerApiKey) { // duplicate API key
+                      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+                        content: Text(S.of(ctx).duplicateApiKey),
+                      ));
+                      Navigator.of(ctx).pop(false);
+                    } else {
+                      await appPref.setApiKey(keyValue);
+                      ApiKeyEntity entity = ApiKeyEntity(keyValue!, DateTime.now());
+                      await appPref.addApiKey(entity).then((_) => Navigator.of(ctx).pop(true));
+                    }
                   }
                 }
               },

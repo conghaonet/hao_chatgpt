@@ -17,5 +17,6 @@
   "remove": "移除",
   "removeKeyNotice": "这个API key将立即被移除。",
   "createdDate": "创建于: {date}",
-  "default_": "默认"
+  "default_": "默认",
+  "duplicateApiKey": "重复的 API key！"
 }

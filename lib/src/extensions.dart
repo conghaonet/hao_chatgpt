@@ -50,8 +50,8 @@ extension DoubleExt on double {
 }
 
 String getMaskedApiKey(String keyValue) {
-  return keyValue.length > 8
-      ? '${keyValue.substring(0,4)}...${keyValue.substring(keyValue.length - 4, keyValue.length)}'
+  return keyValue.length > 11
+      ? '${keyValue.substring(0,7)}******${keyValue.substring(keyValue.length - 4, keyValue.length)}'
       : keyValue;
 
 }

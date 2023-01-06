@@ -35,6 +35,7 @@
     }
   },
   "default_": "Default",
+  "duplicateApiKey": "Duplicate API key!",
 
   "haoChat": "HaoChat",
   "openAI": "OpenAI",
