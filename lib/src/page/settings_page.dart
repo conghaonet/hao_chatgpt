@@ -27,12 +27,16 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           child: Column(
             children: [
               ListTile(
+                leading: const Icon(Icons.key),
+                title: const Text('API keys'),
+                trailing: const Icon(Icons.keyboard_arrow_right),
+                onTap: () => context.go('/settings/apikey'),
+              ),
+              ListTile(
                 leading: const Icon(Icons.data_object),
                 title: Text('${S.of(context).chatGPT} ${S.of(context).gpt3}'),
                 trailing: const Icon(Icons.keyboard_arrow_right),
-                onTap: () {
-                  context.go('/settings/gpt3');
-                },
+                onTap: () => context.go('/settings/gpt3'),
               ),
               _buildLanguageSetting(context),
               _buildThemeSetting(context),
