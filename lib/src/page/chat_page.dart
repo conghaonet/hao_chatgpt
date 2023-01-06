@@ -100,44 +100,46 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Container(
-            height: 1,
-            color: Theme.of(context).primaryColorLight,
-          ),
-          Expanded(
-            child: ListView.builder(
-              controller: _listController,
-              itemCount: (_data.isNotEmpty && _data.last is PromptItem) ? _data.length + 1 : _data.length,
-              itemBuilder: (context, index) {
-                if(index >= _data.length) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: LoadingAnimationWidget.flickr(
-                      leftDotColor: const Color(0xFF2196F3),
-                      rightDotColor: const Color(0xFFF44336),
-                      size: 24,
-                    ),
-                  );
-                } else {
-                  if (_data[index] is PromptItem) {
-                    return _buildPromptItem(context, index);
-                  } else if (_data[index] is CompletionItem) {
-                    return _buildCompletionItem(context, index);
-                  } else {
-                    return _buildErrorItem(context, index);
-                  }
-                }
-              },
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              height: 1,
+              color: Theme.of(context).primaryColorLight,
             ),
-          ),
-          Container(
-            height: 1,
-            color: Theme.of(context).primaryColorLight,
-          ),
-          _buildPromptInput(context),
-        ],
+            Expanded(
+              child: ListView.builder(
+                controller: _listController,
+                itemCount: (_data.isNotEmpty && _data.last is PromptItem) ? _data.length + 1 : _data.length,
+                itemBuilder: (context, index) {
+                  if(index >= _data.length) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: LoadingAnimationWidget.flickr(
+                        leftDotColor: const Color(0xFF2196F3),
+                        rightDotColor: const Color(0xFFF44336),
+                        size: 24,
+                      ),
+                    );
+                  } else {
+                    if (_data[index] is PromptItem) {
+                      return _buildPromptItem(context, index);
+                    } else if (_data[index] is CompletionItem) {
+                      return _buildCompletionItem(context, index);
+                    } else {
+                      return _buildErrorItem(context, index);
+                    }
+                  }
+                },
+              ),
+            ),
+            Container(
+              height: 1,
+              color: Theme.of(context).primaryColorLight,
+            ),
+            _buildPromptInput(context),
+          ],
+        )
       ),
     );
   }

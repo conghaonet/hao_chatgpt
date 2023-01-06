@@ -199,27 +199,29 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
           ),
         ),
       ),
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Divider(height: 4, thickness: 4,),
-          Row(
-            children: [
-              Expanded(child: TextButton(
-                focusNode: _confirmButtonFocusNode,
-                onPressed: () async {
-                  FocusScope.of(context).requestFocus(_confirmButtonFocusNode);
-                  await _save();
-                },
-                child: Text(S.of(context).confirm),
-              )),
-              Expanded(child: TextButton(
-                onPressed: () => context.pop(),
-                child: Text(S.of(context).cancel),
-              )),
-            ],
-          ),
-        ],
+      bottomNavigationBar: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Divider(height: 4, thickness: 4,),
+            Row(
+              children: [
+                Expanded(child: TextButton(
+                  focusNode: _confirmButtonFocusNode,
+                  onPressed: () async {
+                    FocusScope.of(context).requestFocus(_confirmButtonFocusNode);
+                    await _save();
+                  },
+                  child: Text(S.of(context).confirm),
+                )),
+                Expanded(child: TextButton(
+                  onPressed: () => context.pop(),
+                  child: Text(S.of(context).cancel),
+                )),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
