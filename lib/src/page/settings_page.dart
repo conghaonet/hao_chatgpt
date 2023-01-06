@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/l10n/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:hao_chatgpt/main.dart';
+import 'package:hao_chatgpt/src/app_manager.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
 import 'package:hao_chatgpt/src/preferences_manager.dart';
 
@@ -29,6 +30,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               ListTile(
                 leading: const Icon(Icons.key),
                 title: const Text('API keys'),
+                subtitle: appManager.openaiApiKey.isNotBlank ? Text(getMaskedApiKey(appManager.openaiApiKey!)) : null,
                 trailing: const Icon(Icons.keyboard_arrow_right),
                 onTap: () => context.go('/settings/apikey'),
               ),

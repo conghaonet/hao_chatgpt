@@ -49,6 +49,13 @@ extension DoubleExt on double {
   }
 }
 
+String getMaskedApiKey(String keyValue) {
+  return keyValue.length > 8
+      ? '${keyValue.substring(0,4)}...${keyValue.substring(keyValue.length - 4, keyValue.length)}'
+      : keyValue;
+
+}
+
 void setSystemNavigationBarColor(ThemeMode themeMode) {
   if (Platform.isAndroid) {
     Brightness brightness = WidgetsBinding.instance.window.platformBrightness;

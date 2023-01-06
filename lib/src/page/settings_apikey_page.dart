@@ -29,12 +29,6 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
     });
   }
 
-  String _getMaskedKey(String keyValue) {
-    return keyValue.length > 8
-        ? '${keyValue.substring(0,4)}...${keyValue.substring(keyValue.length - 4, keyValue.length)}'
-        : keyValue;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +63,7 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
                       await appPref.setApiKey(value);
                       _refreshApiKeys();
                     },
-                    title: Text(_getMaskedKey(keys[index].key)),
+                    title: Text(getMaskedApiKey(keys[index].key)),
                     subtitle: Text(S.of(context).createdDate(keys[index].createdTime)),
                   ),
                 ),
@@ -92,7 +86,7 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
                 await appPref.setApiKey(null);
                 _refreshApiKeys();
               },
-              title: Text(_getMaskedKey(appManager.innerApiKey!),),
+              title: Text(getMaskedApiKey(appManager.innerApiKey!),),
               subtitle: Text('${S.of(context).default_} API key'),
             );
           }
