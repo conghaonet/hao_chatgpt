@@ -1,11 +1,13 @@
 import 'package:hao_chatgpt/src/app_manager.dart';
 import 'package:hao_chatgpt/src/constants.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
+import 'package:hao_chatgpt/src/network/entity/api_key_entity.dart';
 import 'package:hao_chatgpt/src/network/entity/openai/completions_entity.dart';
 import 'package:hao_chatgpt/src/network/entity/openai/completions_query_entity.dart';
 import 'package:hao_chatgpt/src/network/entity/openai/model_entity.dart';
 import 'package:hao_chatgpt/src/network/openai_service.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hao_chatgpt/src/preferences_manager.dart';
 import 'package:logger/logger.dart';
 import 'dart:io' as io;
 import 'package:dio/dio.dart';
@@ -61,5 +63,17 @@ void main() async {
     logger.i(a.toStringAsFixed(2));
     logger.i(a.toStringAsExponential(2));
     logger.i(a.toStringAsPrecision(2));
+  });
+
+  test('test prefs', () async {
+    appPref.setAPIKeys(null);
+
+
+    // List<APIKeyEntity> entities = List.generate(3, (index) {
+    //   return APIKeyEntity('$index$index$index', DateTime.now());
+    // });
+    // await appPref.setAPIKeys(entities);
+    List<APIKeyEntity> keys = appPref.apiKeys;
+    logger.i(keys.map((e) => e.toJson()));
   });
 }

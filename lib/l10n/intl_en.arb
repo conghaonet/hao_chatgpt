@@ -22,6 +22,20 @@
   "prompt": "Prompt",
   "customizeAPI": "Customize API",
   "confirm": "Confirm",
+  "remove": "Remove",
+  "removeKeyNotice": "This API key will immediately be removed.",
+  "createdDate": "Created: {date}",
+  "@createdDate": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMMMd",
+        "isCustomDateFormat": "true",
+        "description": "The API key created date."
+      }
+    }
+  },
+  "default_": "Default",
 
   "haoChat": "HaoChat",
   "openAI": "OpenAI",

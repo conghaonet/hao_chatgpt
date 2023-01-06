@@ -189,6 +189,30 @@ abstract class S {
   /// **'Confirm'**
   String get confirm;
 
+  /// No description provided for @remove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get remove;
+
+  /// No description provided for @removeKeyNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'This API key will immediately be removed.'**
+  String get removeKeyNotice;
+
+  /// No description provided for @createdDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Created: {date}'**
+  String createdDate(DateTime date);
+
+  /// No description provided for @default_.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get default_;
+
   /// No description provided for @haoChat.
   ///
   /// In en, this message translates to:

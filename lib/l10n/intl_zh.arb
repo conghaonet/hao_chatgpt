@@ -1,13 +1,6 @@
 {
   "arbExample1": "arb示例1",
   "arbExample2": "arb示例2 {name}",
-  "@arbExample2": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "settings": "设置",
   "theme": "主题",
   "chooseTheme": "选择主题",
@@ -21,5 +14,9 @@
   "about": "关于",
   "prompt": "提示",
   "customizeAPI": "自定义 API",
-  "confirm": "确定"
+  "confirm": "确定",
+  "remove": "移除",
+  "removeKeyNotice": "这个API key将立即被移除。",
+  "createdDate": "创建于: {date}",
+  "default_": "默认"
 }

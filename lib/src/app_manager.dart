@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:hao_chatgpt/src/preferences_manager.dart';
 import 'package:yaml/yaml.dart';
@@ -7,9 +8,11 @@ class AppManager {
 
   bool get isInitialized => _isInitialized;
 
-  String? _openaiApiKey;
+  String? _innerApiKey;
 
-  String? get openaiApiKey => _openaiApiKey;
+  String? get innerApiKey => _innerApiKey;
+
+  String? get openaiApiKey => appPref.apiKey ?? _innerApiKey;
 
   AppManager._internal();
 
@@ -20,16 +23,22 @@ class AppManager {
   Future<void> init() async {
     if (!_isInitialized) {
       await appPref.init();
-      await _loadOpenaiKeys();
+      await _loadInnerApiKey();
     }
     _isInitialized = true;
   }
 
-  Future<void> _loadOpenaiKeys() async {
-    String str = await rootBundle.loadString('openai.yaml');
-    var doc = loadYaml(str);
-    _openaiApiKey = doc['openai_api_key'];
+  Future<void> _loadInnerApiKey() async {
+    try {
+      String str = await rootBundle.loadString('openai.yaml');
+      var doc = loadYaml(str);
+      _innerApiKey = doc['openai_api_key'];
+    } catch (e) {
+      debugPrint('openai.yaml not found.');
+    }
   }
+
+
 }
 
 final AppManager appManager = AppManager();

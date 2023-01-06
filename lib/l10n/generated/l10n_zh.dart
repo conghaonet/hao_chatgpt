@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart' as intl;
+
 import 'l10n.dart';
 
 /// The translations for Chinese (`zh`).
@@ -53,6 +55,23 @@ class SZh extends S {
 
   @override
   String get confirm => '确定';
+
+  @override
+  String get remove => '移除';
+
+  @override
+  String get removeKeyNotice => '这个API key将立即被移除。';
+
+  @override
+  String createdDate(DateTime date) {
+    final intl.DateFormat dateDateFormat = intl.DateFormat.yMMMd(localeName);
+    final String dateString = dateDateFormat.format(date);
+
+    return '创建于: $dateString';
+  }
+
+  @override
+  String get default_ => '默认';
 
   @override
   String get haoChat => 'HaoChat';

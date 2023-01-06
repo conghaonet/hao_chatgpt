@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart' as intl;
+
 import 'l10n.dart';
 
 /// The translations for English (`en`).
@@ -53,6 +55,23 @@ class SEn extends S {
 
   @override
   String get confirm => 'Confirm';
+
+  @override
+  String get remove => 'Remove';
+
+  @override
+  String get removeKeyNotice => 'This API key will immediately be removed.';
+
+  @override
+  String createdDate(DateTime date) {
+    final intl.DateFormat dateDateFormat = intl.DateFormat.yMMMd(localeName);
+    final String dateString = dateDateFormat.format(date);
+
+    return 'Created: $dateString';
+  }
+
+  @override
+  String get default_ => 'Default';
 
   @override
   String get haoChat => 'HaoChat';
