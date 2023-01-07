@@ -19,10 +19,10 @@ samples, guidance on mobile development, and a full API reference.
 <Table>
     <tr>
         <td>
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot02.jpg" width="480px"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot02.jpg"/>
         </td>
         <td>
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot03.jpg" width="480px"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot03.jpg"/>
         </td>
     </tr>
     <tr>
@@ -33,9 +33,15 @@ samples, guidance on mobile development, and a full API reference.
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot05.jpg"/>
         </td>
     </tr>
+    <tr>
+        <td>
+            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot01.jpg"/>
+        </td>
+        <td>
+            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot06.jpg"/>
+        </td>
+        <td>
+            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot07.jpg"/>
+        </td>
+    </tr>
 </Table>
-<img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot04.jpg" width="480px"/>
-<img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot05.jpg" width="480px"/>
-<img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot01.jpg" width="400px"/>
-<img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot06.jpg" width="480px"/>
-<img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot07.jpg" width="480px"/>
