@@ -1,5 +1,7 @@
 English | [简体中文](README-zh-CN.md)
 
+![OpenAI](screenshots/openai.png)
+
 # hao_chatgpt
 
 An unofficial ChatGPT application.

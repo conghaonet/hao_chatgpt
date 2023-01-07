@@ -1,5 +1,7 @@
 [English](README.md) | 简体中文
 
+![OpenAI](screenshots/openai.png)
+
 # hao_chatgpt
 
 一款非官方的 ChatGPT 应用
