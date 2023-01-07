@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -71,6 +72,16 @@ extension DoubleExt on double {
   }
 }
 
+class MyCupertinoTextSelectionControls extends CupertinoTextSelectionControls{
+  @override
+  bool canSelectAll(TextSelectionDelegate delegate) {
+    // to show "Select all" option
+    return delegate.selectAllEnabled && delegate.textEditingValue.text.isNotEmpty;
+  }
+}
+final TextSelectionControls myCupertinoTextSelectionControls = MyCupertinoTextSelectionControls();
+
+
 String getMaskedApiKey(String keyValue) {
   return keyValue.length > 11
       ? '${keyValue.substring(0,7)}******${keyValue.substring(keyValue.length - 4, keyValue.length)}'
@@ -101,3 +112,4 @@ void setSystemNavigationBarColor(ThemeMode themeMode) {
     ));
   }
 }
+

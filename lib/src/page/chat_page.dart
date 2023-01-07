@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:hao_chatgpt/src/extensions.dart';
 import 'package:hao_chatgpt/src/my_colors.dart';
 import 'package:hao_chatgpt/src/network/entity/dio_error_entity.dart';
@@ -156,7 +157,9 @@ class _ChatPageState extends State<ChatPage> {
             width: 8,
           ),
           Expanded(
-            child: SelectableText((_data[index] as PromptItem).inputMessage,),
+            child: SelectableText((_data[index] as PromptItem).inputMessage,
+              selectionControls: Platform.isIOS ? myCupertinoTextSelectionControls : null,
+            ),
           ),
         ],
       ),
@@ -186,6 +189,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
           SelectableText((_data[index] as ErrorItem).error.message ?? (_data[index] as ErrorItem).error.error ?? 'ERROR!',
             style: TextStyle(color: Theme.of(context).colorScheme.error),
+            selectionControls: Platform.isIOS ? myCupertinoTextSelectionControls : null,
           ),
         ],
       ),
@@ -206,6 +210,7 @@ class _ChatPageState extends State<ChatPage> {
               contentPadding: const EdgeInsets.only(left: 16.0),
             ),
             controller: _msgController,
+            selectionControls: Platform.isIOS ? myCupertinoTextSelectionControls : null,
             onChanged: (value) {
               if (value.isNotBlank) {
                 if (!_isRequesting) {
