@@ -18,6 +18,10 @@ samples, guidance on mobile development, and a full API reference.
 ## Screenshots
 <Table>
     <tr>
+        <td>Conversation</td>
+        <td><b>Generation</b></td>
+    </tr>
+    <tr>
         <td>
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot02.jpg"/>
         </td>
