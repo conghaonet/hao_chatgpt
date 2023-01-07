@@ -4,7 +4,7 @@
 
 一款非官方的 ChatGPT 应用
 
-![OpenAI](screenshots/openai.png)
+<img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/openai.jpg"/>
 
 ## 支持的平台：
 * iOS

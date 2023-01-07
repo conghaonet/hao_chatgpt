@@ -4,7 +4,7 @@ English | [简体中文](README-zh-CN.md)
 
 An unofficial ChatGPT application.
 
-![OpenAI](screenshots/openai.png)
+<img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/openai.jpg"/>
 
 ## Supported platforms
 * iOS
