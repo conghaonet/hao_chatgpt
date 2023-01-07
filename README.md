@@ -18,9 +18,8 @@ samples, guidance on mobile development, and a full API reference.
 ## Screenshots
 ![](screenshots/screenshot01.jpg) ![](screenshots/screenshot02.jpg)
 
-<img src="https://github.com/conghaonet/hao_chatgpt/raw/main/screenshots/screenshot03.jpg" width="480px"/>
-
-![](screenshots/screenshot03.jpg) ![](screenshots/screenshot04.jpg)
+<img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot03.jpg" width="480px"/>
+<img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot04.jpg" width="480px"/>
 
 ![](screenshots/screenshot05.jpg)
 
