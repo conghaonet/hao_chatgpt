@@ -25,6 +25,14 @@ samples, guidance on mobile development, and a full API reference.
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot03.jpg" width="480px"/>
         </td>
     </tr>
+    <tr>
+        <td>
+            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot04.jpg"/>
+        </td>
+        <td>
+            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot05.jpg"/>
+        </td>
+    </tr>
 </Table>
 <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot04.jpg" width="480px"/>
 <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot05.jpg" width="480px"/>
