@@ -33,6 +33,8 @@ samples, guidance on mobile development, and a full API reference.
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot05.jpg"/>
         </td>
     </tr>
+</Table>
+<Table>
     <tr>
         <td>
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot01.jpg"/>
