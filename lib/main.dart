@@ -33,6 +33,7 @@ class MyApp extends ConsumerWidget {
     setSystemNavigationBarColor(ref.watch(themeProvider));
     return MaterialApp.router(
       title: 'HaoChat',
+      debugShowCheckedModeBanner: false,
       onGenerateTitle: (context) => S.of(context).haoChat,
       locale: ref.watch(localeProvider),
       localizationsDelegates: const [
