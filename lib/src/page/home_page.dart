@@ -1,8 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:hao_chatgpt/src/extensions.dart';
 
 import '../../l10n/generated/l10n.dart';
 import '../constants.dart';
@@ -61,18 +59,13 @@ class _HomePageState extends State<HomePage> {
                 title: Text('${S.of(context).openAI} ${S.of(context).chatGPT}'),
                 trailing: const Icon(Icons.keyboard_arrow_right),
                 onTap: () async {
-                  if(Platform.isAndroid || Platform.isIOS) {
-                    context.push('/webview?title=ChatGPT&url=${Constants.aboutChatGPTUrl}');
-                  } else {
-                    if (!await launchUrl(Uri.parse(Constants.aboutChatGPTUrl), mode: LaunchMode.externalApplication)) {
-                      debugPrint("can not open: ${Constants.aboutChatGPTUrl}");
-                    }
-                  }
+                  await openWebView(context: context, url: Constants.aboutChatGPTUrl, title: 'ChatGPT');
                 },
               ),
               Expanded(flex: 3, child: Container()),
               TextButton(
-                onPressed: () {
+                onPressed: () async {
+                  openWebView(context: context, url: Constants.haoChatGitHubUrl, title: 'hao_chatgpt');
                 },
                 child: Text('${S.of(context).appDescription}\nPowered by conghaonet',
                   textAlign: TextAlign.center,

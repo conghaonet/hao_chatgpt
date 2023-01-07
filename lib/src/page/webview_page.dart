@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hao_chatgpt/src/constants.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebviewPage extends StatefulWidget {
@@ -57,9 +56,7 @@ class _WebviewPageState extends State<WebviewPage> {
             onPressed: () async {
               var currentUrl = await _controller.currentUrl();
               if(currentUrl.isNotBlank) {
-                if (!await launchUrl(Uri.parse(currentUrl!), mode: LaunchMode.externalApplication)) {
-                  debugPrint("can not open: $currentUrl");
-                }
+                await openWebView(context: context, url: currentUrl!, isExternal: true);
               }
             },
             icon: const Icon(Icons.open_in_browser),

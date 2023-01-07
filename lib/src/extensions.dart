@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/src/network/entity/dio_error_entity.dart';
 import 'package:dio/dio.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 extension StringExt on String? {
   bool get isNullOrEmpty => this == null || this!.isEmpty;
@@ -54,6 +56,16 @@ String getMaskedApiKey(String keyValue) {
       ? '${keyValue.substring(0,7)}******${keyValue.substring(keyValue.length - 4, keyValue.length)}'
       : keyValue;
 
+}
+
+Future<void> openWebView({required BuildContext context, required String url, bool isExternal = false, String? title}) async {
+  if(!isExternal && (Platform.isAndroid || Platform.isIOS)) {
+    context.push('/webview?title=${title ?? ''}&url=$url');
+  } else {
+    if (!await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication)) {
+      debugPrint("can not open: $url");
+    }
+  }
 }
 
 void setSystemNavigationBarColor(ThemeMode themeMode) {

@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../l10n/generated/l10n.dart';
 import '../constants.dart';
@@ -127,13 +124,7 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
         actions: [
           IconButton(
             onPressed: () async {
-              if(Platform.isAndroid || Platform.isIOS) {
-                context.push('/webview?title=Request body&url=${Constants.apiCompletionsUrl}');
-              } else {
-                if (!await launchUrl(Uri.parse(Constants.apiCompletionsUrl), mode: LaunchMode.externalApplication)) {
-                  debugPrint("can not open: ${Constants.apiCompletionsUrl}");
-                }
-              }
+              await openWebView(context: context, url: Constants.apiCompletionsUrl, title: 'Request body');
             },
             icon: const Icon(Icons.help),
           ),
@@ -250,13 +241,7 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
           IconButton(
             color: Colors.blue,
             onPressed: () async {
-              if(Platform.isAndroid || Platform.isIOS) {
-                context.push('/webview?title=GPT-3 models&url=${Constants.aboutGPT3ModelsUrl}');
-              } else {
-                if (!await launchUrl(Uri.parse(Constants.aboutGPT3ModelsUrl), mode: LaunchMode.externalApplication)) {
-                  debugPrint("can not open: ${Constants.aboutGPT3ModelsUrl}");
-                }
-              }
+              await openWebView(context: context, url: Constants.aboutGPT3ModelsUrl, title: 'GPT-3 models');
             },
             icon: const Icon(Icons.info_outline),
           ),
