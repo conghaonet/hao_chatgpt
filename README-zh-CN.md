@@ -10,7 +10,7 @@
 * macOS
 * Windows ([Issue 107972](https://github.com/flutter/flutter/issues/107972))
 * Linux (未测试)
-  
+
 
 ## Setup your OpenAI API key
 
@@ -21,6 +21,8 @@ api_key: 'YOUR-API-KEY'
 ```
 出于安全原因, 我不能上传 **openai.yaml**。
 
+## 中国大陆用户
+本应该用通过调用官方API接入，无需科学上网即可使用。
 
 ## 截图
 <Table>
