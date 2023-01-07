@@ -16,12 +16,12 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 ## Screenshots
-![](screenshots/screenshot01.jpg) ![](screenshots/screenshot01.jpg)
+![](screenshots/screenshot01.jpg) ![](screenshots/screenshot02.jpg)
 
-![](screenshots/screenshot01.jpg) ![](screenshots/screenshot01.jpg)
+![](screenshots/screenshot03.jpg) ![](screenshots/screenshot04.jpg)
 
-![](screenshots/screenshot01.jpg)
+![](screenshots/screenshot05.jpg)
 
-![](screenshots/screenshot01.jpg)
+![](screenshots/screenshot06.jpg)
 
-![](screenshots/screenshot01.jpg)
+![](screenshots/screenshot07.jpg)
