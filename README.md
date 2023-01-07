@@ -29,6 +29,10 @@ samples, guidance on mobile development, and a full API reference.
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot03.jpg"/>
         </td>
     </tr>
+    <tr align="center">
+        <td><br/><b>Improving the classifier's efficiency</b></td>
+        <td><br/><b>Conversion</b></td>
+    </tr>
     <tr>
         <td>
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot04.jpg"/>
