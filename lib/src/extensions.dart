@@ -14,10 +14,30 @@ extension StringExt on String? {
 
 extension DioErrorExt on DioError {
   DioErrorEntity get toEioErrorEntity {
-    Map<String, dynamic> error = {'error': this.error};
-    Map<String, dynamic>? dataError = response?.data['error'];
-    if (dataError != null) {
-      error.addAll(dataError);
+    Map<String, dynamic> error = {};
+    switch(type) {
+      case DioErrorType.connectTimeout:
+        error = {'error': this.error?.toString() ?? 'Connect timeout'};
+        break;
+      case DioErrorType.sendTimeout:
+        error = {'error': this.error?.toString() ?? 'Send timeout'};
+        break;
+      case DioErrorType.receiveTimeout:
+        error = {'error': this.error?.toString() ?? 'Receive timeout'};
+        break;
+      case DioErrorType.cancel:
+        error = {'error': this.error?.toString() ?? 'Canceled request'};
+        break;
+      case DioErrorType.other:
+        error = {'error': this.error?.toString() ?? 'Some other Error'};
+        break;
+      case DioErrorType.response:
+        error = {'error': this.error?.toString() ?? 'When the server response, but with a incorrect status, such as 404, 503...'};
+        Map<String, dynamic>? dataError = response?.data['error'];
+        if (dataError != null) {
+          error.addAll(dataError);
+        }
+        break;
     }
     return DioErrorEntity.fromJson(error);
   }

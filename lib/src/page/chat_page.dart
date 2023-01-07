@@ -184,7 +184,7 @@ class _ChatPageState extends State<ChatPage> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SelectableText((_data[index] as ErrorItem).error.message ?? 'ERROR!',
+          SelectableText((_data[index] as ErrorItem).error.message ?? (_data[index] as ErrorItem).error.error ?? 'ERROR!',
             style: TextStyle(color: Theme.of(context).colorScheme.error),
           ),
         ],
