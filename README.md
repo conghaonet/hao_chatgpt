@@ -17,8 +17,8 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Screenshots
 <Table>
-    <tr>
-        <td>Conversation</td>
+    <tr align="center">
+        <td><b>Conversation</b></td>
         <td><b>Generation</b></td>
     </tr>
     <tr>
