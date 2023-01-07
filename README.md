@@ -2,6 +2,14 @@
 
 An unofficial ChatGPT application.
 
+## Supported platforms
+* iOS
+* Android
+* macOS
+* Windows
+* Linux (untested)
+
+
 ## Setup your OpenAI API key
 
 Create a file named **openai.yaml** in the root directory of the project and fill it with your [API key](https://beta.openai.com/account/api-keys).
