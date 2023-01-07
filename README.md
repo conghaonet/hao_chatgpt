@@ -49,6 +49,18 @@ For security reasons, I cannot upload my **openai.yaml**.
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot05.jpg"/>
         </td>
     </tr>
+    <tr align="center">
+        <td><br/><b>Summarization</b></td>
+        <td><br/><b>Translation</b></td>
+    </tr>
+    <tr>
+        <td>
+            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot08.jpg"/>
+        </td>
+        <td>
+            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot09.jpg"/>
+        </td>
+    </tr>
 </Table>
 <Table>
     <tr>
