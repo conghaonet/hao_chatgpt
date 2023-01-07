@@ -12,7 +12,7 @@ An unofficial ChatGPT application.
 
 ## Setup your OpenAI API key
 
-Create a file named **openai.yaml** in the root directory of the project and fill it with your <a href="https://beta.openai.com/account/api-keys" target="_blank">OpenAI API key</a>[API key](https://beta.openai.com/account/api-keys).
+Create a file named **openai.yaml** in the root directory of the project and fill it with your [**OpenAI API key**](https://beta.openai.com/account/api-keys).
 
 
 
@@ -20,7 +20,7 @@ Create a file named **openai.yaml** in the root directory of the project and fil
 # default API key
 api_key: 'YOUR-API-KEY'
 ```
-For security reasons, I cannot upload my 'openai.yaml'.
+For security reasons, I cannot upload my **openai.yaml**.
 
 
 ## Screenshots
