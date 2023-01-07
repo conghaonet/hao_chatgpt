@@ -32,7 +32,7 @@ class AppManager {
     try {
       String str = await rootBundle.loadString('openai.yaml');
       var doc = loadYaml(str);
-      _innerApiKey = doc['openai_api_key'];
+      _innerApiKey = doc['api_key'];
     } catch (e) {
       debugPrint('openai.yaml not found.');
     }
