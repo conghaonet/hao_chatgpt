@@ -213,6 +213,12 @@ abstract class S {
   /// **'Duplicate API key!'**
   String get duplicateApiKey;
 
+  /// No description provided for @appDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'An unofficial open-source ChatGPT application'**
+  String get appDescription;
+
   /// No description provided for @haoChat.
   ///
   /// In en, this message translates to:

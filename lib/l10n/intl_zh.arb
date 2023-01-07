@@ -18,5 +18,6 @@
   "removeKeyNotice": "这个API key将立即被移除。",
   "createdDate": "创建于: {date}",
   "default_": "默认",
-  "duplicateApiKey": "重复的 API key！"
+  "duplicateApiKey": "重复的 API key！",
+  "appDescription": "一个非官方的开源 ChatGPT 应用"
 }

@@ -74,6 +74,9 @@ class SZh extends S {
   String get duplicateApiKey => '重复的 API key！';
 
   @override
+  String get appDescription => '一个非官方的开源 ChatGPT 应用';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override

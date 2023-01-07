@@ -74,6 +74,9 @@ class SEn extends S {
   String get duplicateApiKey => 'Duplicate API key!';
 
   @override
+  String get appDescription => 'An unofficial open-source ChatGPT application';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override
