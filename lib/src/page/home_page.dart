@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () async {
                   openWebView(context: context, url: Constants.haoChatGitHubUrl, title: 'hao_chatgpt');
                 },
-                child: Text('${S.of(context).appDescription}\nPowered by conghaonet',
+                child: Text('${S.of(context).appDescription}\nPowered by Conghaonet',
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 10, color: Colors.blue),
                 ),
