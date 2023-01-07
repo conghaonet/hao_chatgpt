@@ -94,7 +94,7 @@ class _ChatPageState extends State<ChatPage> {
         actions: [
           IconButton(
             onPressed: () {
-              context.go('/settings/gpt3');
+              context.push('/settings/gpt3');
             },
             icon: const Icon(Icons.dashboard_customize),
           ),
