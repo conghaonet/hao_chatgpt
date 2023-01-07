@@ -6,9 +6,9 @@ An unofficial ChatGPT application.
 * iOS
 * Android
 * macOS
-* Windows
+* Windows ([Issue 107972](https://github.com/flutter/flutter/issues/107972))
 * Linux (untested)
-
+  
 
 ## Setup your OpenAI API key
 
