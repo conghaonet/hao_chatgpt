@@ -2,31 +2,31 @@
 
 # hao_chatgpt
 
-An unofficial ChatGPT application.
+一款非官方的 ChatGPT 应用
 
-## Supported platforms
+## 支持的平台：
 * iOS
 * Android
 * macOS
 * Windows ([Issue 107972](https://github.com/flutter/flutter/issues/107972))
-* Linux (untested)
+* Linux (未测试)
   
 
 ## Setup your OpenAI API key
 
-Create a file named **openai.yaml** in the root directory of the project and fill it with your [**OpenAI API key**](https://beta.openai.com/account/api-keys).
+在工程根目录下创建文件 **openai.yaml**，并填入你自己的 [**OpenAI API key**](https://beta.openai.com/account/api-keys)。
 ```yaml
-# default API key
+# 默认 API key
 api_key: 'YOUR-API-KEY'
 ```
-For security reasons, I cannot upload my **openai.yaml**.
+出于安全原因, 我不能上传 **openai.yaml**。
 
 
-## Screenshots
+## 截图
 <Table>
     <tr align="center">
-        <td><br/><b>Conversation</b></td>
-        <td><br/><b>Generation</b></td>
+        <td><br/><b>对话</b></td>
+        <td><br/><b>产生</b></td>
     </tr>
     <tr>
         <td>
@@ -37,8 +37,8 @@ For security reasons, I cannot upload my **openai.yaml**.
         </td>
     </tr>
     <tr align="center">
-        <td><br/><b>Improving the classifier's efficiency</b></td>
-        <td><br/><b>Conversion</b></td>
+        <td><br/><b>提高分类器的效率</b></td>
+        <td><br/><b>转换</b></td>
     </tr>
     <tr>
         <td>
@@ -49,8 +49,8 @@ For security reasons, I cannot upload my **openai.yaml**.
         </td>
     </tr>
     <tr align="center">
-        <td><br/><b>Summarization</b></td>
-        <td><br/><b>Translation</b></td>
+        <td><br/><b>摘要</b></td>
+        <td><br/><b>翻译</b></td>
     </tr>
     <tr>
         <td>
