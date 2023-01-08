@@ -14,7 +14,7 @@
 * Linux (未测试)
 
 
-## Setup your OpenAI API key
+## 设置你自己的 OpenAI API key
 
 在工程根目录下创建文件 **openai.yaml**，并填入你自己的 [**OpenAI API key**](https://beta.openai.com/account/api-keys)。
 ```yaml
