@@ -4,7 +4,7 @@
 
 一款用Flutter开发的非官方的 ChatGPT 应用。
 
-<img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/openai.png" width="64"/>
+<img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/flutter_logo.png" height="40"/>&emsp;&emsp;<img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/openai_logo.png" height="40"/>
 
 ## 支持的平台：
 * iOS
