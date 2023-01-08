@@ -37,7 +37,7 @@
   "default_": "Default",
   "duplicateApiKey": "Duplicate API key!",
   "appDescription": "An unofficial open-source ChatGPT application",
-
+  "resetToDefault": "Reset to default",
 
   "haoChat": "HaoChat",
   "openAI": "OpenAI",

@@ -77,6 +77,9 @@ class SZh extends S {
   String get appDescription => '一个非官方的开源 ChatGPT 应用';
 
   @override
+  String get resetToDefault => '重置为默认值';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override

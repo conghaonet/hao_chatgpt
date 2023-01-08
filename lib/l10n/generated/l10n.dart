@@ -219,6 +219,12 @@ abstract class S {
   /// **'An unofficial open-source ChatGPT application'**
   String get appDescription;
 
+  /// No description provided for @resetToDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to default'**
+  String get resetToDefault;
+
   /// No description provided for @haoChat.
   ///
   /// In en, this message translates to:

@@ -19,5 +19,6 @@
   "createdDate": "创建于: {date}",
   "default_": "默认",
   "duplicateApiKey": "重复的 API key！",
-  "appDescription": "一个非官方的开源 ChatGPT 应用"
+  "appDescription": "一个非官方的开源 ChatGPT 应用",
+  "resetToDefault": "重置为默认值"
 }

@@ -77,6 +77,9 @@ class SEn extends S {
   String get appDescription => 'An unofficial open-source ChatGPT application';
 
   @override
+  String get resetToDefault => 'Reset to default';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override
