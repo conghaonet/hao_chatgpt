@@ -2,7 +2,7 @@
 
 # hao_chatgpt
 
-一款非官方的 ChatGPT 应用
+一款用Flutter开发的非官方的 ChatGPT 应用。
 
 <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/openai.png" width="64"/>
 

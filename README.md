@@ -2,7 +2,7 @@ English | [简体中文](README-zh-CN.md)
 
 # hao_chatgpt
 
-An unofficial ChatGPT application.
+An unofficial ChatGPT application developed with Flutter.
 
 <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/openai.png" width="64"/>
 
