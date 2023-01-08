@@ -6,7 +6,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 class WebviewPage extends StatefulWidget {
   final String? url;
   final String? title;
-  const WebviewPage({required this.url, this.title, Key? key}) : super(key: key);
+  const WebviewPage({required this.url, this.title, Key? key})
+      : super(key: key);
 
   @override
   State<WebviewPage> createState() => _WebviewPageState();
@@ -27,7 +28,7 @@ class _WebviewPageState extends State<WebviewPage> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(NavigationDelegate(
         onProgress: (int progress) {
-          if(mounted) {
+          if (mounted) {
             setState(() {
               _progress = progress.toDouble() / 100;
             });
@@ -36,8 +37,8 @@ class _WebviewPageState extends State<WebviewPage> {
         onNavigationRequest: (NavigationRequest request) {
           return NavigationDecision.navigate;
         },
-      ))..loadRequest(Uri.parse(_url));
-    
+      ))
+      ..loadRequest(Uri.parse(_url));
   }
 
   @override
@@ -55,8 +56,9 @@ class _WebviewPageState extends State<WebviewPage> {
           IconButton(
             onPressed: () async {
               var currentUrl = await _controller.currentUrl();
-              if(currentUrl.isNotBlank) {
-                await openWebView(context: context, url: currentUrl!, isExternal: true);
+              if (currentUrl.isNotBlank) {
+                await openWebView(
+                    context: context, url: currentUrl!, isExternal: true);
               }
             },
             icon: const Icon(Icons.open_in_browser),
@@ -67,20 +69,23 @@ class _WebviewPageState extends State<WebviewPage> {
         children: [
           WillPopScope(
             onWillPop: () async {
-              if(await _controller.canGoBack()) {
+              if (await _controller.canGoBack()) {
                 await _controller.goBack();
                 return false;
               } else {
                 return true;
               }
             },
-            child: WebViewWidget(controller: _controller,),
+            child: WebViewWidget(
+              controller: _controller,
+            ),
           ),
           Offstage(
             offstage: _progress == 1.0,
             child: LinearProgressIndicator(
               value: _progress,
-              valueColor: const AlwaysStoppedAnimation<Color>(Colors.blueAccent), // 进度条颜色为粉色
+              valueColor: const AlwaysStoppedAnimation<Color>(
+                  Colors.blueAccent), // 进度条颜色为粉色
             ),
           ),
         ],

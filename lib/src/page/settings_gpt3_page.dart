@@ -36,7 +36,8 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
   @override
   void initState() {
     super.initState();
-    _queryEntity = appPref.gpt3GenerationSettings ?? CompletionsQueryEntity.generation();
+    _queryEntity =
+        appPref.gpt3GenerationSettings ?? CompletionsQueryEntity.generation();
     _initValues();
     _initListener(
       controller: _maxLengthController,
@@ -86,14 +87,15 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
     required List<num> range,
   }) {
     focusNode.addListener(() {
-      if(!focusNode.hasFocus) {
+      if (!focusNode.hasFocus) {
         setState(() {
           var value = double.tryParse(controller.text);
-          if(value == null || value < range[0] || value > range[1]) {
+          if (value == null || value < range[0] || value > range[1]) {
             controller.text = defaultValue.toString();
           }
-          if(defaultValue is double) {
-            controller.text = double.parse(controller.text).toStringAsFixedNoRound(2, isTight: true);
+          if (defaultValue is double) {
+            controller.text = double.parse(controller.text)
+                .toStringAsFixedNoRound(2, isTight: true);
           } else {
             controller.text = int.parse(controller.text).toString();
           }
@@ -124,11 +126,13 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
         actions: [
           IconButton(
             onPressed: () async {
-              await openWebView(context: context, url: Constants.apiCompletionsUrl, title: 'Request body');
+              await openWebView(
+                  context: context,
+                  url: Constants.apiCompletionsUrl,
+                  title: 'Request body');
             },
             icon: const Icon(Icons.help),
           ),
-
           IconButton(
             onPressed: () {
               setState(() {
@@ -146,7 +150,10 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildModel(),
-              const Divider(height: 4, thickness: 4,),
+              const Divider(
+                height: 4,
+                thickness: 4,
+              ),
               _buildNumberSetting(
                 label: S.of(context).maximumLength,
                 controller: _maxLengthController,
@@ -154,7 +161,10 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
                 defaultValue: _queryEntity.maxTokens,
                 valueRange: maxLengthRange,
               ),
-              const Divider(height: 2, thickness: 2,),
+              const Divider(
+                height: 2,
+                thickness: 2,
+              ),
               _buildNumberSetting(
                 label: S.of(context).temperature,
                 controller: _temperatureController,
@@ -162,7 +172,10 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
                 defaultValue: _queryEntity.temperature,
                 valueRange: rangeZeroToOne,
               ),
-              const Divider(height: 2, thickness: 2,),
+              const Divider(
+                height: 2,
+                thickness: 2,
+              ),
               _buildNumberSetting(
                 label: S.of(context).topP,
                 controller: _topPController,
@@ -170,7 +183,10 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
                 defaultValue: _queryEntity.topP,
                 valueRange: rangeZeroToOne,
               ),
-              const Divider(height: 2, thickness: 2,),
+              const Divider(
+                height: 2,
+                thickness: 2,
+              ),
               _buildNumberSetting(
                 label: S.of(context).frequencyPenalty,
                 controller: _frequencyController,
@@ -178,7 +194,10 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
                 defaultValue: _queryEntity.frequencyPenalty,
                 valueRange: rangeZeroToTwo,
               ),
-              const Divider(height: 2, thickness: 2,),
+              const Divider(
+                height: 2,
+                thickness: 2,
+              ),
               _buildNumberSetting(
                 label: S.of(context).presencePenalty,
                 controller: _presenceController,
@@ -194,18 +213,24 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Divider(height: 4, thickness: 4,),
+            const Divider(
+              height: 4,
+              thickness: 4,
+            ),
             Row(
               children: [
-                Expanded(child: TextButton(
+                Expanded(
+                    child: TextButton(
                   focusNode: _confirmButtonFocusNode,
                   onPressed: () async {
-                    FocusScope.of(context).requestFocus(_confirmButtonFocusNode);
+                    FocusScope.of(context)
+                        .requestFocus(_confirmButtonFocusNode);
                     await _save();
                   },
                   child: Text(S.of(context).confirm),
                 )),
-                Expanded(child: TextButton(
+                Expanded(
+                    child: TextButton(
                   onPressed: () => context.pop(),
                   child: Text(S.of(context).cancel),
                 )),
@@ -241,7 +266,10 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
           IconButton(
             color: Colors.blue,
             onPressed: () async {
-              await openWebView(context: context, url: Constants.aboutGPT3ModelsUrl, title: 'GPT-3 models');
+              await openWebView(
+                  context: context,
+                  url: Constants.aboutGPT3ModelsUrl,
+                  title: 'GPT-3 models');
             },
             icon: const Icon(Icons.info_outline),
           ),
@@ -266,7 +294,9 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
           Row(
             children: [
               Text(label),
-              const SizedBox(width: 8,),
+              const SizedBox(
+                width: 8,
+              ),
               SizedBox(
                 width: defaultValue is double ? 60 : 80,
                 height: 40,
@@ -294,10 +324,14 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
             value: double.tryParse(controller.text) ?? defaultValue.toDouble(),
             min: valueRange[0].toDouble(),
             max: valueRange[1].toDouble(),
-            divisions: defaultValue is double ? valueRange[1] ~/ 0.01 : valueRange[1].toInt(),
+            divisions: defaultValue is double
+                ? valueRange[1] ~/ 0.01
+                : valueRange[1].toInt(),
             onChanged: (double value) {
               setState(() {
-                controller.text = defaultValue is double ? value.toString() : value.toInt().toString();
+                controller.text = defaultValue is double
+                    ? value.toString()
+                    : value.toInt().toString();
               });
             },
           ),

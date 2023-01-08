@@ -8,7 +8,8 @@ import 'network/entity/openai/completions_query_entity.dart';
 
 class PreferencesManager {
   PreferencesManager._internal();
-  static final PreferencesManager _preferencesManager = PreferencesManager._internal();
+  static final PreferencesManager _preferencesManager =
+      PreferencesManager._internal();
   factory PreferencesManager() => _preferencesManager;
 
   bool _isInitialized = false;
@@ -25,17 +26,18 @@ class PreferencesManager {
 
   ThemeMode get themeMode {
     String? mode = _preferences.getString(SharedPreferencesKey.themeMode);
-    if(mode.isNotBlank) {
-      if(mode == ThemeMode.light.name) {
+    if (mode.isNotBlank) {
+      if (mode == ThemeMode.light.name) {
         return ThemeMode.light;
-      } else if(mode == ThemeMode.dark.name) {
+      } else if (mode == ThemeMode.dark.name) {
         return ThemeMode.dark;
       }
     }
     return ThemeMode.system;
   }
+
   Future<bool> setThemeMode(ThemeMode? value) {
-    if(value == null) {
+    if (value == null) {
       return _preferences.remove(SharedPreferencesKey.themeMode);
     } else {
       return _preferences.setString(SharedPreferencesKey.themeMode, value.name);
@@ -44,8 +46,8 @@ class PreferencesManager {
 
   Locale? get locale {
     String? strLocale = _preferences.getString(SharedPreferencesKey.locale);
-    if(strLocale.isNotBlank) {
-      if(strLocale!.contains('_')) {
+    if (strLocale.isNotBlank) {
+      if (strLocale!.contains('_')) {
         var localeArray = strLocale.split('_');
         return Locale(localeArray[0], localeArray[1]);
       } else {
@@ -55,26 +57,29 @@ class PreferencesManager {
       return null;
     }
   }
+
   Future<bool> setLocale(Locale? locale) {
-    if(locale == null) {
+    if (locale == null) {
       return _preferences.remove(SharedPreferencesKey.locale);
     } else {
-      return _preferences.setString(SharedPreferencesKey.locale, locale.toString());
+      return _preferences.setString(
+          SharedPreferencesKey.locale, locale.toString());
     }
   }
 
   String? get apiKey => _preferences.getString(SharedPreferencesKey.apiKey);
   Future<bool> setApiKey(String? value) {
-    if(value.isNotBlank) {
+    if (value.isNotBlank) {
       return _preferences.setString(SharedPreferencesKey.apiKey, value!);
     } else {
       return _preferences.remove(SharedPreferencesKey.apiKey);
     }
   }
 
-  double? get temperature => _preferences.getDouble(SharedPreferencesKey.temperature);
+  double? get temperature =>
+      _preferences.getDouble(SharedPreferencesKey.temperature);
   Future<bool> setTemperature(double? value) {
-    if(value == null) {
+    if (value == null) {
       return _preferences.remove(SharedPreferencesKey.temperature);
     } else {
       return _preferences.setDouble(SharedPreferencesKey.temperature, value);
@@ -83,7 +88,7 @@ class PreferencesManager {
 
   int? get maxTokens => _preferences.getInt(SharedPreferencesKey.maxTokens);
   Future<bool> setMaxTokens(int? value) {
-    if(value == null) {
+    if (value == null) {
       return _preferences.remove(SharedPreferencesKey.maxTokens);
     } else {
       return _preferences.setInt(SharedPreferencesKey.maxTokens, value);
@@ -91,55 +96,62 @@ class PreferencesManager {
   }
 
   CompletionsQueryEntity? get gpt3GenerationSettings {
-    String? value = _preferences.getString(SharedPreferencesKey.gpt3GenerationSettings);
-    if(value.isNotBlank) {
+    String? value =
+        _preferences.getString(SharedPreferencesKey.gpt3GenerationSettings);
+    if (value.isNotBlank) {
       try {
         dynamic jsonMap = jsonDecode(value!);
         return CompletionsQueryEntity.fromJson(jsonMap);
-      } catch(e) {
+      } catch (e) {
         return null;
       }
     } else {
       return null;
     }
   }
+
   Future<bool> setGpt3GenerationSettings(CompletionsQueryEntity? entity) {
-    if(entity == null) {
+    if (entity == null) {
       return _preferences.remove(SharedPreferencesKey.gpt3GenerationSettings);
     } else {
-      return _preferences.setString(SharedPreferencesKey.gpt3GenerationSettings, jsonEncode(entity));
+      return _preferences.setString(
+          SharedPreferencesKey.gpt3GenerationSettings, jsonEncode(entity));
     }
   }
 
-
   List<ApiKeyEntity> get apiKeys {
     String? value = _preferences.getString(SharedPreferencesKey.apiKeys);
-    if(value.isNotBlank) {
+    if (value.isNotBlank) {
       List<dynamic> jsonMap = jsonDecode(value!);
       return jsonMap.map((e) => ApiKeyEntity.fromJson(e)).toList();
     } else {
       return [];
     }
   }
+
   Future<bool> setApiKeys(List<ApiKeyEntity>? keys) {
-    if(keys == null || keys.isEmpty) {
+    if (keys == null || keys.isEmpty) {
       return _preferences.remove(SharedPreferencesKey.apiKeys);
     } else {
-      return _preferences.setString(SharedPreferencesKey.apiKeys, jsonEncode(keys));
+      return _preferences.setString(
+          SharedPreferencesKey.apiKeys, jsonEncode(keys));
     }
   }
+
   Future<bool> addApiKey(ApiKeyEntity keyEntity) {
     List<ApiKeyEntity> entities = apiKeys;
     entities.add(keyEntity);
     return setApiKeys(entities);
   }
+
   Future<bool> removeApiKey(String apiKey) {
     List<ApiKeyEntity> entities = apiKeys;
     try {
-      ApiKeyEntity entity = entities.firstWhere((element) => element.key == apiKey);
+      ApiKeyEntity entity =
+          entities.firstWhere((element) => element.key == apiKey);
       entities.remove(entity);
       return setApiKeys(entities);
-    } catch(e) {
+    } catch (e) {
       return Future(() => false);
     }
   }

@@ -42,9 +42,12 @@ class MyColors extends ThemeExtension<MyColors> {
       return this;
     }
     return MyColors(
-      systemNavigationBarColor: Color.lerp(systemNavigationBarColor, other.systemNavigationBarColor, t),
-      promptBackgroundColor: Color.lerp(promptBackgroundColor, other.promptBackgroundColor, t),
-      completionBackgroundColor: Color.lerp(completionBackgroundColor, other.completionBackgroundColor, t),
+      systemNavigationBarColor: Color.lerp(
+          systemNavigationBarColor, other.systemNavigationBarColor, t),
+      promptBackgroundColor:
+          Color.lerp(promptBackgroundColor, other.promptBackgroundColor, t),
+      completionBackgroundColor: Color.lerp(
+          completionBackgroundColor, other.completionBackgroundColor, t),
     );
   }
 }

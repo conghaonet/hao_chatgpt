@@ -15,7 +15,8 @@ class ModelsEntity {
 
   ModelsEntity(this.object, this.models);
 
-  factory ModelsEntity.fromJson(Map<String, dynamic> json) => _$ModelsEntityFromJson(json);
+  factory ModelsEntity.fromJson(Map<String, dynamic> json) =>
+      _$ModelsEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$ModelsEntityToJson(this);
 }
@@ -32,9 +33,11 @@ class ModelEntity {
   final String root;
   final dynamic parent;
 
-  ModelEntity(this.id, this.object, this.created, this.ownedBy, this.permissions, this.root, this.parent);
+  ModelEntity(this.id, this.object, this.created, this.ownedBy,
+      this.permissions, this.root, this.parent);
 
-  factory ModelEntity.fromJson(Map<String, dynamic> json) => _$ModelEntityFromJson(json);
+  factory ModelEntity.fromJson(Map<String, dynamic> json) =>
+      _$ModelEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$ModelEntityToJson(this);
 }
@@ -75,7 +78,8 @@ class ModelPermissionEntity {
       this.group,
       this.isBlocking);
 
-  factory ModelPermissionEntity.fromJson(Map<String, dynamic> json) => _$ModelPermissionEntityFromJson(json);
+  factory ModelPermissionEntity.fromJson(Map<String, dynamic> json) =>
+      _$ModelPermissionEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$ModelPermissionEntityToJson(this);
 }

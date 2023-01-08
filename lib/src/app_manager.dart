@@ -37,8 +37,6 @@ class AppManager {
       debugPrint('openai.yaml not found.');
     }
   }
-
-
 }
 
 final AppManager appManager = AppManager();

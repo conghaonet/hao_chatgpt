@@ -20,25 +20,30 @@ class AppRouter {
     routes: <RouteBase>[
       GoRoute(
         path: '/',
-        builder: (BuildContext context, GoRouterState state) => const HomePage(),
+        builder: (BuildContext context, GoRouterState state) =>
+            const HomePage(),
         routes: <RouteBase>[
           GoRoute(
             path: 'settings',
-            builder: (BuildContext context, GoRouterState state) => const SettingsPage(),
+            builder: (BuildContext context, GoRouterState state) =>
+                const SettingsPage(),
             routes: <RouteBase>[
               GoRoute(
                 path: 'gpt3',
-                builder: (BuildContext context, GoRouterState state) => const CustomizeGpt3Page(),
+                builder: (BuildContext context, GoRouterState state) =>
+                    const CustomizeGpt3Page(),
               ),
               GoRoute(
                 path: 'apikey',
-                builder: (BuildContext context, GoRouterState state) => const SettingsApikeyPage(),
+                builder: (BuildContext context, GoRouterState state) =>
+                    const SettingsApikeyPage(),
               ),
             ],
           ),
           GoRoute(
             path: 'chat_page',
-            builder: (BuildContext context, GoRouterState state) => const ChatPage(),
+            builder: (BuildContext context, GoRouterState state) =>
+                const ChatPage(),
           ),
           GoRoute(
             path: 'webview',

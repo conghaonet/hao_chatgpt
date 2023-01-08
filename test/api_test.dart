@@ -19,7 +19,7 @@ void main() async {
   /// After calling TestWidgetsFlutterBinding.ensureInitialized(), set HttpOverrides.global  = null in dart:io.
   /// https://github.com/flutter/flutter/issues/48050
   TestWidgetsFlutterBinding.ensureInitialized();
-  io.HttpOverrides.global  = null;
+  io.HttpOverrides.global = null;
   await appManager.init();
   final logger = Logger();
 
@@ -28,7 +28,8 @@ void main() async {
     logger.i(entity.toJson());
   });
   test('/model', () async {
-    ModelEntity modelEntity = await openaiService.getModel(modelId: Constants.gpt3ModelDavinci003);
+    ModelEntity modelEntity =
+        await openaiService.getModel(modelId: Constants.gpt3ModelDavinci003);
     logger.i(modelEntity.toJson());
   });
 
@@ -44,9 +45,9 @@ void main() async {
     try {
       CompletionsEntity entity = await openaiService.getCompletions(query);
       logger.i(entity.toJson());
-    } on DioError catch(e) {
+    } on DioError catch (e) {
       logger.e(e.toEioErrorEntity.toJson());
-    } on Exception catch(e) {
+    } on Exception catch (e) {
       logger.e(e.toEioErrorEntity.toString());
     }
   });
@@ -54,7 +55,7 @@ void main() async {
   test('parse', () {
     try {
       logger.i(double.tryParse("abc") ?? 'is null');
-    } catch(e) {
+    } catch (e) {
       logger.e(e);
     }
   });
@@ -67,7 +68,6 @@ void main() async {
 
   test('test prefs', () async {
     appPref.setApiKeys(null);
-
 
     // List<APIKeyEntity> entities = List.generate(3, (index) {
     //   return APIKeyEntity('$index$index$index', DateTime.now());

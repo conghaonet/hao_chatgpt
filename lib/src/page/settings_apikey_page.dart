@@ -22,6 +22,7 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
     super.initState();
     keys.addAll(appPref.apiKeys);
   }
+
   void _refreshApiKeys() {
     setState(() {
       keys.clear();
@@ -38,7 +39,7 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
           IconButton(
             onPressed: () async {
               bool? result = await _showAddApiDialog(context);
-              if(result == true) {
+              if (result == true) {
                 _refreshApiKeys();
               }
             },
@@ -48,11 +49,14 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
       ),
       body: ListView.separated(
         itemCount: keys.length + (appManager.innerApiKey.isNotBlank ? 1 : 0),
-          separatorBuilder: (context, index) {
-          return const Divider(height: 2, thickness: 2,);
-          },
+        separatorBuilder: (context, index) {
+          return const Divider(
+            height: 2,
+            thickness: 2,
+          );
+        },
         itemBuilder: (context, index) {
-          if(index < keys.length) {
+          if (index < keys.length) {
             return Row(
               children: [
                 Expanded(
@@ -64,16 +68,20 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
                       _refreshApiKeys();
                     },
                     title: Text(getMaskedApiKey(keys[index].key)),
-                    subtitle: Text(S.of(context).createdDate(keys[index].createdTime)),
+                    subtitle: Text(
+                        S.of(context).createdDate(keys[index].createdTime)),
                   ),
                 ),
                 IconButton(
-                  onPressed: appManager.openaiApiKey == keys[index].key ? null : () async {
-                    bool? result = await _showRemoveApiDialog(context, keys[index].key);
-                    if(result == true) {
-                      _refreshApiKeys();
-                    }
-                  },
+                  onPressed: appManager.openaiApiKey == keys[index].key
+                      ? null
+                      : () async {
+                          bool? result = await _showRemoveApiDialog(
+                              context, keys[index].key);
+                          if (result == true) {
+                            _refreshApiKeys();
+                          }
+                        },
                   icon: const Icon(Icons.delete_forever),
                 ),
               ],
@@ -86,7 +94,9 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
                 await appPref.setApiKey(null);
                 _refreshApiKeys();
               },
-              title: Text(getMaskedApiKey(appManager.innerApiKey!),),
+              title: Text(
+                getMaskedApiKey(appManager.innerApiKey!),
+              ),
               subtitle: Text('${S.of(context).default_} API key'),
             );
           }
@@ -100,15 +110,19 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
       context: context,
       builder: (BuildContext ctx) {
         return AlertDialog(
-          title: Text('${S.of(ctx).remove} API key', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-          content: Text(keyValue.length > 8
-              ? '${keyValue.substring(0,4)}...${keyValue.substring(keyValue.length - 4, keyValue.length)}'
-              : keyValue
+          title: Text(
+            '${S.of(ctx).remove} API key',
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
+          content: Text(keyValue.length > 8
+              ? '${keyValue.substring(0, 4)}...${keyValue.substring(keyValue.length - 4, keyValue.length)}'
+              : keyValue),
           actions: [
             TextButton(
               onPressed: () async {
-                await appPref.removeApiKey(keyValue).then((_) => Navigator.of(ctx).pop(true));
+                await appPref
+                    .removeApiKey(keyValue)
+                    .then((_) => Navigator.of(ctx).pop(true));
               },
               child: Text(S.of(ctx).remove),
             ),
@@ -116,7 +130,6 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
               onPressed: () => Navigator.of(ctx).pop(false),
               child: Text(S.of(ctx).cancel),
             ),
-
           ],
         );
       },
@@ -129,7 +142,10 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
       context: context,
       builder: (BuildContext ctx) {
         return AlertDialog(
-          title: const Text('API key', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+          title: const Text(
+            'API key',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
           content: TextField(
             autofocus: true,
             decoration: const InputDecoration(
@@ -143,25 +159,30 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
           actions: [
             TextButton(
               onPressed: () async {
-                if(keyValue.isNotBlank) {
+                if (keyValue.isNotBlank) {
                   keyValue = keyValue!.trim();
                   try {
                     // duplicate API key
-                    appPref.apiKeys.firstWhere((element) => element.key == keyValue);
+                    appPref.apiKeys
+                        .firstWhere((element) => element.key == keyValue);
                     ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
                       content: Text(S.of(ctx).duplicateApiKey),
                     ));
                     Navigator.of(ctx).pop(false);
                   } catch (e) {
-                    if(keyValue == appManager.innerApiKey) { // duplicate API key
+                    if (keyValue == appManager.innerApiKey) {
+                      // duplicate API key
                       ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
                         content: Text(S.of(ctx).duplicateApiKey),
                       ));
                       Navigator.of(ctx).pop(false);
                     } else {
                       await appPref.setApiKey(keyValue);
-                      ApiKeyEntity entity = ApiKeyEntity(keyValue!, DateTime.now());
-                      await appPref.addApiKey(entity).then((_) => Navigator.of(ctx).pop(true));
+                      ApiKeyEntity entity =
+                          ApiKeyEntity(keyValue!, DateTime.now());
+                      await appPref
+                          .addApiKey(entity)
+                          .then((_) => Navigator.of(ctx).pop(true));
                     }
                   }
                 }
@@ -176,6 +197,5 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
         );
       },
     );
-
   }
 }

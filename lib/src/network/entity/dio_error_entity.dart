@@ -11,7 +11,8 @@ class DioErrorEntity {
 
   DioErrorEntity({this.error, this.message, this.type, this.code});
 
-  factory DioErrorEntity.fromJson(Map<String, dynamic> json) => _$DioErrorEntityFromJson(json);
+  factory DioErrorEntity.fromJson(Map<String, dynamic> json) =>
+      _$DioErrorEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$DioErrorEntityToJson(this);
 }

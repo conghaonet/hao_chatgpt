@@ -23,10 +23,21 @@ class _HomePageState extends State<HomePage> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(flex: 2, child: Container()),
-              Text(S.of(context).haoChat, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-              const SizedBox(height: 16,),
-              const ImageIcon(AssetImage('assets/images/openai.png'), size: 48,),
-              const SizedBox(height: 32,),
+              Text(
+                S.of(context).haoChat,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              const ImageIcon(
+                AssetImage('assets/images/openai.png'),
+                size: 48,
+              ),
+              const SizedBox(
+                height: 32,
+              ),
               Expanded(flex: 3, child: Container()),
               ListTile(
                 leading: const Icon(Icons.chat),
@@ -59,15 +70,22 @@ class _HomePageState extends State<HomePage> {
                 title: Text('${S.of(context).openAI} ${S.of(context).chatGPT}'),
                 trailing: const Icon(Icons.keyboard_arrow_right),
                 onTap: () async {
-                  await openWebView(context: context, url: Constants.aboutChatGPTUrl, title: 'ChatGPT');
+                  await openWebView(
+                      context: context,
+                      url: Constants.aboutChatGPTUrl,
+                      title: 'ChatGPT');
                 },
               ),
               Expanded(flex: 3, child: Container()),
               TextButton(
                 onPressed: () async {
-                  openWebView(context: context, url: Constants.haoChatGitHubUrl, title: 'hao_chatgpt');
+                  openWebView(
+                      context: context,
+                      url: Constants.haoChatGitHubUrl,
+                      title: 'hao_chatgpt');
                 },
-                child: Text('${S.of(context).appDescription}\nPowered by Conghaonet',
+                child: Text(
+                  '${S.of(context).appDescription}\nPowered by Conghaonet',
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 10, color: Colors.blue),
                 ),

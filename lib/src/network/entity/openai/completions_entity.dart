@@ -11,9 +11,11 @@ class CompletionsEntity {
   final List<CompletionsChoiceEntity>? choices;
   final CompletionsUsageEntity? usage;
 
-  CompletionsEntity(this.id, this.object, this.created, this.model, this.choices, this.usage);
+  CompletionsEntity(
+      this.id, this.object, this.created, this.model, this.choices, this.usage);
 
-  factory CompletionsEntity.fromJson(Map<String, dynamic> json) => _$CompletionsEntityFromJson(json);
+  factory CompletionsEntity.fromJson(Map<String, dynamic> json) =>
+      _$CompletionsEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$CompletionsEntityToJson(this);
 }
@@ -28,9 +30,11 @@ class CompletionsChoiceEntity {
   @JsonKey(name: "finish_reason")
   final String? finishReason;
 
-  CompletionsChoiceEntity(this.text, this.index, this.logprobs, this.finishReason);
+  CompletionsChoiceEntity(
+      this.text, this.index, this.logprobs, this.finishReason);
 
-  factory CompletionsChoiceEntity.fromJson(Map<String, dynamic> json) => _$CompletionsChoiceEntityFromJson(json);
+  factory CompletionsChoiceEntity.fromJson(Map<String, dynamic> json) =>
+      _$CompletionsChoiceEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$CompletionsChoiceEntityToJson(this);
 }
@@ -44,9 +48,11 @@ class CompletionsUsageEntity {
   @JsonKey(name: "total_tokens")
   final int? totalTokens;
 
-  CompletionsUsageEntity(this.promptTokens, this.completionTokens, this.totalTokens);
+  CompletionsUsageEntity(
+      this.promptTokens, this.completionTokens, this.totalTokens);
 
-  factory CompletionsUsageEntity.fromJson(Map<String, dynamic> json) => _$CompletionsUsageEntityFromJson(json);
+  factory CompletionsUsageEntity.fromJson(Map<String, dynamic> json) =>
+      _$CompletionsUsageEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$CompletionsUsageEntityToJson(this);
 }

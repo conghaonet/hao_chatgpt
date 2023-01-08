@@ -55,6 +55,7 @@ class CompletionsQueryEntity {
     this.presencePenalty = 1.0,
     this.stop,
   });
+
   /// https://beta.openai.com/docs/guides/completion/translation
   CompletionsQueryEntity.translation({
     this.model = Constants.gpt3ModelDavinci003,
@@ -78,7 +79,8 @@ class CompletionsQueryEntity {
     this.stop,
   });
 
-  factory CompletionsQueryEntity.fromJson(Map<String, dynamic> json) => _$CompletionsQueryEntityFromJson(json);
+  factory CompletionsQueryEntity.fromJson(Map<String, dynamic> json) =>
+      _$CompletionsQueryEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$CompletionsQueryEntityToJson(this);
 }

@@ -33,11 +33,13 @@ class _ChatPageState extends State<ChatPage> {
   String _inputMessage = '';
 
   Future<void> _sendPrompt(PromptItem promptItem) async {
-    CompletionsQueryEntity queryEntity = appPref.gpt3GenerationSettings ?? CompletionsQueryEntity.generation();
+    CompletionsQueryEntity queryEntity =
+        appPref.gpt3GenerationSettings ?? CompletionsQueryEntity.generation();
     logger.i(queryEntity.toJson());
     queryEntity.prompt = promptItem.appendedPrompt;
     try {
-      CompletionsEntity entity = await openaiService.getCompletions(queryEntity);
+      CompletionsEntity entity =
+          await openaiService.getCompletions(queryEntity);
       logger.i(entity.toJson());
       if (entity.choices != null && entity.choices!.isNotEmpty) {
         _data.add(CompletionItem(
@@ -61,13 +63,14 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   String _appendPrompt() {
-    var item = _data.lastWhere((element) => element is CompletionItem || element is PromptItem,
+    var item = _data.lastWhere(
+      (element) => element is CompletionItem || element is PromptItem,
       orElse: () => ErrorItem(DioErrorEntity()),
     );
     String newPrompt = '';
-    if(item is CompletionItem) {
+    if (item is CompletionItem) {
       newPrompt = '${item.promptItem.appendedPrompt}${item.text}\n\n';
-    } else if(item is PromptItem) {
+    } else if (item is PromptItem) {
       newPrompt = item.appendedPrompt;
     }
     return '$newPrompt$_inputMessage\n\n';
@@ -104,46 +107,47 @@ class _ChatPageState extends State<ChatPage> {
         ],
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              height: 1,
-              color: Theme.of(context).primaryColorLight,
-            ),
-            Expanded(
-              child: ListView.builder(
-                controller: _listController,
-                itemCount: (_data.isNotEmpty && _data.last is PromptItem) ? _data.length + 1 : _data.length,
-                itemBuilder: (context, index) {
-                  if(index >= _data.length) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: LoadingAnimationWidget.flickr(
-                        leftDotColor: const Color(0xFF2196F3),
-                        rightDotColor: const Color(0xFFF44336),
-                        size: 24,
-                      ),
-                    );
+          child: Column(
+        children: [
+          Container(
+            height: 1,
+            color: Theme.of(context).primaryColorLight,
+          ),
+          Expanded(
+            child: ListView.builder(
+              controller: _listController,
+              itemCount: (_data.isNotEmpty && _data.last is PromptItem)
+                  ? _data.length + 1
+                  : _data.length,
+              itemBuilder: (context, index) {
+                if (index >= _data.length) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: LoadingAnimationWidget.flickr(
+                      leftDotColor: const Color(0xFF2196F3),
+                      rightDotColor: const Color(0xFFF44336),
+                      size: 24,
+                    ),
+                  );
+                } else {
+                  if (_data[index] is PromptItem) {
+                    return _buildPromptItem(context, index);
+                  } else if (_data[index] is CompletionItem) {
+                    return _buildCompletionItem(context, index);
                   } else {
-                    if (_data[index] is PromptItem) {
-                      return _buildPromptItem(context, index);
-                    } else if (_data[index] is CompletionItem) {
-                      return _buildCompletionItem(context, index);
-                    } else {
-                      return _buildErrorItem(context, index);
-                    }
+                    return _buildErrorItem(context, index);
                   }
-                },
-              ),
+                }
+              },
             ),
-            Container(
-              height: 1,
-              color: Theme.of(context).primaryColorLight,
-            ),
-            _buildPromptInput(context),
-          ],
-        )
-      ),
+          ),
+          Container(
+            height: 1,
+            color: Theme.of(context).primaryColorLight,
+          ),
+          _buildPromptInput(context),
+        ],
+      )),
     );
   }
 
@@ -159,14 +163,17 @@ class _ChatPageState extends State<ChatPage> {
             width: 8,
           ),
           Expanded(
-            child: SelectableText((_data[index] as PromptItem).inputMessage,
-              selectionControls: Platform.isIOS ? myCupertinoTextSelectionControls : null,
+            child: SelectableText(
+              (_data[index] as PromptItem).inputMessage,
+              selectionControls:
+                  Platform.isIOS ? myCupertinoTextSelectionControls : null,
             ),
           ),
         ],
       ),
     );
   }
+
   Widget _buildCompletionItem(BuildContext context, int index) {
     final myColors = Theme.of(context).extension<MyColors>();
     return Container(
@@ -183,15 +190,20 @@ class _ChatPageState extends State<ChatPage> {
       color: myColors?.completionBackgroundColor,
       child: Column(
         children: [
-          Text('Error',
+          Text(
+            'Error',
             style: TextStyle(
               color: Theme.of(context).colorScheme.error,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SelectableText((_data[index] as ErrorItem).error.message ?? (_data[index] as ErrorItem).error.error ?? 'ERROR!',
+          SelectableText(
+            (_data[index] as ErrorItem).error.message ??
+                (_data[index] as ErrorItem).error.error ??
+                'ERROR!',
             style: TextStyle(color: Theme.of(context).colorScheme.error),
-            selectionControls: Platform.isIOS ? myCupertinoTextSelectionControls : null,
+            selectionControls:
+                Platform.isIOS ? myCupertinoTextSelectionControls : null,
           ),
         ],
       ),
@@ -212,7 +224,8 @@ class _ChatPageState extends State<ChatPage> {
               contentPadding: const EdgeInsets.only(left: 16.0),
             ),
             controller: _msgController,
-            selectionControls: Platform.isIOS ? myCupertinoTextSelectionControls : null,
+            selectionControls:
+                Platform.isIOS ? myCupertinoTextSelectionControls : null,
             onChanged: (value) {
               if (value.isNotBlank) {
                 if (!_isRequesting) {
@@ -241,7 +254,9 @@ class _ChatPageState extends State<ChatPage> {
                   setState(() {
                     _isRequesting = true;
                     _inputMessage = _msgController.text.trim();
-                    var promptItem = PromptItem(inputMessage: _inputMessage, appendedPrompt: _appendPrompt());
+                    var promptItem = PromptItem(
+                        inputMessage: _inputMessage,
+                        appendedPrompt: _appendPrompt());
                     _data.add(promptItem);
                     _sendPrompt(promptItem);
                     _msgController.clear();

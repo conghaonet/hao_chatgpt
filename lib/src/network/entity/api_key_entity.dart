@@ -9,8 +9,8 @@ class ApiKeyEntity {
 
   ApiKeyEntity(this.key, this.createdTime);
 
-  factory ApiKeyEntity.fromJson(Map<String, dynamic> json) => _$ApiKeyEntityFromJson(json);
+  factory ApiKeyEntity.fromJson(Map<String, dynamic> json) =>
+      _$ApiKeyEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$ApiKeyEntityToJson(this);
-
 }

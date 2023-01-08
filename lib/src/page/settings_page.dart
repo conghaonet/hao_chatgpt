@@ -9,8 +9,8 @@ import 'package:hao_chatgpt/src/preferences_manager.dart';
 
 import '../constants.dart';
 
-class  SettingsPage extends ConsumerStatefulWidget {
-  const  SettingsPage({Key? key}) : super(key: key);
+class SettingsPage extends ConsumerStatefulWidget {
+  const SettingsPage({Key? key}) : super(key: key);
 
   @override
   ConsumerState<SettingsPage> createState() => _SettingsPageState();
@@ -30,7 +30,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               ListTile(
                 leading: const Icon(Icons.key),
                 title: const Text('API keys'),
-                subtitle: appManager.openaiApiKey.isNotBlank ? Text(getMaskedApiKey(appManager.openaiApiKey!)) : null,
+                subtitle: appManager.openaiApiKey.isNotBlank
+                    ? Text(getMaskedApiKey(appManager.openaiApiKey!))
+                    : null,
                 trailing: const Icon(Icons.keyboard_arrow_right),
                 onTap: () => context.go('/settings/apikey'),
               ),
@@ -51,9 +53,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
 
   Widget _buildThemeSetting(BuildContext context) {
     String themeName = S.of(context).systemDefault;
-    if(ref.watch(themeProvider) == ThemeMode.dark) {
+    if (ref.watch(themeProvider) == ThemeMode.dark) {
       themeName = S.of(context).dark;
-    } else if(ref.watch(themeProvider) == ThemeMode.light) {
+    } else if (ref.watch(themeProvider) == ThemeMode.light) {
       themeName = S.of(context).light;
     }
     Map<ThemeMode, String> themeModeMap = {
@@ -105,13 +107,14 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   Widget _buildLanguageSetting(BuildContext context) {
     String getLanguageName() {
       String languageName = S.of(context).systemDefault;
-      if(ref.watch(localeProvider) == Constants.enLocale) {
+      if (ref.watch(localeProvider) == Constants.enLocale) {
         languageName = S.of(context).langEnglish;
-      } else if(ref.watch(localeProvider) == Constants.zhLocale) {
+      } else if (ref.watch(localeProvider) == Constants.zhLocale) {
         languageName = S.of(context).langChinese;
       }
       return languageName;
     }
+
     const Locale undefinedLocale = Locale('und');
     Map<Locale, String> langMap = {
       undefinedLocale: S.of(context).systemDefault,
@@ -137,9 +140,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       value: e.key,
                       groupValue: appPref.locale ?? undefinedLocale,
                       onChanged: (value) {
-                        Locale? convertedLocale = (value == undefinedLocale) ? null : value;
+                        Locale? convertedLocale =
+                            (value == undefinedLocale) ? null : value;
                         appPref.setLocale(convertedLocale);
-                        ref.read(localeProvider.notifier).state = convertedLocale;
+                        ref.read(localeProvider.notifier).state =
+                            convertedLocale;
                         ctx.pop();
                       },
                     );

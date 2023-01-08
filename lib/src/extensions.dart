@@ -16,7 +16,7 @@ extension StringExt on String? {
 extension DioErrorExt on DioError {
   DioErrorEntity get toEioErrorEntity {
     Map<String, dynamic> error = {};
-    switch(type) {
+    switch (type) {
       case DioErrorType.connectTimeout:
         error = {'error': this.error?.toString() ?? 'Connect timeout'};
         break;
@@ -33,7 +33,10 @@ extension DioErrorExt on DioError {
         error = {'error': this.error?.toString() ?? 'Some other Error'};
         break;
       case DioErrorType.response:
-        error = {'error': this.error?.toString() ?? 'When the server response, but with a incorrect status, such as 404, 503...'};
+        error = {
+          'error': this.error?.toString() ??
+              'When the server response, but with a incorrect status, such as 404, 503...'
+        };
         Map<String, dynamic>? dataError = response?.data['error'];
         if (dataError != null) {
           error.addAll(dataError);
@@ -59,41 +62,48 @@ extension DoubleExt on double {
   String toStringAsFixedNoRound(int fractionDigits, {bool isTight = false}) {
     String str = toString();
     String parsedStr = "0";
-    if(str.length <= 2+fractionDigits) {
+    if (str.length <= 2 + fractionDigits) {
       parsedStr = toStringAsFixed(fractionDigits);
     } else {
-      parsedStr = double.parse(str.substring(0, 4)).toStringAsFixed(fractionDigits);
+      parsedStr =
+          double.parse(str.substring(0, 4)).toStringAsFixed(fractionDigits);
     }
-    if(fractionDigits > 1 && parsedStr.endsWith('0')) {
-      return parsedStr.substring(0, parsedStr.length -1);
+    if (fractionDigits > 1 && parsedStr.endsWith('0')) {
+      return parsedStr.substring(0, parsedStr.length - 1);
     } else {
       return parsedStr;
     }
   }
 }
 
-class MyCupertinoTextSelectionControls extends CupertinoTextSelectionControls{
+class MyCupertinoTextSelectionControls extends CupertinoTextSelectionControls {
   @override
   bool canSelectAll(TextSelectionDelegate delegate) {
     // to show "Select all" option
-    return delegate.selectAllEnabled && delegate.textEditingValue.text.isNotEmpty;
+    return delegate.selectAllEnabled &&
+        delegate.textEditingValue.text.isNotEmpty;
   }
 }
-final TextSelectionControls myCupertinoTextSelectionControls = MyCupertinoTextSelectionControls();
 
+final TextSelectionControls myCupertinoTextSelectionControls =
+    MyCupertinoTextSelectionControls();
 
 String getMaskedApiKey(String keyValue) {
   return keyValue.length > 11
-      ? '${keyValue.substring(0,7)}******${keyValue.substring(keyValue.length - 4, keyValue.length)}'
+      ? '${keyValue.substring(0, 7)}******${keyValue.substring(keyValue.length - 4, keyValue.length)}'
       : keyValue;
-
 }
 
-Future<void> openWebView({required BuildContext context, required String url, bool isExternal = false, String? title}) async {
-  if(!isExternal && (Platform.isAndroid || Platform.isIOS)) {
+Future<void> openWebView(
+    {required BuildContext context,
+    required String url,
+    bool isExternal = false,
+    String? title}) async {
+  if (!isExternal && (Platform.isAndroid || Platform.isIOS)) {
     context.push('/webview?title=${title ?? ''}&url=$url');
   } else {
-    if (!await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication)) {
+    if (!await launchUrl(Uri.parse(url),
+        mode: LaunchMode.externalApplication)) {
       debugPrint("can not open: $url");
     }
   }
@@ -102,14 +112,14 @@ Future<void> openWebView({required BuildContext context, required String url, bo
 void setSystemNavigationBarColor(ThemeMode themeMode) {
   if (Platform.isAndroid) {
     Brightness brightness = WidgetsBinding.instance.window.platformBrightness;
-    if(themeMode == ThemeMode.dark) {
+    if (themeMode == ThemeMode.dark) {
       brightness = Brightness.dark;
-    } else if(themeMode == ThemeMode.light) {
+    } else if (themeMode == ThemeMode.light) {
       brightness = Brightness.light;
     }
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: brightness == Brightness.dark ? Colors.black : Colors.white,
+      systemNavigationBarColor:
+          brightness == Brightness.dark ? Colors.black : Colors.white,
     ));
   }
 }
-

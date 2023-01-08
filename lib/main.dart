@@ -22,8 +22,10 @@ void main() async {
   // };
 }
 
-final StateProvider<ThemeMode> themeProvider = StateProvider((ref) => appPref.themeMode);
-final StateProvider<Locale?> localeProvider = StateProvider((ref) => appPref.locale);
+final StateProvider<ThemeMode> themeProvider =
+    StateProvider((ref) => appPref.themeMode);
+final StateProvider<Locale?> localeProvider =
+    StateProvider((ref) => appPref.locale);
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
@@ -47,7 +49,9 @@ class MyApp extends ConsumerWidget {
         Constants.zhLocale,
       ],
       themeMode: ref.watch(themeProvider),
-      theme: ThemeData.light(useMaterial3: true,).copyWith(
+      theme: ThemeData.light(
+        useMaterial3: true,
+      ).copyWith(
         extensions: <ThemeExtension<dynamic>>[MyColors.light],
       ),
       darkTheme: ThemeData.dark(useMaterial3: true).copyWith(

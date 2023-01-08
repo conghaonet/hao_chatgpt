@@ -20,7 +20,8 @@ abstract class OpenaiService {
   Future<ModelEntity> getModel({@Path("model") required String modelId});
 
   @POST('/completions')
-  Future<CompletionsEntity> getCompletions(@Body() CompletionsQueryEntity query);
+  Future<CompletionsEntity> getCompletions(
+      @Body() CompletionsQueryEntity query);
 }
 
 OpenaiService openaiService = OpenaiService(openaiClient.dio);
