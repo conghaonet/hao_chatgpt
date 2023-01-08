@@ -145,74 +145,74 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
         ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildModel(),
-              const Divider(
-                height: 4,
-                thickness: 4,
-              ),
-              _buildNumberSetting(
-                label: S.of(context).maximumLength,
-                controller: _maxLengthController,
-                focusNode: _maxLengthFocus,
-                defaultValue: _queryEntity.maxTokens,
-                valueRange: maxLengthRange,
-              ),
-              const Divider(
-                height: 2,
-                thickness: 2,
-              ),
-              _buildNumberSetting(
-                label: S.of(context).temperature,
-                controller: _temperatureController,
-                focusNode: _temperatureFocus,
-                defaultValue: _queryEntity.temperature,
-                valueRange: rangeZeroToOne,
-              ),
-              const Divider(
-                height: 2,
-                thickness: 2,
-              ),
-              _buildNumberSetting(
-                label: S.of(context).topP,
-                controller: _topPController,
-                focusNode: _topPFocus,
-                defaultValue: _queryEntity.topP,
-                valueRange: rangeZeroToOne,
-              ),
-              const Divider(
-                height: 2,
-                thickness: 2,
-              ),
-              _buildNumberSetting(
-                label: S.of(context).frequencyPenalty,
-                controller: _frequencyController,
-                focusNode: _frequencyFocus,
-                defaultValue: _queryEntity.frequencyPenalty,
-                valueRange: rangeZeroToTwo,
-              ),
-              const Divider(
-                height: 2,
-                thickness: 2,
-              ),
-              _buildNumberSetting(
-                label: S.of(context).presencePenalty,
-                controller: _presenceController,
-                focusNode: _presenceFocus,
-                defaultValue: _queryEntity.presencePenalty,
-                valueRange: rangeZeroToTwo,
-              ),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: SafeArea(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildModel(),
+                    const Divider(
+                      height: 4,
+                      thickness: 4,
+                    ),
+                    _buildNumberSetting(
+                      label: S.of(context).maximumLength,
+                      controller: _maxLengthController,
+                      focusNode: _maxLengthFocus,
+                      defaultValue: _queryEntity.maxTokens,
+                      valueRange: maxLengthRange,
+                    ),
+                    const Divider(
+                      height: 2,
+                      thickness: 2,
+                    ),
+                    _buildNumberSetting(
+                      label: S.of(context).temperature,
+                      controller: _temperatureController,
+                      focusNode: _temperatureFocus,
+                      defaultValue: _queryEntity.temperature,
+                      valueRange: rangeZeroToOne,
+                    ),
+                    const Divider(
+                      height: 2,
+                      thickness: 2,
+                    ),
+                    _buildNumberSetting(
+                      label: S.of(context).topP,
+                      controller: _topPController,
+                      focusNode: _topPFocus,
+                      defaultValue: _queryEntity.topP,
+                      valueRange: rangeZeroToOne,
+                    ),
+                    const Divider(
+                      height: 2,
+                      thickness: 2,
+                    ),
+                    _buildNumberSetting(
+                      label: S.of(context).frequencyPenalty,
+                      controller: _frequencyController,
+                      focusNode: _frequencyFocus,
+                      defaultValue: _queryEntity.frequencyPenalty,
+                      valueRange: rangeZeroToTwo,
+                    ),
+                    const Divider(
+                      height: 2,
+                      thickness: 2,
+                    ),
+                    _buildNumberSetting(
+                      label: S.of(context).presencePenalty,
+                      controller: _presenceController,
+                      focusNode: _presenceFocus,
+                      defaultValue: _queryEntity.presencePenalty,
+                      valueRange: rangeZeroToTwo,
+                    ),
+                  ],
+                ),
+              ),
+            ),
             const Divider(
               height: 4,
               thickness: 4,
@@ -221,23 +221,23 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
               children: [
                 Expanded(
                     child: TextButton(
-                  focusNode: _confirmButtonFocusNode,
-                  onPressed: () async {
-                    FocusScope.of(context)
-                        .requestFocus(_confirmButtonFocusNode);
-                    await _save();
-                  },
-                  child: Text(S.of(context).confirm),
-                )),
+                      focusNode: _confirmButtonFocusNode,
+                      onPressed: () async {
+                        FocusScope.of(context)
+                            .requestFocus(_confirmButtonFocusNode);
+                        await _save();
+                      },
+                      child: Text(S.of(context).confirm),
+                    )),
                 Expanded(
                     child: TextButton(
-                  onPressed: () => context.pop(),
-                  child: Text(S.of(context).cancel),
-                )),
+                      onPressed: () => context.pop(),
+                      child: Text(S.of(context).cancel),
+                    )),
               ],
             ),
           ],
-        ),
+        )
       ),
     );
   }
