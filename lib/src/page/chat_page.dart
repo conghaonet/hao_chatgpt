@@ -27,6 +27,7 @@ class _ChatPageState extends State<ChatPage> {
   final Logger logger = Logger();
   final ScrollController _listController = ScrollController();
   final TextEditingController _msgController = TextEditingController();
+  final _gpt3FocusNode = FocusNode();
   bool _isRequesting = false;
   final List<ListItem> _data = [];
   String _inputMessage = '';
@@ -95,6 +96,7 @@ class _ChatPageState extends State<ChatPage> {
         actions: [
           IconButton(
             onPressed: () {
+              FocusScope.of(context).requestFocus(_gpt3FocusNode);
               context.push('/settings/gpt3');
             },
             icon: const Icon(Icons.dashboard_customize),
@@ -256,6 +258,7 @@ class _ChatPageState extends State<ChatPage> {
   void dispose() {
     _msgController.dispose();
     _listController.dispose();
+    _gpt3FocusNode.dispose();
     super.dispose();
   }
 }
