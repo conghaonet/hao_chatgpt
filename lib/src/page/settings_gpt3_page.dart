@@ -220,24 +220,26 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
             Row(
               children: [
                 Expanded(
-                    child: TextButton(
-                      focusNode: _confirmButtonFocusNode,
-                      onPressed: () async {
-                        FocusScope.of(context)
-                            .requestFocus(_confirmButtonFocusNode);
-                        await _save();
-                      },
-                      child: Text(S.of(context).confirm),
-                    )),
+                  child: TextButton(
+                    focusNode: _confirmButtonFocusNode,
+                    onPressed: () async {
+                      FocusScope.of(context)
+                          .requestFocus(_confirmButtonFocusNode);
+                      await _save();
+                    },
+                    child: Text(S.of(context).confirm),
+                  ),
+                ),
                 Expanded(
-                    child: TextButton(
-                      onPressed: () => context.pop(),
-                      child: Text(S.of(context).cancel),
-                    )),
+                  child: TextButton(
+                    onPressed: () => context.pop(),
+                    child: Text(S.of(context).cancel),
+                  ),
+                ),
               ],
             ),
           ],
-        )
+        ),
       ),
     );
   }
