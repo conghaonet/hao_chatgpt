@@ -36,10 +36,10 @@ api_key: 'YOUR-API-KEY'
     </tr>
     <tr>
         <td>
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/zh/screenshot02.jpg"/>
+            <img src="https://s2.loli.net/2023/01/10/7Xc4yUhg2LVqQvE.jpg"/>
         </td>
         <td>
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/zh/screenshot03.jpg"/>
+            <img src="https://s2.loli.net/2023/01/10/ITAut7XkFPcHO1C.jpg"/>
         </td>
     </tr>
     <tr align="center">
@@ -48,10 +48,10 @@ api_key: 'YOUR-API-KEY'
     </tr>
     <tr>
         <td>
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/zh/screenshot04.jpg"/>
+            <img src="https://s2.loli.net/2023/01/10/lwjDFrsJGBUpZCP.jpg"/>
         </td>
         <td>
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/zh/screenshot05.jpg"/>
+            <img src="https://s2.loli.net/2023/01/10/4RsOKU2PYbB5AFj.jpg"/>
         </td>
     </tr>
     <tr align="center">
@@ -60,23 +60,23 @@ api_key: 'YOUR-API-KEY'
     </tr>
     <tr>
         <td>
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/zh/screenshot08.jpg"/>
+            <img src="https://s2.loli.net/2023/01/10/Z4QVfdXaLUrC6Ag.jpg"/>
         </td>
         <td>
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/zh/screenshot09.jpg"/>
+            <img src="https://s2.loli.net/2023/01/10/LTydQhFDKOlAPag.jpg"/>
         </td>
     </tr>
 </Table>
 <Table>
     <tr>
         <td>
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/zh/screenshot01.jpg"/>
+            <img src="https://s2.loli.net/2023/01/10/wkgEdCA4rlt5zVD.jpg"/>
         </td>
         <td>
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/zh/screenshot06.jpg"/>
+            <img src="https://s2.loli.net/2023/01/10/ZdVT492vCJBhupg.jpg"/>
         </td>
         <td>
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/zh/screenshot07.jpg"/>
+            <img src="https://s2.loli.net/2023/01/10/RslaB3bxeHZ9TJV.jpg"/>
         </td>
     </tr>
 </Table>
