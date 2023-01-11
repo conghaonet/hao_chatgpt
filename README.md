@@ -30,38 +30,38 @@ For security reasons, I cannot upload my **openai.yaml**.
 ## Screenshots
 <Table>
     <tr align="center">
-        <td><br/><b>Conversation</b></td>
-        <td><br/><b>Generation</b></td>
+        <td width="50%"><br/><b>Conversation</b></td>
+        <td width="50%"><br/><b>Generation</b></td>
     </tr>
     <tr>
-        <td>
+        <td width="50%">
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot02.jpg"/>
         </td>
-        <td>
+        <td width="50%">
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot03.jpg"/>
         </td>
     </tr>
     <tr align="center">
-        <td><br/><b>Improving the classifier's efficiency</b></td>
-        <td><br/><b>Conversion</b></td>
+        <td width="50%"><br/><b>Improving the classifier's efficiency</b></td>
+        <td width="50%"><br/><b>Conversion</b></td>
     </tr>
     <tr>
-        <td>
+        <td width="50%">
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot04.jpg"/>
         </td>
-        <td>
+        <td width="50%">
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot05.jpg"/>
         </td>
     </tr>
     <tr align="center">
-        <td><br/><b>Summarization</b></td>
-        <td><br/><b>Translation</b></td>
+        <td width="50%"><br/><b>Summarization</b></td>
+        <td width="50%"><br/><b>Translation</b></td>
     </tr>
     <tr>
-        <td>
+        <td width="50%">
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot08.jpg"/>
         </td>
-        <td>
+        <td width="50%">
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot09.jpg"/>
         </td>
     </tr>
@@ -74,10 +74,10 @@ For security reasons, I cannot upload my **openai.yaml**.
         </td>
     </tr>
     <tr>
-        <td>
+        <td width="50%">
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot06.jpg"/>
         </td>
-        <td>
+        <td width="50%">
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot07.jpg"/>
         </td>
     </tr>
