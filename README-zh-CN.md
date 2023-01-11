@@ -13,6 +13,9 @@
 * Windows ([Issue 107972](https://github.com/flutter/flutter/issues/107972))
 * Linux (未测试)
 
+## 正在开发中的特性
+- [x] 聊天记录
+- [ ] 生成代码 (Codex)
 
 ## 设置你自己的 OpenAI API key
 

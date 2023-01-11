@@ -13,6 +13,9 @@ An unofficial ChatGPT application developed with Flutter.
 * Windows ([Issue 107972](https://github.com/flutter/flutter/issues/107972))
 * Linux (untested)
 
+## These features are under development
+- [x] Chat history
+- [ ] Generate code (Codex)
 
 ## Setup your OpenAI API key
 
