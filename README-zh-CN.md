@@ -34,54 +34,54 @@ api_key: 'YOUR-API-KEY'
 ## 截图
 <Table>
     <tr align="center">
-        <td><br/><b>对话</b></td>
-        <td><br/><b>产生</b></td>
+        <td width="50%"><br/><b>对话</b></td>
+        <td width="50%"><br/><b>产生</b></td>
     </tr>
     <tr>
-        <td>
+        <td width="50%">
             <img src="https://s2.loli.net/2023/01/10/7Xc4yUhg2LVqQvE.jpg"/>
         </td>
-        <td>
+        <td width="50%">
             <img src="https://s2.loli.net/2023/01/10/ITAut7XkFPcHO1C.jpg"/>
         </td>
     </tr>
     <tr align="center">
-        <td><br/><b>提高分类器的效率</b></td>
-        <td><br/><b>转换</b></td>
+        <td width="50%"><br/><b>提高分类器的效率</b></td>
+        <td width="50%"><br/><b>转换</b></td>
     </tr>
     <tr>
-        <td>
+        <td width="50%">
             <img src="https://s2.loli.net/2023/01/10/lwjDFrsJGBUpZCP.jpg"/>
         </td>
-        <td>
+        <td width="50%">
             <img src="https://s2.loli.net/2023/01/10/4RsOKU2PYbB5AFj.jpg"/>
         </td>
     </tr>
     <tr align="center">
-        <td><br/><b>摘要</b></td>
-        <td><br/><b>翻译</b></td>
+        <td width="50%"><br/><b>摘要</b></td>
+        <td width="50%"><br/><b>翻译</b></td>
     </tr>
     <tr>
-        <td>
+        <td width="50%">
             <img src="https://s2.loli.net/2023/01/10/Z4QVfdXaLUrC6Ag.jpg"/>
         </td>
-        <td>
+        <td width="50%">
             <img src="https://s2.loli.net/2023/01/10/LTydQhFDKOlAPag.jpg"/>
         </td>
     </tr>
     <tr>
-        <td>
+        <td width="50%">
             <img src="https://s2.loli.net/2023/01/10/wkgEdCA4rlt5zVD.jpg"/>
         </td>
-        <td>
+        <td width="50%">
             <img src="https://s2.loli.net/2023/01/11/bAyWgLhaMijnpEV.jpg"/>
         </td>
     </tr>
     <tr>
-        <td>
+        <td width="50%">
             <img src="https://s2.loli.net/2023/01/10/ZdVT492vCJBhupg.jpg"/>
         </td>
-        <td>
+        <td width="50%">
             <img src="https://s2.loli.net/2023/01/10/RslaB3bxeHZ9TJV.jpg"/>
         </td>
     </tr>
