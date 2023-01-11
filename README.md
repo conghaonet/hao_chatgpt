@@ -13,7 +13,7 @@ An unofficial ChatGPT application developed with Flutter.
 * Windows ([Issue 107972](https://github.com/flutter/flutter/issues/107972))
 * Linux (untested)
 
-## These features are under development
+## Under development
 - [x] Chat history
 - [ ] Code completion (Codex)
 
