@@ -225,6 +225,42 @@ abstract class S {
   /// **'Reset to default'**
   String get resetToDefault;
 
+  /// No description provided for @haoChatIsPoweredByOpenAI.
+  ///
+  /// In en, this message translates to:
+  /// **'HaoChat is powered by OpenAI'**
+  String get haoChatIsPoweredByOpenAI;
+
+  /// No description provided for @storeAPIkeyNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Please provide an OpenAI API key. This key will only be stored locally in your app cache.'**
+  String get storeAPIkeyNotice;
+
+  /// No description provided for @enterYourOpenAiApiKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your OpenAI API key'**
+  String get enterYourOpenAiApiKey;
+
+  /// No description provided for @done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
+
+  /// No description provided for @navigateTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Navigate to'**
+  String get navigateTo;
+
+  /// No description provided for @logInAndClick.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in and click \"+ Create new secret key\"'**
+  String get logInAndClick;
+
   /// No description provided for @haoChat.
   ///
   /// In en, this message translates to:

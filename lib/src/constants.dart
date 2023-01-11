@@ -32,6 +32,8 @@ class Constants {
       'https://beta.openai.com/docs/api-reference/completions/create';
   static const String haoChatGitHubUrl =
       'https://github.com/conghaonet/hao_chatgpt';
+  static const String openAiApiKeysUrl =
+      'https://beta.openai.com/account/api-keys';
 
   static const String blankUrl = 'about:blank';
 }

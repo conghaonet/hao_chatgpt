@@ -129,7 +129,7 @@ class PreferencesManager {
     }
   }
 
-  Future<bool> setApiKeys(List<ApiKeyEntity>? keys) {
+  Future<bool> _setApiKeys(List<ApiKeyEntity>? keys) {
     if (keys == null || keys.isEmpty) {
       return _preferences.remove(SharedPreferencesKey.apiKeys);
     } else {
@@ -138,10 +138,18 @@ class PreferencesManager {
     }
   }
 
-  Future<bool> addApiKey(ApiKeyEntity keyEntity) {
-    List<ApiKeyEntity> entities = apiKeys;
-    entities.add(keyEntity);
-    return setApiKeys(entities);
+  Future<bool> addApiKey(ApiKeyEntity keyEntity, {bool isDefault = true}) async {
+    bool isOk = true;
+    if(isDefault) {
+      isOk = await setApiKey(keyEntity.key);
+    }
+    if(isOk) {
+      List<ApiKeyEntity> entities = apiKeys;
+      entities.add(keyEntity);
+      return _setApiKeys(entities);
+    } else {
+      return Future(() => false);
+    }
   }
 
   Future<bool> removeApiKey(String apiKey) {
@@ -150,7 +158,7 @@ class PreferencesManager {
       ApiKeyEntity entity =
           entities.firstWhere((element) => element.key == apiKey);
       entities.remove(entity);
-      return setApiKeys(entities);
+      return _setApiKeys(entities);
     } catch (e) {
       return Future(() => false);
     }

@@ -67,7 +67,7 @@ void main() async {
   });
 
   test('test prefs', () async {
-    appPref.setApiKeys(null);
+    // appPref._setApiKeys(null);
 
     // List<APIKeyEntity> entities = List.generate(3, (index) {
     //   return APIKeyEntity('$index$index$index', DateTime.now());

@@ -20,5 +20,11 @@
   "default_": "默认",
   "duplicateApiKey": "重复的 API key！",
   "appDescription": "一个非官方的开源 ChatGPT 应用",
-  "resetToDefault": "重置为默认值"
+  "resetToDefault": "重置为默认值",
+  "haoChatIsPoweredByOpenAI": "HaoChat由OpenAI驱动",
+  "storeAPIkeyNotice": "请提供OpenAI API key。此密钥仅在您的应用程序缓存中存储。",
+  "enterYourOpenAiApiKey": "输入你的 OpenAI API key",
+  "done": "完成",
+  "navigateTo": "导航到",
+  "logInAndClick": "登录后，点击 \"+ Create new secret key\""
 }

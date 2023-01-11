@@ -38,6 +38,12 @@
   "duplicateApiKey": "Duplicate API key!",
   "appDescription": "An unofficial open-source ChatGPT application",
   "resetToDefault": "Reset to default",
+  "haoChatIsPoweredByOpenAI": "HaoChat is powered by OpenAI",
+  "storeAPIkeyNotice": "Please provide an OpenAI API key. This key will only be stored locally in your app cache.",
+  "enterYourOpenAiApiKey": "Enter your OpenAI API key",
+  "done": "Done",
+  "navigateTo": "Navigate to",
+  "logInAndClick": "Log in and click \"+ Create new secret key\"",
 
   "haoChat": "HaoChat",
   "openAI": "OpenAI",

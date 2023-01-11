@@ -80,6 +80,24 @@ class SZh extends S {
   String get resetToDefault => '重置为默认值';
 
   @override
+  String get haoChatIsPoweredByOpenAI => 'HaoChat由OpenAI驱动';
+
+  @override
+  String get storeAPIkeyNotice => '请提供OpenAI API key。此密钥仅在您的应用程序缓存中存储。';
+
+  @override
+  String get enterYourOpenAiApiKey => '输入你的 OpenAI API key';
+
+  @override
+  String get done => '完成';
+
+  @override
+  String get navigateTo => '导航到';
+
+  @override
+  String get logInAndClick => '登录后，点击 \"+ Create new secret key\"';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override

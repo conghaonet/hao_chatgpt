@@ -177,7 +177,6 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
                       ));
                       Navigator.of(ctx).pop(false);
                     } else {
-                      await appPref.setApiKey(keyValue);
                       ApiKeyEntity entity =
                           ApiKeyEntity(keyValue!, DateTime.now());
                       await appPref

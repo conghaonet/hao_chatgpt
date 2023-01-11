@@ -80,6 +80,24 @@ class SEn extends S {
   String get resetToDefault => 'Reset to default';
 
   @override
+  String get haoChatIsPoweredByOpenAI => 'HaoChat is powered by OpenAI';
+
+  @override
+  String get storeAPIkeyNotice => 'Please provide an OpenAI API key. This key will only be stored locally in your app cache.';
+
+  @override
+  String get enterYourOpenAiApiKey => 'Enter your OpenAI API key';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get navigateTo => 'Navigate to';
+
+  @override
+  String get logInAndClick => 'Log in and click \"+ Create new secret key\"';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override
