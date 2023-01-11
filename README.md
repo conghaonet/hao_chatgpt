@@ -65,12 +65,15 @@ For security reasons, I cannot upload my **openai.yaml**.
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot09.jpg"/>
         </td>
     </tr>
-</Table>
-<Table>
     <tr>
         <td>
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot01.jpg"/>
         </td>
+        <td>
+            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot10.jpg"/>
+        </td>
+    </tr>
+    <tr>
         <td>
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot06.jpg"/>
         </td>
