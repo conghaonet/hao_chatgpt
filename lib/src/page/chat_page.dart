@@ -222,11 +222,13 @@ class _ChatPageState extends State<ChatPage> {
         Row(
           children: [
             Text('1. ${S.of(context).navigateTo}', style: const TextStyle(fontSize: 12,),),
-            TextButton(
-              onPressed: () {
-                openWebView(context: context, url: Constants.openAiApiKeysUrl, isExternal: true,);
-              },
-              child: const Text('OpenAI API Key', style: TextStyle(fontSize: 12,),),
+            Expanded(
+              child: TextButton(
+                onPressed: () {
+                  openWebView(context: context, url: Constants.openAiApiKeysUrl, isExternal: true,);
+                },
+                child: const Text(Constants.openAiApiKeysUrl, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12,),),
+              ),
             ),
           ],
         ),
