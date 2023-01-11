@@ -15,7 +15,7 @@ An unofficial ChatGPT application developed with Flutter.
 
 ## These features are under development
 - [x] Chat history
-- [ ] Generate code (Codex)
+- [ ] Code completion (Codex)
 
 ## Setup your OpenAI API key
 
