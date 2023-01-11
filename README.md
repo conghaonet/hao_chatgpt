@@ -66,10 +66,10 @@ For security reasons, I cannot upload my **openai.yaml**.
         </td>
     </tr>
     <tr>
-        <td>
+        <td width="50%">
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot01.jpg"/>
         </td>
-        <td>
+        <td width="50%">
             <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot10.jpg"/>
         </td>
     </tr>
