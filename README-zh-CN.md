@@ -39,7 +39,7 @@ api_key: 'YOUR-API-KEY'
     </tr>
     <tr>
         <td width="50%">
-            <img src="https://s2.loli.net/2023/01/10/7Xc4yUhg2LVqQvE.jpg"/>
+            <a href="https://smms.app/image/7Xc4yUhg2LVqQvE" target="_blank"><img src="https://s2.loli.net/2023/01/10/7Xc4yUhg2LVqQvE.jpg"/></a>
         </td>
         <td width="50%">
             <img src="https://s2.loli.net/2023/01/10/ITAut7XkFPcHO1C.jpg"/>
