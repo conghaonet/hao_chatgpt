@@ -101,11 +101,17 @@ class _ChatPageState extends State<ChatPage> {
     );
     String newPrompt = '';
     if (item is CompletionItem) {
-      newPrompt = '${item.promptItem.appendedPrompt}${item.text}\n\n';
+      newPrompt = '${item.promptItem.appendedPrompt}\n${item.text}';
     } else if (item is PromptItem) {
       newPrompt = item.appendedPrompt;
     }
-    return '$newPrompt$_inputMessage\n\n';
+    if(newPrompt.endsWith('\n')) {
+      return '$newPrompt$_inputMessage';
+    } else if(newPrompt.isNotEmpty) {
+      return '$newPrompt\n$_inputMessage';
+    } else {
+      return _inputMessage;
+    }
   }
 
   String _getErrorItemMessage(ErrorItem errorItem) => errorItem.error.message ?? errorItem.error.error ?? 'ERROR!';
@@ -293,11 +299,12 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget _buildCompletionItem(int index) {
+    var regExp = RegExp(r'^\n+');
     final myColors = Theme.of(context).extension<MyColors>();
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       color: myColors?.completionBackgroundColor,
-      child: SelectableText((_data[index] as CompletionItem).text),
+      child: SelectableText((_data[index] as CompletionItem).text.replaceAll(regExp, '')),
     );
   }
 

@@ -76,4 +76,12 @@ void main() async {
     List<ApiKeyEntity> keys = appPref.apiKeys;
     logger.i(keys.map((e) => e.toJson()));
   });
+
+  test('testReplace', () {
+    var str = '\n\n\n\nhow\n are you?';
+    var regExp = RegExp(r'^\n+');
+    logger.i(regExp.hasMatch(str));
+    logger.i(str);
+    logger.i(str.replaceAll(regExp, ''));
+  });
 }
