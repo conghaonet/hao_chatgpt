@@ -8,12 +8,11 @@ import 'package:hao_chatgpt/src/network/entity/dio_error_entity.dart';
 import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
+import 'package:hao_chatgpt/src/page/chat/no_key_view.dart';
 import 'package:hao_chatgpt/src/preferences_manager.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../l10n/generated/l10n.dart';
-import '../constants.dart';
-import '../network/entity/api_key_entity.dart';
 import '../network/entity/openai/completions_entity.dart';
 import '../network/entity/openai/completions_query_entity.dart';
 import '../network/openai_service.dart';
@@ -37,7 +36,6 @@ class _ChatPageState extends State<ChatPage> {
   bool _isRequesting = false;
   final List<ListItem> _data = [];
   String _inputMessage = '';
-  String _apiKeyValue = '';
   
   /// id of [Titles]
   int? _dbTitleId;
@@ -101,7 +99,13 @@ class _ChatPageState extends State<ChatPage> {
     );
     String newPrompt = '';
     if (item is CompletionItem) {
-      newPrompt = '${item.promptItem.appendedPrompt}\n${item.text}';
+      if(item.text.startsWith('\n') || item.text.startsWith('\r\n')) {
+        newPrompt = '${item.promptItem.appendedPrompt}${item.text}';
+      } else if(item.text.isNotEmpty) {
+        newPrompt = '${item.promptItem.appendedPrompt}\n${item.text}';
+      } else {
+        newPrompt = item.promptItem.appendedPrompt;
+      }
     } else if (item is PromptItem) {
       newPrompt = item.appendedPrompt;
     }
@@ -162,7 +166,13 @@ class _ChatPageState extends State<ChatPage> {
                     alignment: Alignment.center,
                     color: myColors?.completionBackgroundColor,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: _buildNoKeyView(),
+                    child: NoKeyView(onFinished: () {
+                      setState(() {
+                      });
+                      Future.delayed(const Duration(milliseconds: 100), () {
+                        FocusScope.of(context).requestFocus(_inputPromptNode);
+                      });
+                    },),
                   ),
                   ListView.builder(
                     controller: _listController,
@@ -201,77 +211,6 @@ class _ChatPageState extends State<ChatPage> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildNoKeyView() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(S.of(context).haoChatIsPoweredByOpenAI, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-        const SizedBox(height: 16,),
-        Text(S.of(context).storeAPIkeyNotice, style: const TextStyle(fontSize: 12,),),
-        const SizedBox(height: 16,),
-        TextField(
-          maxLines: 1,
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            hintText: S.of(context).enterYourOpenAiApiKey,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-          ),
-          onChanged: (value) {
-            if((value.isNotBlank && !_apiKeyValue.isNotBlank) || (!value.isNotBlank && _apiKeyValue.isNotBlank)) {
-              setState(() {
-                _apiKeyValue = value;
-              });
-            } else {
-              _apiKeyValue = value;
-            }
-          },
-        ),
-        const SizedBox(height: 8,),
-        Row(
-          children: [
-            Expanded(child: Container(),),
-            Expanded(
-              child: ElevatedButton(
-                onPressed: _apiKeyValue.isNotBlank ? () async {
-                  if(_apiKeyValue.isNotBlank) {
-                    ApiKeyEntity entity =
-                    ApiKeyEntity(_apiKeyValue.trim(), DateTime.now());
-                    appPref.addApiKey(entity).then((_) {
-                      setState(() {
-                      });
-                      Future.delayed(const Duration(milliseconds: 100), () {
-                        FocusScope.of(context).requestFocus(_inputPromptNode);
-                      });
-                    });
-                  }
-                } : null,
-                child: Text(S.of(context).done),
-              ),
-            ),
-            Expanded(child: Container(),),
-          ],
-        ),
-        Row(
-          children: [
-            Text('1. ${S.of(context).navigateTo}', style: const TextStyle(fontSize: 12,),),
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  openWebView(context: context, url: Constants.openAiApiKeysUrl, isExternal: true,);
-                },
-                child: const Text(Constants.openAiApiKeysUrl, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12,),),
-              ),
-            ),
-          ],
-        ),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text('2. ${S.of(context).logInAndClick}', style: const TextStyle(fontSize: 12,),),
-        ),
-      ],
     );
   }
 
