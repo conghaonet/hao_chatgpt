@@ -46,9 +46,9 @@ void main() async {
       CompletionsEntity entity = await openaiService.getCompletions(query);
       logger.i(entity.toJson());
     } on DioError catch (e) {
-      logger.e(e.toEioErrorEntity.toJson());
+      logger.e(e.toDioErrorEntity.toJson());
     } on Exception catch (e) {
-      logger.e(e.toEioErrorEntity.toString());
+      logger.e(e.toDioErrorEntity.toString());
     }
   });
 

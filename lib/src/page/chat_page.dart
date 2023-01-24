@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:drift/drift.dart' as drift;
 import 'package:hao_chatgpt/src/app_manager.dart';
+import 'package:hao_chatgpt/src/db/hao_database.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
 import 'package:hao_chatgpt/src/my_colors.dart';
 import 'package:hao_chatgpt/src/network/entity/dio_error_entity.dart';
@@ -36,27 +38,52 @@ class _ChatPageState extends State<ChatPage> {
   final List<ListItem> _data = [];
   String _inputMessage = '';
   String _apiKeyValue = '';
+  
+  /// id of [Titles]
+  int? _dbTitleId;
 
   Future<void> _sendPrompt(PromptItem promptItem) async {
+    CompletionItem? completionItem;
+    ErrorItem? errorItem;
+    final chatDate = DateTime.now();
+    _dbTitleId ??= await haoDatabase.into(haoDatabase.titles).insert(TitlesCompanion.insert(
+        title: promptItem.inputMessage,
+        chatDate: chatDate,
+        isFavorite: const drift.Value(false)
+    ));
     CompletionsQueryEntity queryEntity =
         appPref.gpt3GenerationSettings ?? CompletionsQueryEntity.generation();
-    logger.i(queryEntity.toJson());
     queryEntity.prompt = promptItem.appendedPrompt;
     try {
       CompletionsEntity entity =
           await openaiService.getCompletions(queryEntity);
-      logger.i(entity.toJson());
       if (entity.choices != null && entity.choices!.isNotEmpty) {
-        _data.add(CompletionItem(
+        completionItem = CompletionItem(
           promptItem: promptItem,
           text: entity.choices!.first.text!,
-        ));
+        );
+
       }
     } on DioError catch (e) {
-      _data.add(ErrorItem(e.toEioErrorEntity));
+      errorItem = ErrorItem(e.toDioErrorEntity);
     } on Exception catch (e) {
-      _data.add(ErrorItem(e.toEioErrorEntity));
+      errorItem = ErrorItem(e.toDioErrorEntity);
     } finally {
+      _data.add(completionItem ?? errorItem!);
+      if(_dbTitleId != null) {
+        String? text = completionItem?.text;
+        if(errorItem != null) {
+          text = _getErrorItemMessage(errorItem);
+        }
+        await haoDatabase.into(haoDatabase.conversations).insert(ConversationsCompanion.insert(
+          titleId: _dbTitleId!,
+          inputMessage: promptItem.inputMessage,
+          prompt: promptItem.appendedPrompt,
+          completion: drift.Value(text),
+          isError: drift.Value(errorItem != null),
+          promptDate: chatDate,
+        ));
+      }
       if (mounted) {
         setState(() {
           _inputMessage = _msgController.text;
@@ -80,6 +107,8 @@ class _ChatPageState extends State<ChatPage> {
     }
     return '$newPrompt$_inputMessage\n\n';
   }
+
+  String _getErrorItemMessage(ErrorItem errorItem) => errorItem.error.message ?? errorItem.error.error ?? 'ERROR!';
 
   bool _isEnabledSendButton() {
     return appManager.openaiApiKey != null && _inputMessage.isNotBlank && !_isRequesting;
@@ -287,9 +316,7 @@ class _ChatPageState extends State<ChatPage> {
             ),
           ),
           SelectableText(
-            (_data[index] as ErrorItem).error.message ??
-                (_data[index] as ErrorItem).error.error ??
-                'ERROR!',
+            _getErrorItemMessage(_data[index] as ErrorItem),
             style: TextStyle(color: Theme.of(context).colorScheme.error),
             selectionControls:
                 Platform.isIOS ? myCupertinoTextSelectionControls : null,

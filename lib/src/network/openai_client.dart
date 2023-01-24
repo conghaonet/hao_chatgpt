@@ -22,7 +22,7 @@ class OpenaiClient {
 
   OpenaiClient._internal() {
     _dio = Dio(baseOptions);
-    // setProxy("127.0.0.1", 7890);
+    setProxy("192.168.31.27", 8888);
     _dio.interceptors.add(_OpenaiInterceptor());
   }
 
@@ -50,9 +50,6 @@ class _OpenaiInterceptor extends Interceptor {
       if (appManager.openaiApiKey.isNotBlank) {
         options.headers['Authorization'] = 'Bearer ${appManager.openaiApiKey}';
       }
-      // if(appManager.openaiOrgId.isNotBlank) {
-      //   options.headers['OpenAI-Organization'] = appManager.openaiOrgId;
-      // }
     }
     super.onRequest(options, handler);
   }

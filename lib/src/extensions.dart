@@ -14,7 +14,7 @@ extension StringExt on String? {
 }
 
 extension DioErrorExt on DioError {
-  DioErrorEntity get toEioErrorEntity {
+  DioErrorEntity get toDioErrorEntity {
     Map<String, dynamic> error = {};
     switch (type) {
       case DioErrorType.connectTimeout:
@@ -48,7 +48,7 @@ extension DioErrorExt on DioError {
 }
 
 extension ExceptionExt on Exception {
-  DioErrorEntity get toEioErrorEntity {
+  DioErrorEntity get toDioErrorEntity {
     var msg = toString();
     if (msg.startsWith('Exception: ')) {
       msg = msg.replaceFirst('Exception: ', '');
