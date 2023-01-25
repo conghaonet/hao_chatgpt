@@ -8,6 +8,7 @@ import 'package:hao_chatgpt/src/network/entity/dio_error_entity.dart';
 import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
+import 'package:hao_chatgpt/src/page/chat/chat_drawer.dart';
 import 'package:hao_chatgpt/src/page/chat/no_key_view.dart';
 import 'package:hao_chatgpt/src/preferences_manager.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -31,20 +32,18 @@ class _ChatPageState extends State<ChatPage> {
   final Logger logger = Logger();
   final ScrollController _listController = ScrollController();
   final TextEditingController _msgController = TextEditingController();
-  final _gpt3FocusNode = FocusNode();
-  final _inputPromptNode = FocusNode();
   bool _isRequesting = false;
   final List<ListItem> _data = [];
   String _inputMessage = '';
   
-  /// id of [Titles]
+  /// id of [ChatTitles]
   int? _dbTitleId;
 
   Future<void> _sendPrompt(PromptItem promptItem) async {
     CompletionItem? completionItem;
     ErrorItem? errorItem;
     final chatDate = DateTime.now();
-    _dbTitleId ??= await haoDatabase.into(haoDatabase.titles).insert(TitlesCompanion.insert(
+    _dbTitleId ??= await haoDatabase.into(haoDatabase.chatTitles).insert(ChatTitlesCompanion.insert(
         title: promptItem.inputMessage,
         chatDate: chatDate,
         isFavorite: const drift.Value(false)
@@ -144,13 +143,19 @@ class _ChatPageState extends State<ChatPage> {
         actions: [
           IconButton(
             onPressed: () {
-              FocusScope.of(context).requestFocus(_gpt3FocusNode);
+              FocusManager.instance.primaryFocus?.unfocus();
               context.push('/settings/gpt3');
             },
             icon: const Icon(Icons.dashboard_customize),
           ),
         ],
       ),
+      drawer: const ChatDrawer(),
+      onDrawerChanged: (bool isOpened) {
+        if(isOpened) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        }
+      },
       body: SafeArea(
         child: Column(
           children: [
@@ -168,9 +173,6 @@ class _ChatPageState extends State<ChatPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: NoKeyView(onFinished: () {
                       setState(() {
-                      });
-                      Future.delayed(const Duration(milliseconds: 100), () {
-                        FocusScope.of(context).requestFocus(_inputPromptNode);
                       });
                     },),
                   ),
@@ -282,7 +284,6 @@ class _ChatPageState extends State<ChatPage> {
             maxLines: 6,
             minLines: 1,
             autofocus: appManager.openaiApiKey != null,
-            focusNode: _inputPromptNode,
             decoration: InputDecoration(
               hintText: S.of(context).prompt,
               contentPadding: const EdgeInsets.only(left: 16.0),
@@ -337,8 +338,6 @@ class _ChatPageState extends State<ChatPage> {
   void dispose() {
     _msgController.dispose();
     _listController.dispose();
-    _gpt3FocusNode.dispose();
-    _inputPromptNode.dispose();
     super.dispose();
   }
 }

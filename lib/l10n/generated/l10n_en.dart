@@ -98,6 +98,9 @@ class SEn extends S {
   String get logInAndClick => 'Log in and click \"+ Create new secret key\"';
 
   @override
+  String get newChat => 'New chat';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override

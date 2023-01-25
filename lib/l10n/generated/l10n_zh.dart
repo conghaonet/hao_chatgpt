@@ -98,6 +98,9 @@ class SZh extends S {
   String get logInAndClick => '登录后，点击 \"+ Create new secret key\"';
 
   @override
+  String get newChat => '新对话';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override

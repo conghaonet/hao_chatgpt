@@ -26,5 +26,6 @@
   "enterYourOpenAiApiKey": "输入你的 OpenAI API key",
   "done": "完成",
   "navigateTo": "导航到",
-  "logInAndClick": "登录后，点击 \"+ Create new secret key\""
+  "logInAndClick": "登录后，点击 \"+ Create new secret key\"",
+  "newChat": "新对话"
 }

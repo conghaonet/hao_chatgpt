@@ -261,6 +261,12 @@ abstract class S {
   /// **'Log in and click \"+ Create new secret key\"'**
   String get logInAndClick;
 
+  /// No description provided for @newChat.
+  ///
+  /// In en, this message translates to:
+  /// **'New chat'**
+  String get newChat;
+
   /// No description provided for @haoChat.
   ///
   /// In en, this message translates to:

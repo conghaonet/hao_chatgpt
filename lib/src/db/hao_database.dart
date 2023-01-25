@@ -12,14 +12,14 @@ mixin AutoIncrementingPrimaryKey on Table {
   IntColumn get id => integer().autoIncrement()();
 }
 
-class Titles extends Table with AutoIncrementingPrimaryKey {
+class ChatTitles extends Table with AutoIncrementingPrimaryKey {
   TextColumn get title => text()();
   BoolColumn get isFavorite => boolean().nullable()();
   DateTimeColumn get chatDate => dateTime()();
 }
 
 class Conversations extends Table with AutoIncrementingPrimaryKey {
-  IntColumn get titleId => integer().references(Titles, #id)();
+  IntColumn get titleId => integer().references(ChatTitles, #id)();
   TextColumn get inputMessage => text()();
   TextColumn get prompt => text()();
   TextColumn get completion => text().nullable()();
@@ -27,7 +27,7 @@ class Conversations extends Table with AutoIncrementingPrimaryKey {
   DateTimeColumn get promptDate => dateTime()();
 }
 
-@DriftDatabase(tables: [Titles, Conversations])
+@DriftDatabase(tables: [ChatTitles, Conversations])
 class HaoDatabase extends _$HaoDatabase {
   HaoDatabase() : super(_openConnection());
 

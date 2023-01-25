@@ -3,11 +3,12 @@
 part of 'hao_database.dart';
 
 // ignore_for_file: type=lint
-class $TitlesTable extends Titles with TableInfo<$TitlesTable, Title> {
+class $ChatTitlesTable extends ChatTitles
+    with TableInfo<$ChatTitlesTable, ChatTitle> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $TitlesTable(this.attachedDatabase, [this._alias]);
+  $ChatTitlesTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -43,11 +44,11 @@ class $TitlesTable extends Titles with TableInfo<$TitlesTable, Title> {
   @override
   List<GeneratedColumn> get $columns => [id, title, isFavorite, chatDate];
   @override
-  String get aliasedName => _alias ?? 'titles';
+  String get aliasedName => _alias ?? 'chat_titles';
   @override
-  String get actualTableName => 'titles';
+  String get actualTableName => 'chat_titles';
   @override
-  VerificationContext validateIntegrity(Insertable<Title> instance,
+  VerificationContext validateIntegrity(Insertable<ChatTitle> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -78,9 +79,9 @@ class $TitlesTable extends Titles with TableInfo<$TitlesTable, Title> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Title map(Map<String, dynamic> data, {String? tablePrefix}) {
+  ChatTitle map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Title(
+    return ChatTitle(
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       title: attachedDatabase.typeMapping
@@ -93,17 +94,17 @@ class $TitlesTable extends Titles with TableInfo<$TitlesTable, Title> {
   }
 
   @override
-  $TitlesTable createAlias(String alias) {
-    return $TitlesTable(attachedDatabase, alias);
+  $ChatTitlesTable createAlias(String alias) {
+    return $ChatTitlesTable(attachedDatabase, alias);
   }
 }
 
-class Title extends DataClass implements Insertable<Title> {
+class ChatTitle extends DataClass implements Insertable<ChatTitle> {
   final int id;
   final String title;
   final bool? isFavorite;
   final DateTime chatDate;
-  const Title(
+  const ChatTitle(
       {required this.id,
       required this.title,
       this.isFavorite,
@@ -120,8 +121,8 @@ class Title extends DataClass implements Insertable<Title> {
     return map;
   }
 
-  TitlesCompanion toCompanion(bool nullToAbsent) {
-    return TitlesCompanion(
+  ChatTitlesCompanion toCompanion(bool nullToAbsent) {
+    return ChatTitlesCompanion(
       id: Value(id),
       title: Value(title),
       isFavorite: isFavorite == null && nullToAbsent
@@ -131,10 +132,10 @@ class Title extends DataClass implements Insertable<Title> {
     );
   }
 
-  factory Title.fromJson(Map<String, dynamic> json,
+  factory ChatTitle.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Title(
+    return ChatTitle(
       id: serializer.fromJson<int>(json['id']),
       title: serializer.fromJson<String>(json['title']),
       isFavorite: serializer.fromJson<bool?>(json['isFavorite']),
@@ -152,12 +153,12 @@ class Title extends DataClass implements Insertable<Title> {
     };
   }
 
-  Title copyWith(
+  ChatTitle copyWith(
           {int? id,
           String? title,
           Value<bool?> isFavorite = const Value.absent(),
           DateTime? chatDate}) =>
-      Title(
+      ChatTitle(
         id: id ?? this.id,
         title: title ?? this.title,
         isFavorite: isFavorite.present ? isFavorite.value : this.isFavorite,
@@ -165,7 +166,7 @@ class Title extends DataClass implements Insertable<Title> {
       );
   @override
   String toString() {
-    return (StringBuffer('Title(')
+    return (StringBuffer('ChatTitle(')
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('isFavorite: $isFavorite, ')
@@ -179,32 +180,32 @@ class Title extends DataClass implements Insertable<Title> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Title &&
+      (other is ChatTitle &&
           other.id == this.id &&
           other.title == this.title &&
           other.isFavorite == this.isFavorite &&
           other.chatDate == this.chatDate);
 }
 
-class TitlesCompanion extends UpdateCompanion<Title> {
+class ChatTitlesCompanion extends UpdateCompanion<ChatTitle> {
   final Value<int> id;
   final Value<String> title;
   final Value<bool?> isFavorite;
   final Value<DateTime> chatDate;
-  const TitlesCompanion({
+  const ChatTitlesCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
     this.isFavorite = const Value.absent(),
     this.chatDate = const Value.absent(),
   });
-  TitlesCompanion.insert({
+  ChatTitlesCompanion.insert({
     this.id = const Value.absent(),
     required String title,
     this.isFavorite = const Value.absent(),
     required DateTime chatDate,
   })  : title = Value(title),
         chatDate = Value(chatDate);
-  static Insertable<Title> custom({
+  static Insertable<ChatTitle> custom({
     Expression<int>? id,
     Expression<String>? title,
     Expression<bool>? isFavorite,
@@ -218,12 +219,12 @@ class TitlesCompanion extends UpdateCompanion<Title> {
     });
   }
 
-  TitlesCompanion copyWith(
+  ChatTitlesCompanion copyWith(
       {Value<int>? id,
       Value<String>? title,
       Value<bool?>? isFavorite,
       Value<DateTime>? chatDate}) {
-    return TitlesCompanion(
+    return ChatTitlesCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
       isFavorite: isFavorite ?? this.isFavorite,
@@ -251,7 +252,7 @@ class TitlesCompanion extends UpdateCompanion<Title> {
 
   @override
   String toString() {
-    return (StringBuffer('TitlesCompanion(')
+    return (StringBuffer('ChatTitlesCompanion(')
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('isFavorite: $isFavorite, ')
@@ -284,7 +285,7 @@ class $ConversationsTable extends Conversations
       type: DriftSqlType.int,
       requiredDuringInsert: true,
       defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES titles (id)'));
+          GeneratedColumn.constraintIsAlways('REFERENCES chat_titles (id)'));
   static const VerificationMeta _inputMessageMeta =
       const VerificationMeta('inputMessage');
   @override
@@ -640,11 +641,12 @@ class ConversationsCompanion extends UpdateCompanion<Conversation> {
 
 abstract class _$HaoDatabase extends GeneratedDatabase {
   _$HaoDatabase(QueryExecutor e) : super(e);
-  late final $TitlesTable titles = $TitlesTable(this);
+  late final $ChatTitlesTable chatTitles = $ChatTitlesTable(this);
   late final $ConversationsTable conversations = $ConversationsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [titles, conversations];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [chatTitles, conversations];
 }
