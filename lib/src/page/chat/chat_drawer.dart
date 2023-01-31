@@ -5,8 +5,10 @@ import 'package:go_router/go_router.dart';
 import '../../../l10n/generated/l10n.dart';
 import '../../db/hao_database.dart';
 
+typedef OnClickChat = void Function(int? titleId);
 class ChatDrawer extends StatefulWidget {
-  const ChatDrawer({Key? key}) : super(key: key);
+  final OnClickChat? onClickChat;
+  const ChatDrawer({this.onClickChat, Key? key}) : super(key: key);
 
   @override
   State<ChatDrawer> createState() => _ChatDrawerState();
@@ -47,6 +49,9 @@ class _ChatDrawerState extends State<ChatDrawer> {
                 title: Text(S.of(context).newChat),
                 onTap: () {
                   context.pop();
+                  if(widget.onClickChat != null) {
+                    widget.onClickChat!(null);
+                  }
                 },
               ),
               const Divider(height: 1,),
@@ -72,6 +77,9 @@ class _ChatDrawerState extends State<ChatDrawer> {
       title: Text(chatTitle.title, maxLines: 1, overflow: TextOverflow.ellipsis,),
       onTap: () {
         context.pop();
+        if(widget.onClickChat != null) {
+          widget.onClickChat!(chatTitle.id);
+        }
       },
     );
   }

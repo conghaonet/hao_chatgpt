@@ -150,7 +150,11 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ],
       ),
-      drawer: const ChatDrawer(),
+      drawer: ChatDrawer(onClickChat: (int? titleId) {
+        if(titleId == null) {
+          context.pushReplacement('/chat_page');
+        }
+      },),
       onDrawerChanged: (bool isOpened) {
         if(isOpened) {
           FocusManager.instance.primaryFocus?.unfocus();
