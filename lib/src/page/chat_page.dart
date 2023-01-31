@@ -22,7 +22,8 @@ import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+  final int? chatTitleId;
+  const ChatPage({this.chatTitleId, Key? key}) : super(key: key);
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -151,9 +152,7 @@ class _ChatPageState extends State<ChatPage> {
         ],
       ),
       drawer: ChatDrawer(onClickChat: (int? titleId) {
-        if(titleId == null) {
-          context.pushReplacement('/chat_page');
-        }
+        context.pushReplacement('/chat_page?id=$titleId');
       },),
       onDrawerChanged: (bool isOpened) {
         if(isOpened) {
