@@ -36,4 +36,7 @@ class Constants {
       'https://beta.openai.com/account/api-keys';
 
   static const String blankUrl = 'about:blank';
+
+  static const String androidActionMain = 'android.intent.action.MAIN';
+  static const String androidCategoryHome = 'android.intent.category.HOME';
 }

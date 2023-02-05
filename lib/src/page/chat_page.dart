@@ -1,6 +1,9 @@
 import 'dart:io';
+import 'package:android_intent_plus/android_intent.dart';
+import 'package:android_intent_plus/flag.dart';
 import 'package:drift/drift.dart' as drift;
 import 'package:hao_chatgpt/src/app_manager.dart';
+import 'package:hao_chatgpt/src/constants.dart';
 import 'package:hao_chatgpt/src/db/hao_database.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
 import 'package:hao_chatgpt/src/my_colors.dart';
@@ -186,61 +189,74 @@ class _ChatPageState extends State<ChatPage> {
           FocusManager.instance.primaryFocus?.unfocus();
         }
       },
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              height: 1,
-              color: Theme.of(context).primaryColorLight,
-            ),
-            Expanded(
-              child: IndexedStack(
-                index: appManager.openaiApiKey == null ? 0 : 1,
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    color: myColors?.completionBackgroundColor,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: NoKeyView(onFinished: () {
-                      setState(() {
-                      });
-                    },),
-                  ),
-                  ListView.builder(
-                    controller: _listController,
-                    itemCount: (_data.isNotEmpty && _data.last is PromptItem)
-                        ? _data.length + 1
-                        : _data.length,
-                    itemBuilder: (context, index) {
-                      if (index >= _data.length) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: LoadingAnimationWidget.flickr(
-                            leftDotColor: const Color(0xFF2196F3),
-                            rightDotColor: const Color(0xFFF44336),
-                            size: 24,
-                          ),
-                        );
-                      } else {
-                        if (_data[index] is PromptItem) {
-                          return _buildPromptItem(index);
-                        } else if (_data[index] is CompletionItem) {
-                          return _buildCompletionItem(index);
-                        } else {
-                          return _buildErrorItem(index);
-                        }
-                      }
-                    },
-                  ),
-                ],
+      body: WillPopScope(
+        onWillPop: () async {
+          if (Platform.isAndroid) {
+            AndroidIntent intent = const AndroidIntent(
+              action: Constants.androidActionMain,
+              flags: [Flag.FLAG_ACTIVITY_NEW_TASK],
+              category: Constants.androidCategoryHome,
+            );
+            await intent.launch();
+          }
+          return false;
+        },
+        child: SafeArea(
+          child: Column(
+            children: [
+              Container(
+                height: 1,
+                color: Theme.of(context).primaryColorLight,
               ),
-            ),
-            Container(
-              height: 1,
-              color: Theme.of(context).primaryColorLight,
-            ),
-            _buildPromptInput(),
-          ],
+              Expanded(
+                child: IndexedStack(
+                  index: appManager.openaiApiKey == null ? 0 : 1,
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      color: myColors?.completionBackgroundColor,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: NoKeyView(onFinished: () {
+                        setState(() {
+                        });
+                      },),
+                    ),
+                    ListView.builder(
+                      controller: _listController,
+                      itemCount: (_data.isNotEmpty && _data.last is PromptItem)
+                          ? _data.length + 1
+                          : _data.length,
+                      itemBuilder: (context, index) {
+                        if (index >= _data.length) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: LoadingAnimationWidget.flickr(
+                              leftDotColor: const Color(0xFF2196F3),
+                              rightDotColor: const Color(0xFFF44336),
+                              size: 24,
+                            ),
+                          );
+                        } else {
+                          if (_data[index] is PromptItem) {
+                            return _buildPromptItem(index);
+                          } else if (_data[index] is CompletionItem) {
+                            return _buildCompletionItem(index);
+                          } else {
+                            return _buildErrorItem(index);
+                          }
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 1,
+                color: Theme.of(context).primaryColorLight,
+              ),
+              _buildPromptInput(),
+            ],
+          ),
         ),
       ),
     );
