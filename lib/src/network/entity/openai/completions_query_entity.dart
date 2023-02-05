@@ -48,7 +48,7 @@ class CompletionsQueryEntity {
   CompletionsQueryEntity.generation({
     this.model = Constants.gpt3ModelDavinci003,
     this.prompt = '',
-    this.maxTokens = 1000,
+    this.maxTokens = 150,
     this.temperature = 0.6,
     this.topP = 1.0,
     this.frequencyPenalty = 1.0,
