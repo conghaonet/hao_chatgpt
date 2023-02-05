@@ -40,6 +40,33 @@ class _ChatPageState extends State<ChatPage> {
   /// id of [ChatTitles]
   int? _dbTitleId;
 
+  @override
+  void initState() {
+    super.initState();
+    _dbTitleId = widget.chatTitleId;
+    if(_dbTitleId != null) {
+      Future(() async {
+        var statement = haoDatabase.select(haoDatabase.conversations);
+        statement.where((tbl) => tbl.titleId.equals(_dbTitleId!));
+        final List<Conversation> conversations = await statement.get();
+        for (var element in conversations) {
+          PromptItem promptItem = PromptItem(inputMessage: element.inputMessage, appendedPrompt: element.prompt);
+          _data.add(promptItem);
+          if(element.isError == true) {
+            _data.add(ErrorItem(DioErrorEntity(message: element.completion)));
+          } else {
+            _data.add(CompletionItem(promptItem: promptItem, text: element.completion ?? ''));
+          }
+        }
+        if(mounted) {
+          setState(() {
+
+          });
+        }
+      });
+    }
+  }
+
   Future<void> _sendPrompt(PromptItem promptItem) async {
     CompletionItem? completionItem;
     ErrorItem? errorItem;
