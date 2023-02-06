@@ -16,22 +16,38 @@ class ChatDrawer extends StatefulWidget {
 
 class _ChatDrawerState extends State<ChatDrawer> {
   final List<ChatTitle> _titles = [];
+  final int _rowsOfPage = 20;
+  int _pageNo = 0;
+
 
   @override
   void initState() {
     super.initState();
-    Future(() async {
-      var statement = haoDatabase.select(haoDatabase.chatTitles);
-      statement.limit(20);
-      statement.orderBy([(t) => drift.OrderingTerm(mode: drift.OrderingMode.desc, expression: t.id)]);
-      final titles = await statement.get();
-      _titles.addAll(titles);
-      if(mounted) {
-        setState(() {
-        });
-      }
-    });
+    _loadChatTitles();
   }
+
+  void _loadChatTitles({bool isLoadMore = false}) async {
+    var statement = haoDatabase.select(haoDatabase.chatTitles);
+    if(isLoadMore && _titles.isNotEmpty) {
+      statement.where((tbl) => tbl.id.isSmallerThanValue(_titles.last.id));
+    }
+    statement.limit(_rowsOfPage);
+    statement.orderBy([(t) => drift.OrderingTerm(mode: drift.OrderingMode.desc, expression: t.id)]);
+    final titles = await statement.get();
+    if(mounted) {
+      setState(() {
+        if(!isLoadMore) {
+          _titles.clear();
+          _pageNo = 0;
+        }
+        if(titles.isNotEmpty) {
+          ++_pageNo;
+          _titles.addAll(titles);
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -58,10 +74,24 @@ class _ChatDrawerState extends State<ChatDrawer> {
               Expanded(
                 child: ListView.builder(
                   itemBuilder: (BuildContext context, int index) {
+                    if(index + 1 == _titles.length && _titles.length == _pageNo* _rowsOfPage) {
+                      Future.delayed(const Duration(milliseconds: 200), () {
+                        _loadChatTitles(isLoadMore: true);
+                      });
+                    }
                     return _buildChatTitle(_titles[index]);
                   },
                   itemCount: _titles.length,
                 ),
+              ),
+              const Divider(height: 1,),
+              ListTile(
+                leading: const Icon(Icons.settings),
+                title: Text(S.of(context).settings),
+                onTap: () {
+                  context.pop();
+                  context.push('/settings');
+                },
               ),
             ],
           ),
