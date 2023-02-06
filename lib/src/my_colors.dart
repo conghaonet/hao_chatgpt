@@ -4,34 +4,28 @@ import 'package:flutter/material.dart';
 class MyColors extends ThemeExtension<MyColors> {
   static MyColors light = MyColors(
     systemNavigationBarColor: Colors.white,
-    promptBackgroundColor: Colors.white,
     completionBackgroundColor: Colors.grey.shade200,
   );
   static const dark = MyColors(
     systemNavigationBarColor: Colors.black,
-    promptBackgroundColor: Colors.black45,
-    completionBackgroundColor: Colors.black26,
+    completionBackgroundColor: Colors.black54,
   );
 
   const MyColors({
     required this.systemNavigationBarColor,
-    required this.promptBackgroundColor,
     required this.completionBackgroundColor,
   });
 
   final Color? systemNavigationBarColor;
-  final Color? promptBackgroundColor;
   final Color? completionBackgroundColor;
 
   @override
   MyColors copyWith({
     Color? systemNavigationBarColor,
-    Color? promptBackgroundColor,
     Color? completionBackgroundColor,
   }) {
     return MyColors(
       systemNavigationBarColor: systemNavigationBarColor,
-      promptBackgroundColor: promptBackgroundColor,
       completionBackgroundColor: completionBackgroundColor,
     );
   }
@@ -44,8 +38,6 @@ class MyColors extends ThemeExtension<MyColors> {
     return MyColors(
       systemNavigationBarColor: Color.lerp(
           systemNavigationBarColor, other.systemNavigationBarColor, t),
-      promptBackgroundColor:
-          Color.lerp(promptBackgroundColor, other.promptBackgroundColor, t),
       completionBackgroundColor: Color.lerp(
           completionBackgroundColor, other.completionBackgroundColor, t),
     );

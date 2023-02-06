@@ -191,6 +191,7 @@ class _ChatPageState extends State<ChatPage> {
       },
       body: WillPopScope(
         onWillPop: () async {
+/*
           if (Platform.isAndroid) {
             AndroidIntent intent = const AndroidIntent(
               action: Constants.androidActionMain,
@@ -200,6 +201,8 @@ class _ChatPageState extends State<ChatPage> {
             await intent.launch();
           }
           return false;
+*/
+          return true;
         },
         child: SafeArea(
           child: Column(
@@ -391,43 +394,24 @@ class _ChatPageState extends State<ChatPage> {
 abstract class ListItem {}
 
 class PromptItem extends ListItem {
-  // final String model;
   final String inputMessage;
   final String appendedPrompt;
-  // final DateTime dateTime;
-  // final double temperature;
-  // final int maxTokens;
-
   PromptItem({
-    // required this.model,
     required this.inputMessage,
     required this.appendedPrompt,
-    // required this.dateTime,
-    // required this.temperature,
-    // required this.maxTokens
   });
 }
 
 class CompletionItem extends ListItem {
   final PromptItem promptItem;
-
-  // final String object;
-  // final DateTime dateTime;
   final String text;
-
-  // final String finishReason;
-
   CompletionItem({
     required this.promptItem,
-    // required this.object,
-    // required this.dateTime,
     required this.text,
-    // required this.finishReason
   });
 }
 
 class ErrorItem extends ListItem {
   final DioErrorEntity error;
-
   ErrorItem(this.error);
 }
