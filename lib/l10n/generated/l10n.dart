@@ -267,6 +267,24 @@ abstract class S {
   /// **'New chat'**
   String get newChat;
 
+  /// No description provided for @clearConversations.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear conversations'**
+  String get clearConversations;
+
+  /// No description provided for @confirmClearConversations.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm clear conversations'**
+  String get confirmClearConversations;
+
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
   /// No description provided for @haoChat.
   ///
   /// In en, this message translates to:

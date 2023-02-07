@@ -8,7 +8,8 @@ import '../../db/hao_database.dart';
 typedef OnClickChat = void Function(int? titleId);
 class ChatDrawer extends StatefulWidget {
   final OnClickChat? onClickChat;
-  const ChatDrawer({this.onClickChat, Key? key}) : super(key: key);
+  final int? chatId;
+  const ChatDrawer({this.chatId, this.onClickChat, Key? key}) : super(key: key);
 
   @override
   State<ChatDrawer> createState() => _ChatDrawerState();
@@ -18,6 +19,7 @@ class _ChatDrawerState extends State<ChatDrawer> {
   final List<ChatTitle> _titles = [];
   final int _rowsOfPage = 20;
   int _pageNo = 0;
+  bool _isConfirmClearConversations = false;
 
 
   @override
@@ -46,6 +48,20 @@ class _ChatDrawerState extends State<ChatDrawer> {
         }
       });
     }
+  }
+
+  void _clearConversations() async {
+    await haoDatabase.batch((batch) {
+      batch.deleteWhere(haoDatabase.conversations, (tbl) => tbl.titleId.equals(_titles.last.id));
+      batch.deleteWhere(haoDatabase.chatTitles, (tbl) => tbl.id.equals(_titles.last.id));
+    });
+    _titles.removeLast();
+    if(mounted) {
+      setState(() {
+        _isConfirmClearConversations = false;
+      });
+    }
+
   }
 
   @override
@@ -85,6 +101,29 @@ class _ChatDrawerState extends State<ChatDrawer> {
                 ),
               ),
               const Divider(height: 1,),
+              _isConfirmClearConversations ? ListTile(
+                leading: const Icon(Icons.check),
+                title: Text(S.of(context).confirmClearConversations),
+                onTap: () {
+                  _clearConversations();
+                },
+              ) : ListTile(
+                leading: const Icon(Icons.delete),
+                title: Text(S.of(context).clearConversations),
+                onTap: () {
+                  setState(() {
+                    _isConfirmClearConversations = true;
+                  });
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.home),
+                title: Text(S.of(context).home),
+                onTap: () {
+                  context.pop();
+                  context.go('/');
+                },
+              ),
               ListTile(
                 leading: const Icon(Icons.settings),
                 title: Text(S.of(context).settings),

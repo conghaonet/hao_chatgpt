@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:android_intent_plus/android_intent.dart';
+import 'package:android_intent_plus/flag.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +9,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/src/network/entity/dio_error_entity.dart';
 import 'package:dio/dio.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'constants.dart';
 
 extension StringExt on String? {
   bool get isNullOrEmpty => this == null || this!.isEmpty;
@@ -121,5 +125,16 @@ void setSystemNavigationBarColor(ThemeMode themeMode) {
       systemNavigationBarColor:
           brightness == Brightness.dark ? Colors.black : Colors.white,
     ));
+  }
+}
+
+Future<void> androidBackToHome() async {
+  if (Platform.isAndroid) {
+    AndroidIntent intent = const AndroidIntent(
+      action: Constants.androidActionMain,
+      flags: [Flag.FLAG_ACTIVITY_NEW_TASK],
+      category: Constants.androidCategoryHome,
+    );
+    await intent.launch();
   }
 }

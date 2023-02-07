@@ -1,9 +1,6 @@
 import 'dart:io';
-import 'package:android_intent_plus/android_intent.dart';
-import 'package:android_intent_plus/flag.dart';
 import 'package:drift/drift.dart' as drift;
 import 'package:hao_chatgpt/src/app_manager.dart';
-import 'package:hao_chatgpt/src/constants.dart';
 import 'package:hao_chatgpt/src/db/hao_database.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
 import 'package:hao_chatgpt/src/my_colors.dart';
@@ -25,8 +22,8 @@ import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 
 class ChatPage extends StatefulWidget {
-  final int? chatTitleId;
-  const ChatPage({this.chatTitleId, Key? key}) : super(key: key);
+  final int? chatId;
+  const ChatPage({this.chatId, Key? key}) : super(key: key);
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -41,16 +38,16 @@ class _ChatPageState extends State<ChatPage> {
   String _inputMessage = '';
   
   /// id of [ChatTitles]
-  int? _dbTitleId;
+  int? _chatId;
 
   @override
   void initState() {
     super.initState();
-    _dbTitleId = widget.chatTitleId;
-    if(_dbTitleId != null) {
+    _chatId = widget.chatId;
+    if(_chatId != null) {
       Future(() async {
         var statement = haoDatabase.select(haoDatabase.conversations);
-        statement.where((tbl) => tbl.titleId.equals(_dbTitleId!));
+        statement.where((tbl) => tbl.titleId.equals(_chatId!));
         final List<Conversation> conversations = await statement.get();
         for (var element in conversations) {
           PromptItem promptItem = PromptItem(inputMessage: element.inputMessage, appendedPrompt: element.prompt);
@@ -74,7 +71,7 @@ class _ChatPageState extends State<ChatPage> {
     CompletionItem? completionItem;
     ErrorItem? errorItem;
     final chatDate = DateTime.now();
-    _dbTitleId ??= await haoDatabase.into(haoDatabase.chatTitles).insert(ChatTitlesCompanion.insert(
+    _chatId ??= await haoDatabase.into(haoDatabase.chatTitles).insert(ChatTitlesCompanion.insert(
         title: promptItem.inputMessage,
         chatDate: chatDate,
         isFavorite: const drift.Value(false)
@@ -98,13 +95,13 @@ class _ChatPageState extends State<ChatPage> {
       errorItem = ErrorItem(e.toDioErrorEntity);
     } finally {
       _data.add(completionItem ?? errorItem!);
-      if(_dbTitleId != null) {
+      if(_chatId != null) {
         String? text = completionItem?.text;
         if(errorItem != null) {
           text = _getErrorItemMessage(errorItem);
         }
         await haoDatabase.into(haoDatabase.conversations).insert(ConversationsCompanion.insert(
-          titleId: _dbTitleId!,
+          titleId: _chatId!,
           inputMessage: promptItem.inputMessage,
           prompt: promptItem.appendedPrompt,
           completion: drift.Value(text),
@@ -181,7 +178,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ],
       ),
-      drawer: ChatDrawer(onClickChat: (int? titleId) {
+      drawer: ChatDrawer(chatId: _chatId, onClickChat: (int? titleId) {
         context.pushReplacement('/chat_page?id=$titleId');
       },),
       onDrawerChanged: (bool isOpened) {
@@ -191,18 +188,8 @@ class _ChatPageState extends State<ChatPage> {
       },
       body: WillPopScope(
         onWillPop: () async {
-/*
-          if (Platform.isAndroid) {
-            AndroidIntent intent = const AndroidIntent(
-              action: Constants.androidActionMain,
-              flags: [Flag.FLAG_ACTIVITY_NEW_TASK],
-              category: Constants.androidCategoryHome,
-            );
-            await intent.launch();
-          }
+          await androidBackToHome();
           return false;
-*/
-          return true;
         },
         child: SafeArea(
           child: Column(

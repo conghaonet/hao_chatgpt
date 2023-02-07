@@ -27,5 +27,8 @@
   "done": "完成",
   "navigateTo": "导航到",
   "logInAndClick": "登录后，点击 \"+ Create new secret key\"",
-  "newChat": "新对话"
+  "newChat": "新对话",
+  "clearConversations": "清除对话",
+  "confirmClearConversations": "确认清除对话",
+  "home": "主页"
 }

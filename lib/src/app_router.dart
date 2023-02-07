@@ -43,7 +43,7 @@ class AppRouter {
           GoRoute(
             path: 'chat_page',
             builder: (BuildContext context, GoRouterState state) =>
-                ChatPage(chatTitleId: int.tryParse(state.queryParams['id'] ?? ''),),
+                ChatPage(chatId: int.tryParse(state.queryParams['id'] ?? ''),),
           ),
           GoRoute(
             path: 'webview',
