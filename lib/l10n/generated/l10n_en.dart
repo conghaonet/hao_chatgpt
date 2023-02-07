@@ -101,10 +101,16 @@ class SEn extends S {
   String get newChat => 'New chat';
 
   @override
-  String get clearConversations => 'Clear conversations';
+  String get deleteConversations => 'Delete conversations';
 
   @override
-  String get confirmClearConversations => 'Confirm clear conversations';
+  String get confirmDelete => 'Confirm delete';
+
+  @override
+  String get selectAll => 'Select all';
+
+  @override
+  String get delete => 'Delete';
 
   @override
   String get home => 'Home';

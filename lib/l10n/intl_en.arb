@@ -45,8 +45,10 @@
   "navigateTo": "Navigate to",
   "logInAndClick": "Log in and click \"+ Create new secret key\"",
   "newChat": "New chat",
-  "clearConversations": "Clear conversations",
-  "confirmClearConversations": "Confirm clear conversations",
+  "deleteConversations": "Delete conversations",
+  "confirmDelete": "Confirm delete",
+  "selectAll": "Select all",
+  "delete": "Delete",
   "home": "Home",
 
   "haoChat": "HaoChat",

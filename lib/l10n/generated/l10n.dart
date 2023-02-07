@@ -267,17 +267,29 @@ abstract class S {
   /// **'New chat'**
   String get newChat;
 
-  /// No description provided for @clearConversations.
+  /// No description provided for @deleteConversations.
   ///
   /// In en, this message translates to:
-  /// **'Clear conversations'**
-  String get clearConversations;
+  /// **'Delete conversations'**
+  String get deleteConversations;
 
-  /// No description provided for @confirmClearConversations.
+  /// No description provided for @confirmDelete.
   ///
   /// In en, this message translates to:
-  /// **'Confirm clear conversations'**
-  String get confirmClearConversations;
+  /// **'Confirm delete'**
+  String get confirmDelete;
+
+  /// No description provided for @selectAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Select all'**
+  String get selectAll;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
 
   /// No description provided for @home.
   ///

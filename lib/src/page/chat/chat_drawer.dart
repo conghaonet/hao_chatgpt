@@ -19,7 +19,9 @@ class _ChatDrawerState extends State<ChatDrawer> {
   final List<ChatTitle> _titles = [];
   final int _rowsOfPage = 20;
   int _pageNo = 0;
-  bool _isConfirmClearConversations = false;
+  bool _isSelectAll = false;
+  EditMode _editMode = EditMode.normal;
+  final List<int> _deleteIds = [];
 
 
   @override
@@ -50,15 +52,30 @@ class _ChatDrawerState extends State<ChatDrawer> {
     }
   }
 
-  void _clearConversations() async {
+  Future<void> _deleteConversations() async {
+    if(_isSelectAll) {
+      List<int> ids = widget.chatId == null ? _deleteIds : _deleteIds..add(widget.chatId!);
+      if(ids.isEmpty) {
+        /// delete all
+      } else {
+        /// deleteWhere titleId != ids[index];
+      }
+    } else {
+      /// deleteWhere titleId == _deleteIds[index];
+    }
+/*
     await haoDatabase.batch((batch) {
       batch.deleteWhere(haoDatabase.conversations, (tbl) => tbl.titleId.equals(_titles.last.id));
       batch.deleteWhere(haoDatabase.chatTitles, (tbl) => tbl.id.equals(_titles.last.id));
     });
+*/
     _titles.removeLast();
+    await Future.delayed(Duration(seconds: 1));
     if(mounted) {
       setState(() {
-        _isConfirmClearConversations = false;
+        _editMode = EditMode.normal;
+        _isSelectAll = false;
+        _deleteIds.clear();
       });
     }
 
@@ -100,22 +117,9 @@ class _ChatDrawerState extends State<ChatDrawer> {
                   itemCount: _titles.length,
                 ),
               ),
+              _buildDeleteButtons(),
               const Divider(height: 1,),
-              _isConfirmClearConversations ? ListTile(
-                leading: const Icon(Icons.check),
-                title: Text(S.of(context).confirmClearConversations),
-                onTap: () {
-                  _clearConversations();
-                },
-              ) : ListTile(
-                leading: const Icon(Icons.delete),
-                title: Text(S.of(context).clearConversations),
-                onTap: () {
-                  setState(() {
-                    _isConfirmClearConversations = true;
-                  });
-                },
-              ),
+              _buildDeleteMenu(),
               ListTile(
                 leading: const Icon(Icons.home),
                 title: Text(S.of(context).home),
@@ -140,9 +144,36 @@ class _ChatDrawerState extends State<ChatDrawer> {
   }
 
   Widget _buildChatTitle(ChatTitle chatTitle) {
-    return ListTile(
+    bool isChecked(int id) {
+      if(_isSelectAll) {
+        return !_deleteIds.contains(id);
+      } else {
+        return _deleteIds.contains(id);
+      }
+    }
+    return _editMode != EditMode.normal && widget.chatId != chatTitle.id ? CheckboxListTile(
+      value: isChecked(chatTitle.id),
+      onChanged: (value) {
+        setState(() {
+          if(value == true) {
+            if(_isSelectAll) {
+              _deleteIds.remove(chatTitle.id);
+            } else {
+              _deleteIds.add(chatTitle.id);
+            }
+          } else {
+            if(_isSelectAll) {
+              _deleteIds.add(chatTitle.id);
+            } else {
+              _deleteIds.remove(chatTitle.id);
+            }
+          }
+        });
+      },
+      title: Text(chatTitle.title, maxLines: 1, overflow: TextOverflow.ellipsis,),
+    ) : ListTile(
       horizontalTitleGap: 0.0,
-      leading: const Icon(Icons.chat_bubble_outline),
+      leading: const Icon(Icons.chat_outlined),
       title: Text(chatTitle.title, maxLines: 1, overflow: TextOverflow.ellipsis,),
       onTap: () {
         context.pop();
@@ -152,4 +183,92 @@ class _ChatDrawerState extends State<ChatDrawer> {
       },
     );
   }
+
+  Widget _buildDeleteMenu() {
+    if(_titles.isEmpty || (_titles.length == 1 && _titles.first.id == widget.chatId)) {
+      return Container();
+    } else {
+      if(_editMode == EditMode.normal) {
+        return ListTile(
+          leading: const Icon(Icons.delete),
+          title: Text(S.of(context).deleteConversations),
+          onTap: () {
+            setState(() {
+              _editMode = EditMode.delete;
+            });
+          },
+        );
+      } else {
+        return ListTile(
+          leading: const Icon(Icons.undo),
+          title: Text(S.of(context).cancel),
+          onTap: () {
+            setState(() {
+              _editMode = EditMode.normal;
+              _isSelectAll = false;
+              _deleteIds.clear();
+            });
+          },
+        );
+      }
+    }
+  }
+  Widget _buildDeleteButtons() {
+    switch(_editMode) {
+      case EditMode.delete:
+        return Container(
+          margin: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              OutlinedButton.icon(
+                onPressed: () {
+                  setState(() {
+                    _deleteIds.clear();
+                    _isSelectAll = true;
+                  });
+
+                },
+                icon: const Icon(Icons.select_all),
+                label: Text(S.of(context).selectAll),
+              ),
+              OutlinedButton.icon(
+                onPressed: () {
+                  setState(() {
+                    _editMode = EditMode.confirm;
+                  });
+                },
+                icon: const Icon(Icons.delete),
+                label: Text(S.of(context).delete),
+              ),
+            ],
+          ),
+        );
+      case EditMode.confirm:
+        return Container(
+          margin: const EdgeInsets.symmetric(vertical: 8.0),
+          child: OutlinedButton.icon(
+            icon: const Icon(Icons.done),
+            label: Text(S.of(context).confirmDelete),
+            onPressed: () {
+              setState(() {
+                _editMode = EditMode.doing;
+                _deleteConversations();
+              });
+            },
+          ),
+        );
+      case EditMode.doing:
+        return Container(
+          margin: const EdgeInsets.symmetric(vertical: 8.0),
+          child: const CircularProgressIndicator(),
+        );
+      default:
+        return Container();
+    }
+  }
+}
+
+enum EditMode {
+  normal, delete, confirm, doing,
 }

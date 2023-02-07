@@ -101,10 +101,16 @@ class SZh extends S {
   String get newChat => '新对话';
 
   @override
-  String get clearConversations => '清除对话';
+  String get deleteConversations => '删除对话';
 
   @override
-  String get confirmClearConversations => '确认清除对话';
+  String get confirmDelete => '确认删除';
+
+  @override
+  String get selectAll => '全选';
+
+  @override
+  String get delete => '删除';
 
   @override
   String get home => '主页';
