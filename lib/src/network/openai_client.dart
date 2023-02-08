@@ -22,7 +22,7 @@ class OpenaiClient {
 
   OpenaiClient._internal() {
     _dio = Dio(baseOptions);
-    setProxy("192.168.31.27", 8888);
+    // setProxy("192.168.31.27", 8888);
     _dio.interceptors.add(_OpenaiInterceptor());
   }
 

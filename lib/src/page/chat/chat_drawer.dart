@@ -53,30 +53,50 @@ class _ChatDrawerState extends State<ChatDrawer> {
   }
 
   Future<void> _deleteConversations() async {
-    if(_isSelectAll) {
-      List<int> ids = widget.chatId == null ? _deleteIds : _deleteIds..add(widget.chatId!);
-      if(ids.isEmpty) {
-        /// delete all
-      } else {
-        /// deleteWhere titleId != ids[index];
-      }
-    } else {
-      /// deleteWhere titleId == _deleteIds[index];
-    }
-/*
-    await haoDatabase.batch((batch) {
-      batch.deleteWhere(haoDatabase.conversations, (tbl) => tbl.titleId.equals(_titles.last.id));
-      batch.deleteWhere(haoDatabase.chatTitles, (tbl) => tbl.id.equals(_titles.last.id));
-    });
-*/
-    _titles.removeLast();
-    await Future.delayed(Duration(seconds: 1));
-    if(mounted) {
-      setState(() {
-        _editMode = EditMode.normal;
-        _isSelectAll = false;
-        _deleteIds.clear();
+    try {
+      await haoDatabase.batch((batch) {
+        String chatTitleExp = '';
+        String conversationExp = '';
+        if(_isSelectAll) {
+          if(widget.chatId == null && _deleteIds.isEmpty) {
+            batch.deleteAll(haoDatabase.conversations);
+            batch.deleteAll(haoDatabase.chatTitles);
+          } else {
+            List<int> ids = _deleteIds;
+            if(widget.chatId != null) {
+              ids.add(widget.chatId!);
+            }
+            for(int i=0; i<ids.length; i++) {
+              if(i > 0) {
+                chatTitleExp += ' and ';
+                conversationExp += ' and ';
+              }
+              chatTitleExp += '${haoDatabase.chatTitles.id.name} != ${ids[i]}';
+              conversationExp += '${haoDatabase.conversations.titleId.name} != ${ids[i]}';
+            }
+          }
+        } else {
+          for(int i=0; i<_deleteIds.length; i++) {
+            if(i > 0) {
+              chatTitleExp += ' or ';
+              conversationExp += ' or ';
+            }
+            chatTitleExp += '${haoDatabase.chatTitles.id.name} = ${_deleteIds[i]}';
+            conversationExp += '${haoDatabase.conversations.titleId.name} = ${_deleteIds[i]}';
+          }
+        }
+        if(chatTitleExp.isNotEmpty && conversationExp.isNotEmpty) {
+          batch.deleteWhere(haoDatabase.conversations, (tbl) => drift.CustomExpression(conversationExp));
+          batch.deleteWhere(haoDatabase.chatTitles, (tbl) => drift.CustomExpression(chatTitleExp));
+        }
       });
+    } catch(e) {
+      debugPrint(e.toString());
+    } finally {
+      _editMode = EditMode.normal;
+      _isSelectAll = false;
+      _deleteIds.clear();
+      _loadChatTitles();
     }
 
   }
