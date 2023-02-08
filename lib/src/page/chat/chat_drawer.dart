@@ -16,12 +16,12 @@ class ChatDrawer extends StatefulWidget {
 }
 
 class _ChatDrawerState extends State<ChatDrawer> {
-  final List<ChatTitle> _titles = [];
+  final List<ChatTitle> _chats = [];
   final int _rowsOfPage = 20;
   int _pageNo = 0;
   bool _isSelectAll = false;
   EditMode _editMode = EditMode.normal;
-  final List<int> _deleteIds = [];
+  final List<int> _checkedIds = [];
 
 
   @override
@@ -32,8 +32,8 @@ class _ChatDrawerState extends State<ChatDrawer> {
 
   void _loadChatTitles({bool isLoadMore = false}) async {
     var statement = haoDatabase.select(haoDatabase.chatTitles);
-    if(isLoadMore && _titles.isNotEmpty) {
-      statement.where((tbl) => tbl.id.isSmallerThanValue(_titles.last.id));
+    if(isLoadMore && _chats.isNotEmpty) {
+      statement.where((tbl) => tbl.id.isSmallerThanValue(_chats.last.id));
     }
     statement.limit(_rowsOfPage);
     statement.orderBy([(t) => drift.OrderingTerm(mode: drift.OrderingMode.desc, expression: t.id)]);
@@ -41,28 +41,28 @@ class _ChatDrawerState extends State<ChatDrawer> {
     if(mounted) {
       setState(() {
         if(!isLoadMore) {
-          _titles.clear();
+          _chats.clear();
           _pageNo = 0;
         }
         if(titles.isNotEmpty) {
           ++_pageNo;
-          _titles.addAll(titles);
+          _chats.addAll(titles);
         }
       });
     }
   }
 
-  Future<void> _deleteConversations() async {
+  Future<void> _deleteChats() async {
     try {
       await haoDatabase.batch((batch) {
         String chatTitleExp = '';
         String conversationExp = '';
         if(_isSelectAll) {
-          if(widget.chatId == null && _deleteIds.isEmpty) {
+          if(widget.chatId == null && _checkedIds.isEmpty) {
             batch.deleteAll(haoDatabase.conversations);
             batch.deleteAll(haoDatabase.chatTitles);
           } else {
-            List<int> ids = _deleteIds;
+            List<int> ids = _checkedIds;
             if(widget.chatId != null) {
               ids.add(widget.chatId!);
             }
@@ -76,13 +76,13 @@ class _ChatDrawerState extends State<ChatDrawer> {
             }
           }
         } else {
-          for(int i=0; i<_deleteIds.length; i++) {
+          for(int i=0; i<_checkedIds.length; i++) {
             if(i > 0) {
               chatTitleExp += ' or ';
               conversationExp += ' or ';
             }
-            chatTitleExp += '${haoDatabase.chatTitles.id.name} = ${_deleteIds[i]}';
-            conversationExp += '${haoDatabase.conversations.titleId.name} = ${_deleteIds[i]}';
+            chatTitleExp += '${haoDatabase.chatTitles.id.name} = ${_checkedIds[i]}';
+            conversationExp += '${haoDatabase.conversations.titleId.name} = ${_checkedIds[i]}';
           }
         }
         if(chatTitleExp.isNotEmpty && conversationExp.isNotEmpty) {
@@ -95,10 +95,30 @@ class _ChatDrawerState extends State<ChatDrawer> {
     } finally {
       _editMode = EditMode.normal;
       _isSelectAll = false;
-      _deleteIds.clear();
+      _checkedIds.clear();
       _loadChatTitles();
     }
 
+  }
+
+  bool _canDelete() {
+    if(_chats.isEmpty) {
+      return false;
+    } else {
+      if(_chats.length == 1 && _chats.first.id == widget.chatId) {
+        return false;
+      } else {
+        if(_isSelectAll) {
+          return true;
+        } else {
+          if(_checkedIds.isEmpty) {
+            return false;
+          } else {
+            return true;
+          }
+        }
+      }
+    }
   }
 
   @override
@@ -127,14 +147,14 @@ class _ChatDrawerState extends State<ChatDrawer> {
               Expanded(
                 child: ListView.builder(
                   itemBuilder: (BuildContext context, int index) {
-                    if(index + 1 == _titles.length && _titles.length == _pageNo* _rowsOfPage) {
+                    if(index + 1 == _chats.length && _chats.length == _pageNo* _rowsOfPage) {
                       Future.delayed(const Duration(milliseconds: 200), () {
                         _loadChatTitles(isLoadMore: true);
                       });
                     }
-                    return _buildChatTitle(_titles[index]);
+                    return _buildChatTitle(_chats[index]);
                   },
-                  itemCount: _titles.length,
+                  itemCount: _chats.length,
                 ),
               ),
               _buildDeleteButtons(),
@@ -166,9 +186,9 @@ class _ChatDrawerState extends State<ChatDrawer> {
   Widget _buildChatTitle(ChatTitle chatTitle) {
     bool isChecked(int id) {
       if(_isSelectAll) {
-        return !_deleteIds.contains(id);
+        return !_checkedIds.contains(id);
       } else {
-        return _deleteIds.contains(id);
+        return _checkedIds.contains(id);
       }
     }
     return _editMode != EditMode.normal && widget.chatId != chatTitle.id ? CheckboxListTile(
@@ -177,15 +197,15 @@ class _ChatDrawerState extends State<ChatDrawer> {
         setState(() {
           if(value == true) {
             if(_isSelectAll) {
-              _deleteIds.remove(chatTitle.id);
+              _checkedIds.remove(chatTitle.id);
             } else {
-              _deleteIds.add(chatTitle.id);
+              _checkedIds.add(chatTitle.id);
             }
           } else {
             if(_isSelectAll) {
-              _deleteIds.add(chatTitle.id);
+              _checkedIds.add(chatTitle.id);
             } else {
-              _deleteIds.remove(chatTitle.id);
+              _checkedIds.remove(chatTitle.id);
             }
           }
         });
@@ -205,7 +225,7 @@ class _ChatDrawerState extends State<ChatDrawer> {
   }
 
   Widget _buildDeleteMenu() {
-    if(_titles.isEmpty || (_titles.length == 1 && _titles.first.id == widget.chatId)) {
+    if(_chats.isEmpty || (_chats.length == 1 && _chats.first.id == widget.chatId)) {
       return Container();
     } else {
       if(_editMode == EditMode.normal) {
@@ -226,7 +246,7 @@ class _ChatDrawerState extends State<ChatDrawer> {
             setState(() {
               _editMode = EditMode.normal;
               _isSelectAll = false;
-              _deleteIds.clear();
+              _checkedIds.clear();
             });
           },
         );
@@ -244,7 +264,7 @@ class _ChatDrawerState extends State<ChatDrawer> {
               OutlinedButton.icon(
                 onPressed: () {
                   setState(() {
-                    _deleteIds.clear();
+                    _checkedIds.clear();
                     _isSelectAll = true;
                   });
 
@@ -253,7 +273,7 @@ class _ChatDrawerState extends State<ChatDrawer> {
                 label: Text(S.of(context).selectAll),
               ),
               OutlinedButton.icon(
-                onPressed: () {
+                onPressed: !_canDelete() ? null : () {
                   setState(() {
                     _editMode = EditMode.confirm;
                   });
@@ -273,7 +293,7 @@ class _ChatDrawerState extends State<ChatDrawer> {
             onPressed: () {
               setState(() {
                 _editMode = EditMode.doing;
-                _deleteConversations();
+                _deleteChats();
               });
             },
           ),
