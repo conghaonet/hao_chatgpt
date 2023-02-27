@@ -10,7 +10,7 @@
 * iOS
 * Android
 * macOS
-* Windows ([Issue 107972](https://github.com/flutter/flutter/issues/107972))
+* Windows
 * Linux (未测试)
 
 ## 开发中的特性
