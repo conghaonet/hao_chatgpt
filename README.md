@@ -10,7 +10,7 @@ An unofficial ChatGPT application developed with Flutter.
 * iOS
 * Android
 * macOS
-* Windows ([Issue 107972](https://github.com/flutter/flutter/issues/107972))
+* Windows
 * Linux (untested)
 
 ## Under development
