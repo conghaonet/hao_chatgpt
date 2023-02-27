@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
 
-import '../../l10n/generated/l10n.dart';
-import '../constants.dart';
-import '../network/entity/openai/completions_query_entity.dart';
-import '../preferences_manager.dart';
+import '../../../l10n/generated/l10n.dart';
+import '../../constants.dart';
+import '../../network/entity/openai/completions_query_entity.dart';
+import '../../preferences_manager.dart';
 
 class CustomizeGpt3Page extends StatefulWidget {
   const CustomizeGpt3Page({Key? key}) : super(key: key);

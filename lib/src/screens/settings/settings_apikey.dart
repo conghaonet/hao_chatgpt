@@ -3,9 +3,9 @@ import 'package:hao_chatgpt/src/app_manager.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
 import 'package:hao_chatgpt/src/preferences_manager.dart';
 
-import '../../l10n/generated/l10n.dart';
+import '../../../l10n/generated/l10n.dart';
 
-import '../network/entity/api_key_entity.dart';
+import '../../network/entity/api_key_entity.dart';
 
 class SettingsApikeyPage extends StatefulWidget {
   const SettingsApikeyPage({Key? key}) : super(key: key);

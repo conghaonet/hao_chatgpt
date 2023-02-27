@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hao_chatgpt/src/app_router.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
 
 import '../../l10n/generated/l10n.dart';
@@ -44,7 +45,7 @@ class _HomePageState extends State<HomePage> {
                 title: Text(S.of(context).chatGPT),
                 trailing: const Icon(Icons.keyboard_arrow_right),
                 onTap: () {
-                  context.go('/chat_page');
+                  context.go('/${AppUri.chat}');
                 },
               ),
               Container(
@@ -57,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                 title: Text(S.of(context).settings),
                 trailing: const Icon(Icons.keyboard_arrow_right),
                 onTap: () {
-                  context.go('/settings');
+                  context.go('/${AppUri.settings}');
                 },
               ),
               Container(

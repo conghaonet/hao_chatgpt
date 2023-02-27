@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hao_chatgpt/src/page/chat_page.dart';
-import 'package:hao_chatgpt/src/page/settings_apikey_page.dart';
-import 'package:hao_chatgpt/src/page/settings_gpt3_page.dart';
-import 'package:hao_chatgpt/src/page/home_page.dart';
-import 'package:hao_chatgpt/src/page/settings_page.dart';
+import 'package:hao_chatgpt/src/screens/chat.dart';
+import 'package:hao_chatgpt/src/screens/settings/settings_apikey.dart';
+import 'package:hao_chatgpt/src/screens/settings/settings_gpt3.dart';
+import 'package:hao_chatgpt/src/screens/home.dart';
+import 'package:hao_chatgpt/src/screens/settings.dart';
 
-import 'page/webview_page.dart';
+import 'screens/webview.dart';
+
+class AppUri {
+  static const root = '/';
+  static const chat = 'chat';
+  static const settings = 'settings';
+  static const settingsGpt3 = 'settings/gpt3';
+  static const settingsApikey = 'settings/apikey';
+  static const webview = 'webview';
+}
 
 class AppRouter {
   AppRouter._internal();
@@ -16,37 +25,37 @@ class AppRouter {
   /// The route configuration.
   final GoRouter _goRouter = GoRouter(
     restorationScopeId: 'go_router',
-    initialLocation: '/',
+    initialLocation: AppUri.root,
     routes: <RouteBase>[
       GoRoute(
-        path: '/',
+        path: AppUri.root,
         builder: (BuildContext context, GoRouterState state) =>
             const HomePage(),
         routes: <RouteBase>[
           GoRoute(
-            path: 'settings',
+            path: AppUri.settings,
             builder: (BuildContext context, GoRouterState state) =>
                 const SettingsPage(),
             routes: <RouteBase>[
               GoRoute(
-                path: 'gpt3',
+                path: AppUri.settingsGpt3.replaceFirst('${AppUri.settings}/', ''),
                 builder: (BuildContext context, GoRouterState state) =>
                     const CustomizeGpt3Page(),
               ),
               GoRoute(
-                path: 'apikey',
+                path: AppUri.settingsApikey.replaceFirst('${AppUri.settings}/', ''),
                 builder: (BuildContext context, GoRouterState state) =>
                     const SettingsApikeyPage(),
               ),
             ],
           ),
           GoRoute(
-            path: 'chat_page',
+            path: AppUri.chat,
             builder: (BuildContext context, GoRouterState state) =>
                 ChatPage(chatId: int.tryParse(state.queryParams['id'] ?? ''),),
           ),
           GoRoute(
-            path: 'webview',
+            path: AppUri.webview,
             builder: (BuildContext context, GoRouterState state) => WebviewPage(
               url: state.queryParams['url'],
               title: state.queryParams['title'],

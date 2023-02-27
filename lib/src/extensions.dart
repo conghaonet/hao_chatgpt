@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hao_chatgpt/src/app_router.dart';
 import 'package:hao_chatgpt/src/network/entity/dio_error_entity.dart';
 import 'package:dio/dio.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -104,7 +105,7 @@ Future<void> openWebView(
     bool isExternal = false,
     String? title}) async {
   if (!isExternal && (Platform.isAndroid || Platform.isIOS)) {
-    context.push('/webview?title=${title ?? ''}&url=$url');
+    context.push('/${AppUri.webview}?title=${title ?? ''}&url=$url');
   } else {
     if (!await launchUrl(Uri.parse(url),
         mode: LaunchMode.externalApplication)) {

@@ -8,12 +8,13 @@ import 'package:hao_chatgpt/src/network/entity/dio_error_entity.dart';
 import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
-import 'package:hao_chatgpt/src/page/chat/chat_drawer.dart';
-import 'package:hao_chatgpt/src/page/chat/no_key_view.dart';
+import 'package:hao_chatgpt/src/screens/chat/chat_drawer.dart';
+import 'package:hao_chatgpt/src/screens/chat/no_key_view.dart';
 import 'package:hao_chatgpt/src/preferences_manager.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../l10n/generated/l10n.dart';
+import '../app_router.dart';
 import '../network/entity/openai/completions_entity.dart';
 import '../network/entity/openai/completions_query_entity.dart';
 import '../network/openai_service.dart';
@@ -172,14 +173,14 @@ class _ChatPageState extends State<ChatPage> {
           IconButton(
             onPressed: () {
               FocusManager.instance.primaryFocus?.unfocus();
-              context.push('/settings/gpt3');
+              context.push('/${AppUri.settingsGpt3}');
             },
             icon: const Icon(Icons.dashboard_customize),
           ),
         ],
       ),
       drawer: ChatDrawer(chatId: _chatId, onClickChat: (int? titleId) {
-        context.pushReplacement('/chat_page?id=$titleId');
+        context.pushReplacement('/${AppUri.chat}?id=$titleId');
       },),
       onDrawerChanged: (bool isOpened) {
         if(isOpened) {

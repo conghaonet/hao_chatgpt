@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hao_chatgpt/src/app_router.dart';
 
 import '../../../l10n/generated/l10n.dart';
 import '../../db/hao_database.dart';
@@ -165,7 +166,7 @@ class _ChatDrawerState extends State<ChatDrawer> {
                 title: Text(S.of(context).home),
                 onTap: () {
                   context.pop();
-                  context.go('/');
+                  context.go(AppUri.root);
                 },
               ),
               ListTile(
@@ -173,7 +174,7 @@ class _ChatDrawerState extends State<ChatDrawer> {
                 title: Text(S.of(context).settings),
                 onTap: () {
                   context.pop();
-                  context.push('/settings');
+                  context.push('/${AppUri.settings}');
                 },
               ),
             ],
