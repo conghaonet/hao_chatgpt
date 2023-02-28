@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:drift/drift.dart' as drift;
+import 'package:flutter/services.dart';
 import 'package:hao_chatgpt/src/app_manager.dart';
 import 'package:hao_chatgpt/src/db/hao_database.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
@@ -27,10 +28,11 @@ class ChatPage extends StatefulWidget {
   const ChatPage({this.chatId, Key? key}) : super(key: key);
 
   @override
-  State<ChatPage> createState() => _ChatPageState();
+  State<ChatPage> createState() => ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class ChatPageState extends State<ChatPage> {
+
   final Logger logger = Logger();
   final ScrollController _listController = ScrollController();
   final TextEditingController _msgController = TextEditingController();
@@ -146,6 +148,22 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
+  void prepareSendPrompt() {
+    if(_isEnabledSendButton()) {
+      setState(() {
+        _isRequesting = true;
+        _inputMessage = _msgController.text.trim();
+        var promptItem = PromptItem(
+            inputMessage: _inputMessage,
+            appendedPrompt: _appendPrompt());
+        _data.add(promptItem);
+        _sendPrompt(promptItem);
+        _msgController.clear();
+      });
+      _scrollToEnd();
+    }
+  }
+
   String _getErrorItemMessage(ErrorItem errorItem) => errorItem.error.message ?? errorItem.error.error ?? 'ERROR!';
 
   bool _isEnabledSendButton() {
@@ -165,90 +183,102 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     final myColors = Theme.of(context).extension<MyColors>();
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context).chatGPT),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        actions: [
-          IconButton(
-            onPressed: () {
-              FocusManager.instance.primaryFocus?.unfocus();
-              context.push('/${AppUri.settingsGpt3}');
-            },
-            icon: const Icon(Icons.dashboard_customize),
-          ),
-        ],
-      ),
-      drawer: ChatDrawer(chatId: _chatId, onClickChat: (int? titleId) {
-        context.pushReplacement('/${AppUri.chat}?id=$titleId');
-      },),
-      onDrawerChanged: (bool isOpened) {
-        if(isOpened) {
-          FocusManager.instance.primaryFocus?.unfocus();
-        }
+    return Shortcuts(
+      shortcuts: <LogicalKeySet, Intent>{
+        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter): const SendIntent(),
       },
-      body: WillPopScope(
-        onWillPop: () async {
-          await androidBackToHome();
-          return false;
+      child: Actions(
+        actions: <Type, Action<Intent>>{
+          SendIntent: SendAction(prepareSendPrompt),
         },
-        child: SafeArea(
-          child: Column(
-            children: [
-              Container(
-                height: 1,
-                color: Theme.of(context).primaryColorLight,
-              ),
-              Expanded(
-                child: IndexedStack(
-                  index: appManager.openaiApiKey == null ? 0 : 1,
+        child: Builder(builder: (context) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(S.of(context).chatGPT),
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    context.push('/${AppUri.settingsGpt3}');
+                  },
+                  icon: const Icon(Icons.dashboard_customize),
+                ),
+              ],
+            ),
+            drawer: ChatDrawer(chatId: _chatId, onClickChat: (int? titleId) {
+              context.pushReplacement('/${AppUri.chat}?id=$titleId');
+            },),
+            onDrawerChanged: (bool isOpened) {
+              if(isOpened) {
+                FocusManager.instance.primaryFocus?.unfocus();
+              }
+            },
+            body: WillPopScope(
+              onWillPop: () async {
+                await androidBackToHome();
+                return false;
+              },
+              child: SafeArea(
+                child: Column(
                   children: [
                     Container(
-                      alignment: Alignment.center,
-                      color: myColors?.completionBackgroundColor,
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: NoKeyView(onFinished: () {
-                        setState(() {
-                        });
-                      },),
+                      height: 1,
+                      color: Theme.of(context).primaryColorLight,
                     ),
-                    ListView.builder(
-                      controller: _listController,
-                      itemCount: (_data.isNotEmpty && _data.last is PromptItem)
-                          ? _data.length + 1
-                          : _data.length,
-                      itemBuilder: (context, index) {
-                        if (index >= _data.length) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: LoadingAnimationWidget.flickr(
-                              leftDotColor: const Color(0xFF2196F3),
-                              rightDotColor: const Color(0xFFF44336),
-                              size: 24,
-                            ),
-                          );
-                        } else {
-                          if (_data[index] is PromptItem) {
-                            return _buildPromptItem(index);
-                          } else if (_data[index] is CompletionItem) {
-                            return _buildCompletionItem(index);
-                          } else {
-                            return _buildErrorItem(index);
-                          }
-                        }
-                      },
+                    Expanded(
+                      child: IndexedStack(
+                        index: appManager.openaiApiKey == null ? 0 : 1,
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            color: myColors?.completionBackgroundColor,
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: NoKeyView(onFinished: () {
+                              setState(() {
+                              });
+                            },),
+                          ),
+                          ListView.builder(
+                            controller: _listController,
+                            itemCount: (_data.isNotEmpty && _data.last is PromptItem)
+                                ? _data.length + 1
+                                : _data.length,
+                            itemBuilder: (context, index) {
+                              if (index >= _data.length) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 8),
+                                  child: LoadingAnimationWidget.flickr(
+                                    leftDotColor: const Color(0xFF2196F3),
+                                    rightDotColor: const Color(0xFFF44336),
+                                    size: 24,
+                                  ),
+                                );
+                              } else {
+                                if (_data[index] is PromptItem) {
+                                  return _buildPromptItem(index);
+                                } else if (_data[index] is CompletionItem) {
+                                  return _buildCompletionItem(index);
+                                } else {
+                                  return _buildErrorItem(index);
+                                }
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     ),
+                    Container(
+                      height: 1,
+                      color: Theme.of(context).primaryColorLight,
+                    ),
+                    _buildPromptInput(),
                   ],
                 ),
               ),
-              Container(
-                height: 1,
-                color: Theme.of(context).primaryColorLight,
-              ),
-              _buildPromptInput(),
-            ],
-          ),
-        ),
+            ),
+          );
+        }),
       ),
     );
   }
@@ -318,12 +348,12 @@ class _ChatPageState extends State<ChatPage> {
         Expanded(
           child: TextField(
             enabled: appManager.openaiApiKey != null,
-            maxLines: 6,
-            minLines: 1,
+            maxLines: Platform.isIOS || Platform.isAndroid ? 6 : 18,
+            minLines: Platform.isIOS || Platform.isAndroid ? 1 : 1,
             autofocus: appManager.openaiApiKey != null,
             decoration: InputDecoration(
               hintText: S.of(context).prompt,
-              contentPadding: const EdgeInsets.only(left: 16.0),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16,),
             ),
             controller: _msgController,
             selectionControls:
@@ -350,22 +380,8 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
         IconButton(
-          onPressed: !_isEnabledSendButton()
-              ? null
-              : () {
-                  setState(() {
-                    _isRequesting = true;
-                    _inputMessage = _msgController.text.trim();
-                    var promptItem = PromptItem(
-                        inputMessage: _inputMessage,
-                        appendedPrompt: _appendPrompt());
-                    _data.add(promptItem);
-                    _sendPrompt(promptItem);
-                    _msgController.clear();
-                  });
-                  _scrollToEnd();
-                },
-          icon: const Icon(Icons.send),
+          onPressed: prepareSendPrompt,
+          icon: Icon(Icons.send, color: _isEnabledSendButton() ? Colors.blueAccent : Colors.grey,),
         ),
       ],
     );
@@ -402,4 +418,20 @@ class CompletionItem extends ListItem {
 class ErrorItem extends ListItem {
   final DioErrorEntity error;
   ErrorItem(this.error);
+}
+
+class SendIntent extends Intent {
+  const SendIntent();
+}
+
+class SendAction extends Action<SendIntent> {
+  SendAction(this.callback);
+
+  final VoidCallback callback;
+
+  @override
+  Object? invoke(covariant SendIntent intent) {
+    callback();
+    return null;
+  }
 }

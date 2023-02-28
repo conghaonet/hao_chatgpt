@@ -85,10 +85,13 @@ class _HomePageState extends State<HomePage> {
                       url: Constants.haoChatGitHubUrl,
                       title: 'hao_chatgpt');
                 },
-                child: Text(
-                  '${S.of(context).appDescription}\nPowered by Conghaonet',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 10, color: Colors.blue),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Text(
+                    '${S.of(context).appDescription}\nPowered by Conghaonet',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 10, color: Colors.blue),
+                  ),
                 ),
               ),
             ],
