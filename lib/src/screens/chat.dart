@@ -188,6 +188,7 @@ class ChatPageState extends State<ChatPage> {
         LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter): const SendIntent(),
       },
       child: Actions(
+        dispatcher: LoggingActionDispatcher(),
         actions: <Type, Action<Intent>>{
           SendIntent: SendAction(prepareSendPrompt),
         },
@@ -352,6 +353,7 @@ class ChatPageState extends State<ChatPage> {
             minLines: Platform.isIOS || Platform.isAndroid ? 1 : 1,
             autofocus: appManager.openaiApiKey != null,
             decoration: InputDecoration(
+              border: InputBorder.none,
               hintText: S.of(context).prompt,
               contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16,),
             ),
@@ -382,6 +384,7 @@ class ChatPageState extends State<ChatPage> {
         IconButton(
           onPressed: prepareSendPrompt,
           icon: Icon(Icons.send, color: _isEnabledSendButton() ? Colors.blueAccent : Colors.grey,),
+          tooltip: 'Ctrl + Enter',
         ),
       ],
     );
@@ -432,6 +435,21 @@ class SendAction extends Action<SendIntent> {
   @override
   Object? invoke(covariant SendIntent intent) {
     callback();
+    return null;
+  }
+}
+
+/// An ActionDispatcher that logs all the actions that it invokes.
+class LoggingActionDispatcher extends ActionDispatcher {
+  @override
+  Object? invokeAction(
+      covariant Action<Intent> action,
+      covariant Intent intent, [
+        BuildContext? context,
+      ]) {
+    debugPrint('Action invoked: $action($intent) from $context');
+    super.invokeAction(action, intent, context);
+
     return null;
   }
 }
