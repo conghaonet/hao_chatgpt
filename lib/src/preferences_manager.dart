@@ -173,6 +173,7 @@ class SharedPreferencesKey {
   static const maxTokens = 'max_tokens';
   static const gpt3GenerationSettings = 'gpt3_generation_settings';
   static const apiKeys = 'api_keys';
+  static const shortcutsSend = 'shortcuts_send';
 }
 
 PreferencesManager appPref = PreferencesManager();

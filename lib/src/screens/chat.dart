@@ -347,57 +347,38 @@ class ChatPageState extends State<ChatPage> {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Expanded(
-          child: Focus(
-            onKey: (node, event) {
-              debugPrint('logicalKey: ${event.logicalKey.keyId}, ${event.logicalKey.keyLabel}');
-              debugPrint('physicalKey: ${event.physicalKey.usbHidUsage}');
-/*
-              if(event.logicalKey == LogicalKeyboardKey.arrowUp && event.isKeyPressed(LogicalKeyboardKey.arrowUp)) {
-                String str = _msgController.text;
-                String newStr = str + 'Ab';
-                _msgController.text = '123\nabc';
-                debugPrint('_msgController.text: ${_msgController.text}');
-                // _msgController.text = _msgController.text.toString() + 'Ab';
-                return KeyEventResult.handled;
-              } else {
-                return KeyEventResult.ignored;
-              }
-*/
-              return KeyEventResult.handled;
-            },
-            child: TextField(
-              enabled: appManager.openaiApiKey != null,
-              maxLines: Platform.isIOS || Platform.isAndroid ? 6 : 18,
-              minLines: Platform.isIOS || Platform.isAndroid ? 1 : 1,
-              autofocus: appManager.openaiApiKey != null,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: S.of(context).prompt,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16,),
-              ),
-              controller: _msgController,
-              selectionControls:
-                  Platform.isIOS ? myCupertinoTextSelectionControls : null,
-              onChanged: (value) {
-                if (value.isNotBlank) {
-                  if (!_isRequesting) {
-                    if (!_isEnabledSendButton()) {
-                      setState(() {
-                        _inputMessage = value;
-                      });
-                    }
-                  }
-                } else {
-                  if (!_isRequesting) {
-                    if (_isEnabledSendButton()) {
-                      setState(() {
-                        _inputMessage = value;
-                      });
-                    }
+          child: TextField(
+            enabled: appManager.openaiApiKey != null,
+            maxLines: Platform.isIOS || Platform.isAndroid ? 6 : 18,
+            minLines: Platform.isIOS || Platform.isAndroid ? 1 : 1,
+            autofocus: appManager.openaiApiKey != null,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: S.of(context).prompt,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16,),
+            ),
+            controller: _msgController,
+            selectionControls:
+            Platform.isIOS ? myCupertinoTextSelectionControls : null,
+            onChanged: (value) {
+              if (value.isNotBlank) {
+                if (!_isRequesting) {
+                  if (!_isEnabledSendButton()) {
+                    setState(() {
+                      _inputMessage = value;
+                    });
                   }
                 }
-              },
-            ),
+              } else {
+                if (!_isRequesting) {
+                  if (_isEnabledSendButton()) {
+                    setState(() {
+                      _inputMessage = value;
+                    });
+                  }
+                }
+              }
+            },
           ),
         ),
         IconButton(

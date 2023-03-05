@@ -36,7 +36,7 @@ class SZh extends S {
   String get language => '语言';
 
   @override
-  String get chooseLanguage => 'Choose language';
+  String get chooseLanguage => '选择语言';
 
   @override
   String get cancel => '取消';
@@ -114,6 +114,14 @@ class SZh extends S {
 
   @override
   String get home => '主页';
+
+  @override
+  String get shortcuts => '快捷键';
+
+  @override
+  String sendWith(String shortcut) {
+    return '用 $shortcut 发送';
+  }
 
   @override
   String get haoChat => 'HaoChat';

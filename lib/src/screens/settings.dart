@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/l10n/generated/l10n.dart';
@@ -43,6 +44,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 trailing: const Icon(Icons.keyboard_arrow_right),
                 onTap: () => context.go('/${AppUri.settingsGpt3}'),
               ),
+              _buildShortcuts(),
               _buildLanguageSetting(context),
               _buildThemeSetting(context),
             ],
@@ -51,7 +53,28 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       ),
     );
   }
+  Widget _buildShortcuts() {
+    return ListTile(
+      leading: const Icon(Icons.shortcut),
+      title: const Text('Shortcuts'),
+      subtitle: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ...getShortcuts().entries.map((e) {
+            return RadioListTile<LogicalKeySet>(
+              title: Text(e.key),
+              value: e.value,
+              groupValue: LogicalKeySet(LogicalKeyboardKey.enter),
+              onChanged: (value) {
 
+              },
+            );
+          }).toList(),
+        ],
+      ),
+    );
+  }
   Widget _buildThemeSetting(BuildContext context) {
     String themeName = S.of(context).systemDefault;
     if (ref.watch(themeProvider) == ThemeMode.dark) {

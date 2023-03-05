@@ -8,7 +8,7 @@
   "dark": "暗色模式",
   "systemDefault": "系统默认",
   "language": "语言",
-  "chooseLanguage": "Choose language",
+  "chooseLanguage": "选择语言",
   "cancel": "取消",
   "settingsReset": "重置",
   "about": "关于",
@@ -32,5 +32,7 @@
   "confirmDelete": "确认删除",
   "selectAll": "全选",
   "delete": "删除",
-  "home": "主页"
+  "home": "主页",
+  "shortcuts": "快捷键",
+  "sendWith": "用 {shortcut} 发送"
 }

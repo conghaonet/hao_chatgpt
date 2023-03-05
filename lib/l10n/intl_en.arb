@@ -50,6 +50,15 @@
   "selectAll": "Select all",
   "delete": "Delete",
   "home": "Home",
+  "shortcuts": "Shortcuts",
+  "sendWith": "Send with {shortcut}",
+  "@sendWith": {
+    "placeholders": {
+      "shortcut": {
+        "type": "String"
+      }
+    }
+  },
 
   "haoChat": "HaoChat",
   "openAI": "OpenAI",

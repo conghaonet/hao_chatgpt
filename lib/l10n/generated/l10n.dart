@@ -297,6 +297,18 @@ abstract class S {
   /// **'Home'**
   String get home;
 
+  /// No description provided for @shortcuts.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortcuts'**
+  String get shortcuts;
+
+  /// No description provided for @sendWith.
+  ///
+  /// In en, this message translates to:
+  /// **'Send with {shortcut}'**
+  String sendWith(String shortcut);
+
   /// No description provided for @haoChat.
   ///
   /// In en, this message translates to:
