@@ -120,7 +120,7 @@ class SZh extends S {
 
   @override
   String sendWith(String shortcut) {
-    return '用 $shortcut 发送';
+    return '使用 $shortcut 发送';
   }
 
   @override

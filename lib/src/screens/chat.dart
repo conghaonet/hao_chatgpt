@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:drift/drift.dart' as drift;
-import 'package:flutter/services.dart';
 import 'package:hao_chatgpt/src/app_manager.dart';
 import 'package:hao_chatgpt/src/db/hao_database.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
@@ -180,18 +179,37 @@ class ChatPageState extends State<ChatPage> {
     });
   }
 
+  Map<LogicalKeySet, Intent> _getShortcuts() {
+    if(Platform.isAndroid || Platform.isAndroid) {
+      return {};
+    } else {
+      List<LogicalKeySet> keySets = getShortcuts().values.toList();
+      keySets.remove(appPref.shortcutsSend);
+      return {
+        appPref.shortcutsSend!: const SendIntent(),
+        keySets.first: const NewLineIntent(),
+      };
+    }
+  }
+  Map<Type, Action<Intent>> _getShortcutsActions() {
+    if(Platform.isAndroid || Platform.isIOS) {
+      return {};
+    } else {
+      return {
+        SendIntent: SendAction(prepareSendPrompt),
+        NewLineIntent: NewLineAction(_msgController)
+      };
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final myColors = Theme.of(context).extension<MyColors>();
     return Shortcuts(
-      shortcuts: <LogicalKeySet, Intent>{
-        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter): const SendIntent(),
-      },
+      shortcuts: _getShortcuts(),
       child: Actions(
         dispatcher: LoggingActionDispatcher(),
-        actions: <Type, Action<Intent>>{
-          SendIntent: SendAction(prepareSendPrompt),
-        },
+        actions: _getShortcutsActions(),
         child: Builder(builder: (context) {
           return Scaffold(
             appBar: AppBar(
@@ -343,6 +361,19 @@ class ChatPageState extends State<ChatPage> {
   }
 
   Widget _buildPromptInput() {
+    String? getSendButtonTooltip() {
+      LogicalKeySet? keySet = appPref.shortcutsSend;
+      if(keySet == null) {
+        return null;
+      } else {
+        for(String key in getShortcuts().keys) {
+          if(getShortcuts()[key] == keySet) {
+            return key;
+          }
+        }
+        return null;
+      }
+    }
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -384,7 +415,7 @@ class ChatPageState extends State<ChatPage> {
         IconButton(
           onPressed: prepareSendPrompt,
           icon: Icon(Icons.send, color: _isEnabledSendButton() ? Colors.blueAccent : Colors.grey,),
-          tooltip: 'Ctrl + Enter',
+          tooltip: getSendButtonTooltip(),
         ),
       ],
     );
@@ -421,6 +452,25 @@ class CompletionItem extends ListItem {
 class ErrorItem extends ListItem {
   final DioErrorEntity error;
   ErrorItem(this.error);
+}
+
+class NewLineIntent extends Intent {
+  const NewLineIntent();
+}
+
+class NewLineAction extends Action<NewLineIntent> {
+  NewLineAction(this.controller);
+  final TextEditingController controller;
+
+  @override
+  Object? invoke(covariant NewLineIntent intent) {
+    String value = controller.text;
+    int start = controller.selection.start;
+    String newValue = value.replaceRange(controller.selection.start, controller.selection.end, '\n');
+    controller.text = newValue;
+    controller.selection = TextSelection.fromPosition(TextPosition(offset: start+1),);
+    return null;
+  }
 }
 
 class SendIntent extends Intent {
