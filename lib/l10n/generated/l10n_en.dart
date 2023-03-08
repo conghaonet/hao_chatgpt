@@ -116,6 +116,14 @@ class SEn extends S {
   String get home => 'Home';
 
   @override
+  String get shortcuts => 'Shortcuts';
+
+  @override
+  String sendWith(String shortcut) {
+    return 'Send with $shortcut';
+  }
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override

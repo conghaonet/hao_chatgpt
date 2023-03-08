@@ -43,6 +43,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 trailing: const Icon(Icons.keyboard_arrow_right),
                 onTap: () => context.go('/${AppUri.settingsGpt3}'),
               ),
+              if(getShortcuts().length > 1) _buildShortcuts(),
               _buildLanguageSetting(context),
               _buildThemeSetting(context),
             ],
@@ -51,7 +52,30 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       ),
     );
   }
-
+  Widget _buildShortcuts() {
+    return ListTile(
+      leading: const Icon(Icons.shortcut),
+      title: Text(S.of(context).shortcuts),
+      subtitle: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ...getShortcuts().entries.map((e) {
+            return RadioListTile<LogicalKeySet>(
+              title: Text(S.of(context).sendWith(e.key)),
+              value: e.value,
+              groupValue: appPref.shortcutsSend,
+              onChanged: (value) async {
+                await appPref.setShortcutsSend(value);
+                setState(() {
+                });
+              },
+            );
+          }).toList(),
+        ],
+      ),
+    );
+  }
   Widget _buildThemeSetting(BuildContext context) {
     String themeName = S.of(context).systemDefault;
     if (ref.watch(themeProvider) == ThemeMode.dark) {

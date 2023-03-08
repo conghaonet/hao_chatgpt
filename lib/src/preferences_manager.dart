@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hao_chatgpt/src/network/entity/api_key_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'extensions.dart';
@@ -163,6 +165,44 @@ class PreferencesManager {
       return Future(() => false);
     }
   }
+
+  LogicalKeySet? get shortcutsSend {
+    String? keys = _preferences.getString(SharedPreferencesKey.shortcutsSend);
+    if(keys.isNullOrEmpty) {
+      if(Platform.isWindows || Platform.isLinux || Platform.isFuchsia) {
+        return LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter);
+      } else if(Platform.isMacOS) {
+        return LogicalKeySet(LogicalKeyboardKey.meta, LogicalKeyboardKey.enter);
+      } else {
+        return null;
+      }
+    } else {
+      List<LogicalKeyboardKey> keyboardKeys = keys!.split(',').map((e) => LogicalKeyboardKey(int.parse(e))).toList();
+      switch(keyboardKeys.length) {
+        case 1:
+          return LogicalKeySet(keyboardKeys[0]);
+        case 2:
+          return LogicalKeySet(keyboardKeys[0], keyboardKeys[1]);
+        case 3:
+          return LogicalKeySet(keyboardKeys[0], keyboardKeys[1], keyboardKeys[2]);
+        case 4:
+          return LogicalKeySet(keyboardKeys[0], keyboardKeys[1], keyboardKeys[2], keyboardKeys[3]);
+        default:
+          return null;
+      }
+    }
+  }
+
+  Future<bool> setShortcutsSend(LogicalKeySet? logicalKeySet) {
+    String keys = '';
+    if(logicalKeySet != null) {
+      for(LogicalKeyboardKey keyboardKey in logicalKeySet.keys) {
+        if(keys.isNotEmpty) keys += ',';
+        keys += '${keyboardKey.keyId}';
+      }
+    }
+    return _preferences.setString(SharedPreferencesKey.shortcutsSend, keys);
+  }
 }
 
 class SharedPreferencesKey {
@@ -173,6 +213,7 @@ class SharedPreferencesKey {
   static const maxTokens = 'max_tokens';
   static const gpt3GenerationSettings = 'gpt3_generation_settings';
   static const apiKeys = 'api_keys';
+  static const shortcutsSend = 'shortcuts_send';
 }
 
 PreferencesManager appPref = PreferencesManager();
