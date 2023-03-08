@@ -309,6 +309,30 @@ abstract class S {
   /// **'Send with {shortcut}'**
   String sendWith(String shortcut);
 
+  /// No description provided for @httpProxy.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTP Proxy'**
+  String get httpProxy;
+
+  /// No description provided for @enableProxy.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable proxy'**
+  String get enableProxy;
+
+  /// No description provided for @hostName.
+  ///
+  /// In en, this message translates to:
+  /// **'Host name'**
+  String get hostName;
+
+  /// No description provided for @portNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Port number'**
+  String get portNumber;
+
   /// No description provided for @haoChat.
   ///
   /// In en, this message translates to:

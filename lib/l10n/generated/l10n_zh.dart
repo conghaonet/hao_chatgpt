@@ -124,6 +124,18 @@ class SZh extends S {
   }
 
   @override
+  String get httpProxy => 'HTTP代理';
+
+  @override
+  String get enableProxy => '启用代理';
+
+  @override
+  String get hostName => '主机名';
+
+  @override
+  String get portNumber => '端口号';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override

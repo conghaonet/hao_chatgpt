@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hao_chatgpt/src/network/entity/api_key_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'constants.dart';
 import 'extensions.dart';
 import 'network/entity/openai/completions_query_entity.dart';
 
@@ -203,6 +204,21 @@ class PreferencesManager {
     }
     return _preferences.setString(SharedPreferencesKey.shortcutsSend, keys);
   }
+
+  /// For example: true<|>192.168.3.22<|>7890
+  String? get httpProxy => _preferences.getString(SharedPreferencesKey.httpProxy);
+
+  Future<bool> setHttpProxy(bool enabled, String? hostname, int? port) {
+    String value = '${enabled.toString()}${Constants.splitTag}';
+    if(hostname.isNotBlank) {
+      value += hostname!;
+    }
+    value += Constants.splitTag;
+    if(port != null) {
+      value += port.toString();
+    }
+    return _preferences.setString(SharedPreferencesKey.httpProxy, value);
+  }
 }
 
 class SharedPreferencesKey {
@@ -214,6 +230,7 @@ class SharedPreferencesKey {
   static const gpt3GenerationSettings = 'gpt3_generation_settings';
   static const apiKeys = 'api_keys';
   static const shortcutsSend = 'shortcuts_send';
+  static const httpProxy = 'http_proxy';
 }
 
 PreferencesManager appPref = PreferencesManager();

@@ -34,5 +34,9 @@
   "delete": "删除",
   "home": "主页",
   "shortcuts": "快捷键",
-  "sendWith": "使用 {shortcut} 发送"
+  "sendWith": "使用 {shortcut} 发送",
+  "httpProxy": "HTTP代理",
+  "enableProxy": "启用代理",
+  "hostName": "主机名",
+  "portNumber": "端口号"
 }

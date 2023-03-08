@@ -59,6 +59,10 @@
       }
     }
   },
+  "httpProxy": "HTTP Proxy",
+  "enableProxy": "Enable proxy",
+  "hostName": "Host name",
+  "portNumber": "Port number",
 
   "haoChat": "HaoChat",
   "openAI": "OpenAI",

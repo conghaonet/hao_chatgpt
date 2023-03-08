@@ -124,6 +124,18 @@ class SEn extends S {
   }
 
   @override
+  String get httpProxy => 'HTTP Proxy';
+
+  @override
+  String get enableProxy => 'Enable proxy';
+
+  @override
+  String get hostName => 'Host name';
+
+  @override
+  String get portNumber => 'Port number';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override

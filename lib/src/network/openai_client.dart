@@ -5,6 +5,9 @@ import 'package:hao_chatgpt/src/extensions.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:hao_chatgpt/src/preferences_manager.dart';
+
+import '../constants.dart';
 
 class OpenaiClient {
   static const baseUrl = "https://api.openai.com/v1";
@@ -23,8 +26,23 @@ class OpenaiClient {
   OpenaiClient._internal() {
     _dio = Dio(baseOptions);
     // setProxy("192.168.31.27", 8888);
-    // setProxy("192.168.31.22", 7890);
+    _setupProxy();
     _dio.interceptors.add(_OpenaiInterceptor());
+  }
+
+  void _setupProxy() {
+    String? value = appPref.httpProxy;
+    if(value.isNotBlank) {
+      List<String> args = value!.split(Constants.splitTag);
+      if(args.length == 3) {
+        bool enableProxy = args[0] == true.toString();
+        String hostname = args[1];
+        int? portNumber = int.tryParse(args[2]);
+        if(enableProxy && hostname.isNotBlank && portNumber != null) {
+          setProxy(hostname, portNumber);
+        }
+      }
+    }
   }
 
   static final OpenaiClient _client = OpenaiClient._internal();

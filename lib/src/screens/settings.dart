@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/l10n/generated/l10n.dart';
@@ -7,6 +8,7 @@ import 'package:hao_chatgpt/src/app_manager.dart';
 import 'package:hao_chatgpt/src/app_router.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
 import 'package:hao_chatgpt/src/preferences_manager.dart';
+import 'package:hao_chatgpt/src/screens/settings/settings_proxy.dart';
 
 import '../constants.dart';
 
@@ -44,6 +46,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 onTap: () => context.go('/${AppUri.settingsGpt3}'),
               ),
               if(getShortcuts().length > 1) _buildShortcuts(),
+              _buildProxySetting(context),
               _buildLanguageSetting(context),
               _buildThemeSetting(context),
             ],
@@ -76,6 +79,22 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       ),
     );
   }
+
+  Widget _buildProxySetting(BuildContext context) {
+    return ListTile(
+      leading: const Icon(Icons.swap_vert),
+      title: Text(S.of(context).httpProxy),
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext ctx) {
+            return const SettingsProxy();
+          },
+        );
+      },
+    );
+  }
+
   Widget _buildThemeSetting(BuildContext context) {
     String themeName = S.of(context).systemDefault;
     if (ref.watch(themeProvider) == ThemeMode.dark) {
