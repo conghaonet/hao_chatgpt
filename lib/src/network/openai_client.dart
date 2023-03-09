@@ -25,41 +25,44 @@ class OpenaiClient {
 
   OpenaiClient._internal() {
     _dio = Dio(baseOptions);
-    // setProxy("192.168.31.27", 8888);
     _setupProxy();
     _dio.interceptors.add(_OpenaiInterceptor());
-  }
-
-  void _setupProxy() {
-    String? value = appPref.httpProxy;
-    if(value.isNotBlank) {
-      List<String> args = value!.split(Constants.splitTag);
-      if(args.length == 3) {
-        bool enableProxy = args[0] == true.toString();
-        String hostname = args[1];
-        int? portNumber = int.tryParse(args[2]);
-        if(enableProxy && hostname.isNotBlank && portNumber != null) {
-          setProxy(hostname, portNumber);
-        }
-      }
-    }
   }
 
   static final OpenaiClient _client = OpenaiClient._internal();
 
   factory OpenaiClient() => _client;
 
-  void setProxy(String proxyServer, int port) {
-    (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (HttpClient client) {
+  void _setupProxy() {
+    (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
       client.findProxy = (uri) {
-        return "PROXY $proxyServer:$port";
+        // set multi proxy
+        // return "PROXY localhost:8888;PROXY localhost:7777";
+        // 设置代理与未设置代理均支持  ‘DIRECT’一定要放在最后
+        // return "PROXY localhost:8888;DIRECT";
+        String? value = appPref.httpProxy;
+        if(value.isNotBlank) {
+          List<String> args = value!.split(Constants.splitTag);
+          if(args.length == 3) {
+            bool enableProxy = args[0] == true.toString();
+            String hostname = args[1];
+            int? portNumber = int.tryParse(args[2]);
+            if(enableProxy && hostname.isNotBlank && portNumber != null) {
+              return "PROXY $hostname:$portNumber";
+            }
+          }
+        }
+        // no proxy
+        return 'DIRECT';
       };
-      client.badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      // 解决安卓https抓包问题
+      client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
       return null;
+      // you can also create a HttpClient to dio
+      // return HttpClient();
     };
   }
+
 }
 
 class _OpenaiInterceptor extends Interceptor {
