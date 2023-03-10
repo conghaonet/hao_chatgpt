@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'completion_usage_entity.dart';
+
 part 'completions_entity.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -9,7 +11,7 @@ class CompletionsEntity {
   final int created;
   final String model;
   final List<CompletionsChoiceEntity>? choices;
-  final CompletionsUsageEntity? usage;
+  final CompletionUsageEntity? usage;
 
   CompletionsEntity(
       this.id, this.object, this.created, this.model, this.choices, this.usage);
@@ -37,22 +39,4 @@ class CompletionsChoiceEntity {
       _$CompletionsChoiceEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$CompletionsChoiceEntityToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class CompletionsUsageEntity {
-  @JsonKey(name: "prompt_tokens")
-  final int? promptTokens;
-  @JsonKey(name: "completion_tokens")
-  final int? completionTokens;
-  @JsonKey(name: "total_tokens")
-  final int? totalTokens;
-
-  CompletionsUsageEntity(
-      this.promptTokens, this.completionTokens, this.totalTokens);
-
-  factory CompletionsUsageEntity.fromJson(Map<String, dynamic> json) =>
-      _$CompletionsUsageEntityFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CompletionsUsageEntityToJson(this);
 }

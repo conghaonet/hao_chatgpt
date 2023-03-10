@@ -1,20 +1,18 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'completions_entity.dart';
+part of 'chat_entity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-CompletionsEntity _$CompletionsEntityFromJson(Map<String, dynamic> json) =>
-    CompletionsEntity(
+ChatEntity _$ChatEntityFromJson(Map<String, dynamic> json) => ChatEntity(
       json['id'] as String,
       json['object'] as String,
       json['created'] as int,
       json['model'] as String,
       (json['choices'] as List<dynamic>?)
-          ?.map((e) =>
-              CompletionsChoiceEntity.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => ChatChoiceEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['usage'] == null
           ? null
@@ -22,7 +20,7 @@ CompletionsEntity _$CompletionsEntityFromJson(Map<String, dynamic> json) =>
               json['usage'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$CompletionsEntityToJson(CompletionsEntity instance) =>
+Map<String, dynamic> _$ChatEntityToJson(ChatEntity instance) =>
     <String, dynamic>{
       'id': instance.id,
       'object': instance.object,
@@ -32,20 +30,18 @@ Map<String, dynamic> _$CompletionsEntityToJson(CompletionsEntity instance) =>
       'usage': instance.usage?.toJson(),
     };
 
-CompletionsChoiceEntity _$CompletionsChoiceEntityFromJson(
-        Map<String, dynamic> json) =>
-    CompletionsChoiceEntity(
-      json['text'] as String?,
+ChatChoiceEntity _$ChatChoiceEntityFromJson(Map<String, dynamic> json) =>
+    ChatChoiceEntity(
       json['index'] as int?,
-      json['logprobs'] as int?,
+      json['message'] == null
+          ? null
+          : ChatMessageEntity.fromJson(json['message'] as Map<String, dynamic>),
       json['finish_reason'] as String?,
     );
 
-Map<String, dynamic> _$CompletionsChoiceEntityToJson(
-        CompletionsChoiceEntity instance) =>
+Map<String, dynamic> _$ChatChoiceEntityToJson(ChatChoiceEntity instance) =>
     <String, dynamic>{
-      'text': instance.text,
       'index': instance.index,
-      'logprobs': instance.logprobs,
+      'message': instance.message?.toJson(),
       'finish_reason': instance.finishReason,
     };

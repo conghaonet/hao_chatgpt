@@ -3,6 +3,7 @@ import 'dart:ui';
 
 class Constants {
   static const String splitTag = '<|>';
+  static const String gpt35turbo = 'gpt-3.5-turbo';
   static const String gpt3ModelDavinci003 = 'text-davinci-003';
   static const String gpt3ModelCurie001 = 'text-curie-001';
   static const String gpt3ModelBabbage001 = 'text-babbage-001';

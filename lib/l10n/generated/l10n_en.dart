@@ -145,6 +145,9 @@ class SEn extends S {
   String get chatGPT => 'ChatGPT';
 
   @override
+  String get gpt35turbo => 'GPT-3.5-Turbo';
+
+  @override
   String get langEnglish => 'English';
 
   @override

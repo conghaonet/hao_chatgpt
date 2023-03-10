@@ -67,6 +67,7 @@
   "haoChat": "HaoChat",
   "openAI": "OpenAI",
   "chatGPT": "ChatGPT",
+  "gpt35turbo": "GPT-3.5-Turbo",
   "langEnglish": "English",
   "langChinese": "简体中文",
   "gpt3": "GPT-3",

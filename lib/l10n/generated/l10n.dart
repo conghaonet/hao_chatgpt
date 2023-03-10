@@ -351,6 +351,12 @@ abstract class S {
   /// **'ChatGPT'**
   String get chatGPT;
 
+  /// No description provided for @gpt35turbo.
+  ///
+  /// In en, this message translates to:
+  /// **'GPT-3.5-Turbo'**
+  String get gpt35turbo;
+
   /// No description provided for @langEnglish.
   ///
   /// In en, this message translates to:
