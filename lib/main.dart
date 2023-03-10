@@ -53,9 +53,11 @@ class MyApp extends ConsumerWidget {
         useMaterial3: true,
       ).copyWith(
         extensions: <ThemeExtension<dynamic>>[MyColors.light],
+        splashFactory: NoSplash.splashFactory,
       ),
       darkTheme: ThemeData.dark(useMaterial3: true).copyWith(
         extensions: <ThemeExtension<dynamic>>[MyColors.dark],
+        splashFactory: NoSplash.splashFactory,
       ),
       routerConfig: AppRouter().goRouter,
     );

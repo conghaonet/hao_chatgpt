@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/src/screens/chat.dart';
+import 'package:hao_chatgpt/src/screens/chat_turbo.dart';
 import 'package:hao_chatgpt/src/screens/settings/settings_apikey.dart';
 import 'package:hao_chatgpt/src/screens/settings/settings_gpt3.dart';
 import 'package:hao_chatgpt/src/screens/home.dart';
@@ -11,6 +12,7 @@ import 'screens/webview.dart';
 class AppUri {
   static const root = '/';
   static const chat = 'chat';
+  static const chatTurbo = 'chat-turbo';
   static const settings = 'settings';
   static const settingsGpt3 = 'settings/gpt3';
   static const settingsApikey = 'settings/apikey';
@@ -53,6 +55,11 @@ class AppRouter {
             path: AppUri.chat,
             builder: (BuildContext context, GoRouterState state) =>
                 ChatPage(chatId: int.tryParse(state.queryParams['id'] ?? ''),),
+          ),
+          GoRoute(
+            path: AppUri.chatTurbo,
+            builder: (BuildContext context, GoRouterState state) =>
+                const ChatTurbo(),
           ),
           GoRoute(
             path: AppUri.webview,
