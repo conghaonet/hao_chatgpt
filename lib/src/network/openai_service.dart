@@ -26,7 +26,7 @@ abstract class OpenaiService {
       @Body() CompletionsQueryEntity query);
 
   @POST('/chat/completions')
-  Future<ChatEntity> getGpt35Turbo(
+  Future<ChatEntity> getChatCompletions(
       @Body() ChatQueryEntity query);
 }
 

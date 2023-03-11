@@ -89,7 +89,7 @@ class _OpenaiService implements OpenaiService {
   }
 
   @override
-  Future<ChatEntity> getGpt35Turbo(query) async {
+  Future<ChatEntity> getChatCompletions(query) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};

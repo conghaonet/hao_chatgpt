@@ -42,7 +42,7 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
     List<ChatMessageEntity> queryMessages = [ChatMessageEntity(role: ChatRole.system.name, content: system), ...messages];
 
     ChatQueryEntity queryEntity = ChatQueryEntity(messages: queryMessages,);
-    ChatEntity chatEntity = await openaiService.getGpt35Turbo(queryEntity);
+    ChatEntity chatEntity = await openaiService.getChatCompletions(queryEntity);
     if(chatEntity.choices != null && chatEntity.choices!.isNotEmpty && chatEntity.choices!.first.message != null) {
       messages.add(chatEntity.choices!.first.message!);
       if(mounted) {
