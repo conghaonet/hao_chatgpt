@@ -64,6 +64,7 @@
   "hostName": "Host name",
   "portNumber": "Port number",
 
+  "chatTurboSystemHint": "You are a helpful assistant.",
   "haoChat": "HaoChat",
   "openAI": "OpenAI",
   "chatGPT": "ChatGPT",

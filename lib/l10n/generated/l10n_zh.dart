@@ -136,6 +136,9 @@ class SZh extends S {
   String get portNumber => '端口号';
 
   @override
+  String get chatTurboSystemHint => 'You are a helpful assistant.';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override

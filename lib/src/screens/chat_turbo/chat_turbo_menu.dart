@@ -3,20 +3,22 @@ import 'package:go_router/go_router.dart';
 
 import '../../../l10n/generated/l10n.dart';
 import '../../app_router.dart';
+import '../../extensions.dart';
 
-class ChatTurboDrawer extends StatefulWidget {
-  const ChatTurboDrawer({Key? key}) : super(key: key);
+class ChatTurboMenu extends StatefulWidget {
+  const ChatTurboMenu({Key? key}) : super(key: key);
 
   @override
-  State<ChatTurboDrawer> createState() => _ChatTurboDrawerState();
+  State<ChatTurboMenu> createState() => _ChatTurboMenuState();
 }
 
-class _ChatTurboDrawerState extends State<ChatTurboDrawer> {
+class _ChatTurboMenuState extends State<ChatTurboMenu> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: FractionallySizedBox(
-        widthFactor: 0.7,
+        widthFactor: isDesktop() ? 0.4 : 0.7,
         child: Column(
           children: [
             Expanded(child: const Placeholder()),

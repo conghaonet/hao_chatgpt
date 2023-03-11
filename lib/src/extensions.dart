@@ -151,3 +151,7 @@ Map<String, LogicalKeySet> getShortcuts() {
   }
   return keyMap;
 }
+
+bool isDesktop() {
+  return Platform.isMacOS || Platform.isWindows || Platform.isLinux || Platform.isFuchsia;
+}

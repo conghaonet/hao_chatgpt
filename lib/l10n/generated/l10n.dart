@@ -333,6 +333,12 @@ abstract class S {
   /// **'Port number'**
   String get portNumber;
 
+  /// No description provided for @chatTurboSystemHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You are a helpful assistant.'**
+  String get chatTurboSystemHint;
+
   /// No description provided for @haoChat.
   ///
   /// In en, this message translates to:
