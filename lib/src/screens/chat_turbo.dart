@@ -1,30 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hao_chatgpt/main.dart';
 import 'package:hao_chatgpt/src/screens/chat_turbo/chat_turbo_menu.dart';
 
 import '../../l10n/generated/l10n.dart';
 import '../extensions.dart';
 import 'chat_turbo/chat_turbo_system.dart';
 
-class ChatTurbo extends StatefulWidget {
+class ChatTurbo extends ConsumerStatefulWidget {
   const ChatTurbo({Key? key}) : super(key: key);
 
   @override
-  State<ChatTurbo> createState() => _ChatTurboState();
+  ConsumerState<ChatTurbo> createState() => _ChatTurboState();
 }
 
-class _ChatTurboState extends State<ChatTurbo> {
+class _ChatTurboState extends ConsumerState<ChatTurbo> {
   final TextEditingController _promptTextController = TextEditingController();
+
+  void _onDrawerChanged(bool isEndDrawer, bool isOpened) {
+    if(isOpened) {
+      FocusManager.instance.primaryFocus?.unfocus();
+    } else {
+      debugPrint(ref.read(chatTurboSystemProvider));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: SafeArea(child: ChatTurboMenu()),
-      onDrawerChanged: (bool isOpened) {
-        if(isOpened) {
-          FocusManager.instance.primaryFocus?.unfocus();
-        }
-      },
+      onDrawerChanged: (bool isOpened) => _onDrawerChanged(false, isOpened),
       endDrawer: SafeArea(child: ChatTurboSystem()),
+      onEndDrawerChanged: (bool isOpened) => _onDrawerChanged(true, isOpened),
       body: WillPopScope(
         onWillPop: () async {
           await androidBackToHome();

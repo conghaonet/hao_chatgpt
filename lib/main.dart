@@ -26,6 +26,7 @@ final StateProvider<ThemeMode> themeProvider =
     StateProvider((ref) => appPref.themeMode);
 final StateProvider<Locale?> localeProvider =
     StateProvider((ref) => appPref.locale);
+final StateProvider<String> chatTurboSystemProvider = StateProvider<String>((ref) => '');
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
