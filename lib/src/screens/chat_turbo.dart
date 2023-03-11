@@ -17,6 +17,11 @@ class ChatTurbo extends ConsumerStatefulWidget {
 class _ChatTurboState extends ConsumerState<ChatTurbo> {
   final TextEditingController _promptTextController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   void _onDrawerChanged(bool isEndDrawer, bool isOpened) {
     if(isOpened) {
       FocusManager.instance.primaryFocus?.unfocus();
@@ -28,10 +33,10 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SafeArea(child: ChatTurboMenu()),
-      onDrawerChanged: (bool isOpened) => _onDrawerChanged(false, isOpened),
-      endDrawer: SafeArea(child: ChatTurboSystem()),
-      onEndDrawerChanged: (bool isOpened) => _onDrawerChanged(true, isOpened),
+      drawer: const SafeArea(child: ChatTurboMenu()),
+      onDrawerChanged: (isOpened) => _onDrawerChanged(false, isOpened),
+      endDrawer: const SafeArea(child: ChatTurboSystem()),
+      onEndDrawerChanged: (isOpened) => _onDrawerChanged(true, isOpened),
       body: WillPopScope(
         onWillPop: () async {
           await androidBackToHome();
@@ -71,26 +76,26 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
               ),
 
               Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: _promptTextController,
-                        maxLines: 5,
-                        minLines: 1,
-                        decoration: InputDecoration(
-                          hintText: S.of(context).chatTurboSystemHint,
-                          border: const OutlineInputBorder(),
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-                        ),
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _promptTextController,
+                      maxLines: 5,
+                      minLines: 1,
+                      decoration: InputDecoration(
+                        hintText: S.of(context).chatTurboSystemHint,
+                        border: const OutlineInputBorder(),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 8),
                       ),
                     ),
-                    ElevatedButton(
-                      child: Text('发送'),
-                      onPressed: () {
+                  ),
+                  FilledButton(
+                    child: Text(S.of(context).submit),
+                    onPressed: () {
 
-                      },
-                    ),
-                  ]
+                    },
+                  ),
+                ],
               ),
             ],
           ),

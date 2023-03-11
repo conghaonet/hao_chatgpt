@@ -41,7 +41,7 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('SYSTEM', style: TextStyle(fontWeight: FontWeight.bold),),
+                    Text(S.of(context).system, style: const TextStyle(fontWeight: FontWeight.bold),),
                     Expanded(
                       child: TextField(
                         autofocus: true,

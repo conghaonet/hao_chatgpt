@@ -63,6 +63,9 @@
   "enableProxy": "Enable proxy",
   "hostName": "Host name",
   "portNumber": "Port number",
+  "submit": "Submit",
+  "resume": "Resume",
+  "system": "SYSTEM",
 
   "chatTurboSystemHint": "You are a helpful assistant.",
   "haoChat": "HaoChat",

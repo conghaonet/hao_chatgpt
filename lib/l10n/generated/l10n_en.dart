@@ -136,6 +136,15 @@ class SEn extends S {
   String get portNumber => 'Port number';
 
   @override
+  String get submit => 'Submit';
+
+  @override
+  String get resume => 'Resume';
+
+  @override
+  String get system => 'SYSTEM';
+
+  @override
   String get chatTurboSystemHint => 'You are a helpful assistant.';
 
   @override

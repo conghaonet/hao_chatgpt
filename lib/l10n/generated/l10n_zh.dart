@@ -136,6 +136,15 @@ class SZh extends S {
   String get portNumber => '端口号';
 
   @override
+  String get submit => '提交';
+
+  @override
+  String get resume => '继续';
+
+  @override
+  String get system => '系统';
+
+  @override
   String get chatTurboSystemHint => 'You are a helpful assistant.';
 
   @override

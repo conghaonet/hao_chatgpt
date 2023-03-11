@@ -333,6 +333,24 @@ abstract class S {
   /// **'Port number'**
   String get portNumber;
 
+  /// No description provided for @submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submit;
+
+  /// No description provided for @resume.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get resume;
+
+  /// No description provided for @system.
+  ///
+  /// In en, this message translates to:
+  /// **'SYSTEM'**
+  String get system;
+
   /// No description provided for @chatTurboSystemHint.
   ///
   /// In en, this message translates to:
