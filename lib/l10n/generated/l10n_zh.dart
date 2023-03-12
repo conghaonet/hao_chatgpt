@@ -145,6 +145,9 @@ class SZh extends S {
   String get system => '系统';
 
   @override
+  String get retry => '重试';
+
+  @override
   String get chatTurboSystemHint => 'You are a helpful assistant.';
 
   @override

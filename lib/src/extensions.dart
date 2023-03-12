@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/src/app_router.dart';
 import 'package:hao_chatgpt/src/network/entity/dio_error_entity.dart';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'constants.dart';
@@ -154,4 +155,15 @@ Map<String, LogicalKeySet> getShortcuts() {
 
 bool isDesktop() {
   return Platform.isMacOS || Platform.isWindows || Platform.isLinux || Platform.isFuchsia;
+}
+
+String formatDateTime(DateTime dateTime) {
+  const formatHHmm = 'HH:mm';
+  const formatMMddHHmm = "MM-dd HH:mm";
+  if(dateTime.day == DateTime.now().day) {
+    return DateFormat(formatHHmm).format(dateTime);
+  } else {
+    return DateFormat(formatMMddHHmm).format(dateTime);
+  }
+
 }

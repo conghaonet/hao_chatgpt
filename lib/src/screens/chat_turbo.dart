@@ -1,14 +1,20 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/main.dart';
 import 'package:hao_chatgpt/src/db/hao_database.dart';
+import 'package:hao_chatgpt/src/screens/chat_turbo/chat_turbo_content.dart';
 import 'package:hao_chatgpt/src/screens/chat_turbo/chat_turbo_menu.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../l10n/generated/l10n.dart';
 import '../app_router.dart';
 import '../constants.dart';
 import '../extensions.dart';
+import '../network/entity/dio_error_entity.dart';
 import '../network/entity/openai/chat_entity.dart';
 import '../network/entity/openai/chat_message_entity.dart';
 import '../network/entity/openai/chat_query_entity.dart';
@@ -26,10 +32,11 @@ class ChatTurbo extends ConsumerStatefulWidget {
 class _ChatTurboState extends ConsumerState<ChatTurbo> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _promptTextController = TextEditingController();
-  final List<Message> messages = [];
+  final List<Message> _messages = [];
   bool _isLoading = false;
   int? _chatId;
   String? _lastFinishReason;
+  DioErrorEntity? _errorEntity;
 
   @override
   void initState() {
@@ -39,30 +46,43 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
   Future<void> _request() async {
     if(_isLoading) return;
     _isLoading = true;
+    _errorEntity = null;
     String system = _getSystem();
     String inputMsg = _promptTextController.text.trim();
     if(inputMsg.isNotBlank) {
       _chatId ??= await _saveChatToDatabase(inputMsg, system);
       await _saveInputMsgToDatabase(inputMsg);
+      _promptTextController.text = '';
     }
     if(mounted) {
       setState(() {
+      });
+      Future.delayed(const Duration(milliseconds: 100), () {
         _scrollToEnd();
       });
     }
-    List<ChatMessageEntity> queryMessages = [
-      ChatMessageEntity(role: ChatRole.system, content: system),
-      ...messages.map((e) => ChatMessageEntity(role: e.role, content: e.content)).toList()
-    ];
-    ChatQueryEntity queryEntity = ChatQueryEntity(messages: queryMessages,);
-    ChatEntity chatEntity = await openaiService.getChatCompletions(queryEntity);
-    if(chatEntity.choices != null && chatEntity.choices!.isNotEmpty && chatEntity.choices!.first.message != null) {
-      _lastFinishReason = chatEntity.choices!.first.finishReason;
-      _chatId ??= await _saveChatToDatabase(chatEntity.choices!.first.message!.content, system);
-      await _saveMessageToDatabase(chatEntity);
+    try {
+      List<ChatMessageEntity> queryMessages = [
+        ChatMessageEntity(role: ChatRole.system, content: system),
+        ..._messages.map((e) => ChatMessageEntity(role: e.role, content: e.content)).toList()
+      ];
+      ChatQueryEntity queryEntity = ChatQueryEntity(messages: queryMessages,);
+      ChatEntity chatEntity = await openaiService.getChatCompletions(queryEntity);
+      if(chatEntity.choices != null && chatEntity.choices!.isNotEmpty && chatEntity.choices!.first.message != null) {
+        _lastFinishReason = chatEntity.choices!.first.finishReason;
+        _chatId ??= await _saveChatToDatabase(chatEntity.choices!.first.message!.content, system);
+        await _saveMessageToDatabase(chatEntity);
+      }
+    } on DioError catch (e) {
+      _errorEntity = e.toDioErrorEntity;
+    } on Exception catch (e) {
+      _errorEntity = e.toDioErrorEntity;
+    } finally {
       if(mounted) {
         setState(() {
           _isLoading = false;
+        });
+        Future.delayed(const Duration(milliseconds: 100), () {
           _scrollToEnd();
         });
       }
@@ -112,7 +132,7 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
   Future<void> _appendMessage(int messageId) async {
     var query = haoDatabase.select(haoDatabase.messages)..where((tbl) => tbl.id.equals(messageId));
     var message = await query.getSingle();
-    messages.add(message);
+    _messages.add(message);
   }
 
   void _scrollToEnd() {
@@ -174,7 +194,9 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
                     _buildSliverAppBar(context),
                     _buildSliverList(),
                     SliverToBoxAdapter(
-                      child: Center(child: Text('hello')),
+                      child: Center(
+                        child: _buildUnderList(),
+                      ),
                     ),
                   ],
                 ),
@@ -217,18 +239,49 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
   SliverList _buildSliverList() {
     return SliverList(
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-        return Container(
-          padding: EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            border: Border.all(),
-          ),
-          child: Text(messages[index].content,),
-        );
+        return ChatTurboContent(message: _messages[index]);
       },
-        childCount: messages.length,
+        childCount: _messages.length,
       ),
     );
   }
+
+  Widget _buildUnderList() {
+    if(_isLoading) {
+      return LoadingAnimationWidget.flickr(
+        leftDotColor: const Color(0xFF2196F3),
+        rightDotColor: const Color(0xFFF44336),
+        size: 24,
+      );
+    } else {
+      if(_errorEntity != null) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SelectableText(
+              _errorEntity?.message ?? _errorEntity?.error ?? 'ERROR!',
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+              selectionControls: Platform.isIOS ? myCupertinoTextSelectionControls : null,
+            ),
+            OutlinedButton(
+              onPressed: () => _request(),
+              child: Text(S.of(context).retry, style: const TextStyle(fontSize: 12),),
+            ),
+          ],
+        );
+      } else {
+        if(_messages.isNotEmpty && _messages.last.finishReason == FinishReason.length) {
+          return FilledButton.tonal(
+            onPressed: () => _request(),
+            child: Text(S.of(context).resume, style: const TextStyle(fontSize: 12),),
+          );
+        }
+      }
+    }
+    return const SizedBox();
+  }
+
+
 
   Widget _buildInputView(BuildContext context) {
     return Container(
@@ -247,7 +300,7 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: S.of(context).prompt,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16,),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8,),
               ),
             ),
           ),
@@ -256,7 +309,7 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
               _request();
             },
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(8.0),
               child: Text(S.of(context).submit),
             ),
           ),
@@ -268,6 +321,7 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
   @override
   void dispose() {
     _promptTextController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 }

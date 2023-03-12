@@ -66,6 +66,7 @@
   "submit": "Submit",
   "resume": "Resume",
   "system": "SYSTEM",
+  "retry": "Retry",
 
   "chatTurboSystemHint": "You are a helpful assistant.",
   "haoChat": "HaoChat",

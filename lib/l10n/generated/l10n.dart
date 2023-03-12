@@ -351,6 +351,12 @@ abstract class S {
   /// **'SYSTEM'**
   String get system;
 
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
   /// No description provided for @chatTurboSystemHint.
   ///
   /// In en, this message translates to:
