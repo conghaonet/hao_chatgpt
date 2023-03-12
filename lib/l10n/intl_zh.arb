@@ -42,5 +42,6 @@
   "submit": "提交",
   "resume": "继续",
   "system": "系统",
-  "retry": "重试"
+  "retry": "重试",
+  "copied": "已复制"
 }

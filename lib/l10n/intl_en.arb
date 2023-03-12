@@ -67,6 +67,7 @@
   "resume": "Resume",
   "system": "SYSTEM",
   "retry": "Retry",
+  "copied": "Copied",
 
   "chatTurboSystemHint": "You are a helpful assistant.",
   "haoChat": "HaoChat",

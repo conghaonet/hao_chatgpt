@@ -148,6 +148,9 @@ class SZh extends S {
   String get retry => '重试';
 
   @override
+  String get copied => '已复制';
+
+  @override
   String get chatTurboSystemHint => 'You are a helpful assistant.';
 
   @override

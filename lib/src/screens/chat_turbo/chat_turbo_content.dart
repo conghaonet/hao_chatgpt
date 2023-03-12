@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
+import '../../../l10n/generated/l10n.dart';
 import '../../constants.dart';
 import '../../db/hao_database.dart';
 import '../../extensions.dart';
@@ -12,77 +14,77 @@ class ChatTurboContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch(message.role) {
-      case ChatRole.user:
-        return _buildUserContent();
-      case ChatRole.assistant:
-        return _buildAssistantContent();
-      default:
-        return const SizedBox();
-    }
-  }
-
-  Widget _buildUserContent() {
     return Card(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            decoration: _getHeaderDecoration(),
-            child: Row(
-              children: [
-                const Icon(Icons.account_circle),
-                const Expanded(child: SizedBox()),
-                Text(formatDateTime(message.msgDateTime)),
-                const SizedBox(width: 4,),
-                const Icon(Icons.copy),
-              ],
+            decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.3),
+              border: Border.all(color: Colors.transparent),
+              borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8),),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: message.role == ChatRole.user ? _buildUserHeader(context) : _buildAssistantHeader(context),
             ),
           ),
-          _buildContent(),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: SelectableText(
+              message.content,
+              selectionControls: Platform.isIOS ? myCupertinoTextSelectionControls : null,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildAssistantContent() {
+  Widget _buildUserHeader(BuildContext context) {
+    return Row(
+      children: [
+        const Icon(Icons.account_circle),
+        const Expanded(child: SizedBox()),
+        Text(formatDateTime(message.msgDateTime)),
+        const SizedBox(width: 4,),
+        _buildCopyButton(context),
+      ],
+    );
+  }
+
+  Widget _buildAssistantHeader(BuildContext context) {
     String tokens = message.completionTokens?.toString() ?? '';
     if(message.totalTokens != null) {
       tokens += '/${message.totalTokens}';
     }
-    return Card(
-      child: Column(
-        children: [
-          Container(
-            decoration: _getHeaderDecoration(),
-            child: Row(
-              children: [
-                const ImageIcon(AssetImage('assets/images/openai.png'),),
-                const SizedBox(width: 4,),
-                Text(tokens.isNotEmpty ? 'Tokens: $tokens' : ''),
-                const Expanded(child: SizedBox()),
-                Text(formatDateTime(message.msgDateTime)),
-                const SizedBox(width: 4,),
-                const Icon(Icons.copy),
-              ],
-            ),
-          ),
-          _buildContent(),
-        ],
-      ),
+    return Row(
+      children: [
+        const ImageIcon(AssetImage('assets/images/openai.png'),),
+        const SizedBox(width: 4,),
+        Text(tokens.isNotEmpty ? 'Tokens: $tokens' : ''),
+        const Expanded(child: SizedBox()),
+        Text(formatDateTime(message.msgDateTime)),
+        const SizedBox(width: 4,),
+        _buildCopyButton(context),
+      ],
     );
   }
 
-  BoxDecoration _getHeaderDecoration() {
-    return BoxDecoration(
-      color: Colors.grey.withOpacity(0.3),
-      border: Border.all(color: Colors.transparent),
-      borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8),),
-    );
-  }
-  Widget _buildContent() {
-    return SelectableText(
-      message.content,
-      selectionControls: Platform.isIOS ? myCupertinoTextSelectionControls : null,
+
+  Widget _buildCopyButton(BuildContext context) {
+    return GestureDetector(
+      child: const Icon(Icons.copy),
+      onTap: () {
+        Clipboard.setData(ClipboardData(text: message.content));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(S.of(context).copied),
+          action: SnackBarAction(
+            label: 'ok',
+            onPressed: () {},
+          ),
+        ));
+      },
     );
   }
 

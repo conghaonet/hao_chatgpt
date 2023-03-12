@@ -148,6 +148,9 @@ class SEn extends S {
   String get retry => 'Retry';
 
   @override
+  String get copied => 'Copied';
+
+  @override
   String get chatTurboSystemHint => 'You are a helpful assistant.';
 
   @override

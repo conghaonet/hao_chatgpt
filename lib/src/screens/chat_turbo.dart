@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/main.dart';
 import 'package:hao_chatgpt/src/db/hao_database.dart';
+import 'package:hao_chatgpt/src/preferences_manager.dart';
 import 'package:hao_chatgpt/src/screens/chat_turbo/chat_turbo_content.dart';
 import 'package:hao_chatgpt/src/screens/chat_turbo/chat_turbo_menu.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -35,7 +36,6 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
   final List<Message> _messages = [];
   bool _isLoading = false;
   int? _chatId;
-  String? _lastFinishReason;
   DioErrorEntity? _errorEntity;
 
   @override
@@ -66,10 +66,11 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
         ChatMessageEntity(role: ChatRole.system, content: system),
         ..._messages.map((e) => ChatMessageEntity(role: e.role, content: e.content)).toList()
       ];
-      ChatQueryEntity queryEntity = ChatQueryEntity(messages: queryMessages,);
+      ChatQueryEntity queryEntity = appPref.gpt35TurboSettings ?? ChatQueryEntity(messages: [],);
+      queryEntity.messages = queryMessages;
+
       ChatEntity chatEntity = await openaiService.getChatCompletions(queryEntity);
       if(chatEntity.choices != null && chatEntity.choices!.isNotEmpty && chatEntity.choices!.first.message != null) {
-        _lastFinishReason = chatEntity.choices!.first.finishReason;
         _chatId ??= await _saveChatToDatabase(chatEntity.choices!.first.message!.content, system);
         await _saveMessageToDatabase(chatEntity);
       }
@@ -195,7 +196,10 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
                     _buildSliverList(),
                     SliverToBoxAdapter(
                       child: Center(
-                        child: _buildUnderList(),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 24.0),
+                          child: _buildUnderList(),
+                        ),
                       ),
                     ),
                   ],

@@ -357,6 +357,12 @@ abstract class S {
   /// **'Retry'**
   String get retry;
 
+  /// No description provided for @copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get copied;
+
   /// No description provided for @chatTurboSystemHint.
   ///
   /// In en, this message translates to:
