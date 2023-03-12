@@ -30,7 +30,7 @@ class ChatTurboContent extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(4.0),
+            padding: const EdgeInsets.all(8.0),
             child: SelectableText(
               message.content,
               selectionControls: Platform.isIOS ? myCupertinoTextSelectionControls : null,
