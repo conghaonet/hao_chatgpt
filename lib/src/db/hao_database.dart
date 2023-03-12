@@ -44,6 +44,7 @@ class Messages extends Table with AutoIncrementingPrimaryKey {
   IntColumn get promptTokens => integer().nullable()();
   IntColumn get completionTokens => integer().nullable()();
   IntColumn get totalTokens => integer().nullable()();
+  TextColumn get finishReason => text().nullable()();
   BoolColumn get isFavorite => boolean()();
   DateTimeColumn get msgDateTime => dateTime()();
 }

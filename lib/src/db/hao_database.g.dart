@@ -997,6 +997,12 @@ class $MessagesTable extends Messages with TableInfo<$MessagesTable, Message> {
   late final GeneratedColumn<int> totalTokens = GeneratedColumn<int>(
       'total_tokens', aliasedName, true,
       type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _finishReasonMeta =
+      const VerificationMeta('finishReason');
+  @override
+  late final GeneratedColumn<String> finishReason = GeneratedColumn<String>(
+      'finish_reason', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _isFavoriteMeta =
       const VerificationMeta('isFavorite');
   @override
@@ -1025,6 +1031,7 @@ class $MessagesTable extends Messages with TableInfo<$MessagesTable, Message> {
         promptTokens,
         completionTokens,
         totalTokens,
+        finishReason,
         isFavorite,
         msgDateTime
       ];
@@ -1084,6 +1091,12 @@ class $MessagesTable extends Messages with TableInfo<$MessagesTable, Message> {
           totalTokens.isAcceptableOrUnknown(
               data['total_tokens']!, _totalTokensMeta));
     }
+    if (data.containsKey('finish_reason')) {
+      context.handle(
+          _finishReasonMeta,
+          finishReason.isAcceptableOrUnknown(
+              data['finish_reason']!, _finishReasonMeta));
+    }
     if (data.containsKey('is_favorite')) {
       context.handle(
           _isFavoriteMeta,
@@ -1125,6 +1138,8 @@ class $MessagesTable extends Messages with TableInfo<$MessagesTable, Message> {
           .read(DriftSqlType.int, data['${effectivePrefix}completion_tokens']),
       totalTokens: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}total_tokens']),
+      finishReason: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}finish_reason']),
       isFavorite: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}is_favorite'])!,
       msgDateTime: attachedDatabase.typeMapping.read(
@@ -1147,6 +1162,7 @@ class Message extends DataClass implements Insertable<Message> {
   final int? promptTokens;
   final int? completionTokens;
   final int? totalTokens;
+  final String? finishReason;
   final bool isFavorite;
   final DateTime msgDateTime;
   const Message(
@@ -1158,6 +1174,7 @@ class Message extends DataClass implements Insertable<Message> {
       this.promptTokens,
       this.completionTokens,
       this.totalTokens,
+      this.finishReason,
       required this.isFavorite,
       required this.msgDateTime});
   @override
@@ -1176,6 +1193,9 @@ class Message extends DataClass implements Insertable<Message> {
     }
     if (!nullToAbsent || totalTokens != null) {
       map['total_tokens'] = Variable<int>(totalTokens);
+    }
+    if (!nullToAbsent || finishReason != null) {
+      map['finish_reason'] = Variable<String>(finishReason);
     }
     map['is_favorite'] = Variable<bool>(isFavorite);
     map['msg_date_time'] = Variable<DateTime>(msgDateTime);
@@ -1198,6 +1218,9 @@ class Message extends DataClass implements Insertable<Message> {
       totalTokens: totalTokens == null && nullToAbsent
           ? const Value.absent()
           : Value(totalTokens),
+      finishReason: finishReason == null && nullToAbsent
+          ? const Value.absent()
+          : Value(finishReason),
       isFavorite: Value(isFavorite),
       msgDateTime: Value(msgDateTime),
     );
@@ -1215,6 +1238,7 @@ class Message extends DataClass implements Insertable<Message> {
       promptTokens: serializer.fromJson<int?>(json['promptTokens']),
       completionTokens: serializer.fromJson<int?>(json['completionTokens']),
       totalTokens: serializer.fromJson<int?>(json['totalTokens']),
+      finishReason: serializer.fromJson<String?>(json['finishReason']),
       isFavorite: serializer.fromJson<bool>(json['isFavorite']),
       msgDateTime: serializer.fromJson<DateTime>(json['msgDateTime']),
     );
@@ -1231,6 +1255,7 @@ class Message extends DataClass implements Insertable<Message> {
       'promptTokens': serializer.toJson<int?>(promptTokens),
       'completionTokens': serializer.toJson<int?>(completionTokens),
       'totalTokens': serializer.toJson<int?>(totalTokens),
+      'finishReason': serializer.toJson<String?>(finishReason),
       'isFavorite': serializer.toJson<bool>(isFavorite),
       'msgDateTime': serializer.toJson<DateTime>(msgDateTime),
     };
@@ -1245,6 +1270,7 @@ class Message extends DataClass implements Insertable<Message> {
           Value<int?> promptTokens = const Value.absent(),
           Value<int?> completionTokens = const Value.absent(),
           Value<int?> totalTokens = const Value.absent(),
+          Value<String?> finishReason = const Value.absent(),
           bool? isFavorite,
           DateTime? msgDateTime}) =>
       Message(
@@ -1259,6 +1285,8 @@ class Message extends DataClass implements Insertable<Message> {
             ? completionTokens.value
             : this.completionTokens,
         totalTokens: totalTokens.present ? totalTokens.value : this.totalTokens,
+        finishReason:
+            finishReason.present ? finishReason.value : this.finishReason,
         isFavorite: isFavorite ?? this.isFavorite,
         msgDateTime: msgDateTime ?? this.msgDateTime,
       );
@@ -1273,6 +1301,7 @@ class Message extends DataClass implements Insertable<Message> {
           ..write('promptTokens: $promptTokens, ')
           ..write('completionTokens: $completionTokens, ')
           ..write('totalTokens: $totalTokens, ')
+          ..write('finishReason: $finishReason, ')
           ..write('isFavorite: $isFavorite, ')
           ..write('msgDateTime: $msgDateTime')
           ..write(')'))
@@ -1280,8 +1309,18 @@ class Message extends DataClass implements Insertable<Message> {
   }
 
   @override
-  int get hashCode => Object.hash(id, chatId, role, content, isResponse,
-      promptTokens, completionTokens, totalTokens, isFavorite, msgDateTime);
+  int get hashCode => Object.hash(
+      id,
+      chatId,
+      role,
+      content,
+      isResponse,
+      promptTokens,
+      completionTokens,
+      totalTokens,
+      finishReason,
+      isFavorite,
+      msgDateTime);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1294,6 +1333,7 @@ class Message extends DataClass implements Insertable<Message> {
           other.promptTokens == this.promptTokens &&
           other.completionTokens == this.completionTokens &&
           other.totalTokens == this.totalTokens &&
+          other.finishReason == this.finishReason &&
           other.isFavorite == this.isFavorite &&
           other.msgDateTime == this.msgDateTime);
 }
@@ -1307,6 +1347,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
   final Value<int?> promptTokens;
   final Value<int?> completionTokens;
   final Value<int?> totalTokens;
+  final Value<String?> finishReason;
   final Value<bool> isFavorite;
   final Value<DateTime> msgDateTime;
   const MessagesCompanion({
@@ -1318,6 +1359,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
     this.promptTokens = const Value.absent(),
     this.completionTokens = const Value.absent(),
     this.totalTokens = const Value.absent(),
+    this.finishReason = const Value.absent(),
     this.isFavorite = const Value.absent(),
     this.msgDateTime = const Value.absent(),
   });
@@ -1330,6 +1372,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
     this.promptTokens = const Value.absent(),
     this.completionTokens = const Value.absent(),
     this.totalTokens = const Value.absent(),
+    this.finishReason = const Value.absent(),
     required bool isFavorite,
     required DateTime msgDateTime,
   })  : chatId = Value(chatId),
@@ -1347,6 +1390,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
     Expression<int>? promptTokens,
     Expression<int>? completionTokens,
     Expression<int>? totalTokens,
+    Expression<String>? finishReason,
     Expression<bool>? isFavorite,
     Expression<DateTime>? msgDateTime,
   }) {
@@ -1359,6 +1403,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
       if (promptTokens != null) 'prompt_tokens': promptTokens,
       if (completionTokens != null) 'completion_tokens': completionTokens,
       if (totalTokens != null) 'total_tokens': totalTokens,
+      if (finishReason != null) 'finish_reason': finishReason,
       if (isFavorite != null) 'is_favorite': isFavorite,
       if (msgDateTime != null) 'msg_date_time': msgDateTime,
     });
@@ -1373,6 +1418,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
       Value<int?>? promptTokens,
       Value<int?>? completionTokens,
       Value<int?>? totalTokens,
+      Value<String?>? finishReason,
       Value<bool>? isFavorite,
       Value<DateTime>? msgDateTime}) {
     return MessagesCompanion(
@@ -1384,6 +1430,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
       promptTokens: promptTokens ?? this.promptTokens,
       completionTokens: completionTokens ?? this.completionTokens,
       totalTokens: totalTokens ?? this.totalTokens,
+      finishReason: finishReason ?? this.finishReason,
       isFavorite: isFavorite ?? this.isFavorite,
       msgDateTime: msgDateTime ?? this.msgDateTime,
     );
@@ -1416,6 +1463,9 @@ class MessagesCompanion extends UpdateCompanion<Message> {
     if (totalTokens.present) {
       map['total_tokens'] = Variable<int>(totalTokens.value);
     }
+    if (finishReason.present) {
+      map['finish_reason'] = Variable<String>(finishReason.value);
+    }
     if (isFavorite.present) {
       map['is_favorite'] = Variable<bool>(isFavorite.value);
     }
@@ -1436,6 +1486,7 @@ class MessagesCompanion extends UpdateCompanion<Message> {
           ..write('promptTokens: $promptTokens, ')
           ..write('completionTokens: $completionTokens, ')
           ..write('totalTokens: $totalTokens, ')
+          ..write('finishReason: $finishReason, ')
           ..write('isFavorite: $isFavorite, ')
           ..write('msgDateTime: $msgDateTime')
           ..write(')'))

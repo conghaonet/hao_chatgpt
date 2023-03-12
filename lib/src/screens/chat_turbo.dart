@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/main.dart';
 import 'package:hao_chatgpt/src/db/hao_database.dart';
-import 'package:hao_chatgpt/src/network/entity/openai/chat_role.dart';
 import 'package:hao_chatgpt/src/screens/chat_turbo/chat_turbo_menu.dart';
 
 import '../../l10n/generated/l10n.dart';
 import '../app_router.dart';
+import '../constants.dart';
 import '../extensions.dart';
 import '../network/entity/openai/chat_entity.dart';
 import '../network/entity/openai/chat_message_entity.dart';
@@ -24,9 +24,12 @@ class ChatTurbo extends ConsumerStatefulWidget {
 }
 
 class _ChatTurboState extends ConsumerState<ChatTurbo> {
+  final ScrollController _scrollController = ScrollController();
   final TextEditingController _promptTextController = TextEditingController();
   final List<ChatMessageEntity> messages = [];
-  final bool _isLoading = false;
+  bool _isLoading = false;
+  int? _chatId;
+  String? _lastFinishReason;
 
   @override
   void initState() {
@@ -34,56 +37,112 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
   }
 
   Future<void> _request() async {
-    if(_promptTextController.text.isNotBlank) {
-      var promptMsg = ChatMessageEntity(role: ChatRole.user.name, content: _promptTextController.text);
-      messages.add(promptMsg);
-    }
+    setState(() {
+      _isLoading = true;
+    });
     String system = ref.read(chatTurboSystemProvider);
     if(system.trim().isEmpty) {
       system = S.of(context).chatTurboSystemHint;
     }
+    String inputMsg = _promptTextController.text.trim();
+    if(inputMsg.isNotBlank) {
+      _chatId ??= await _saveChatToDatabase(inputMsg, system);
+      await _saveInputMsgToDatabase(inputMsg);
+      messages.add(ChatMessageEntity(role: ChatRole.user, content: inputMsg));
+    }
 
-    List<ChatMessageEntity> queryMessages = [ChatMessageEntity(role: ChatRole.system.name, content: system), ...messages];
+    List<ChatMessageEntity> queryMessages = [ChatMessageEntity(role: ChatRole.system, content: system), ...messages];
 
     ChatQueryEntity queryEntity = ChatQueryEntity(messages: queryMessages,);
+
     ChatEntity chatEntity = await openaiService.getChatCompletions(queryEntity);
     if(chatEntity.choices != null && chatEntity.choices!.isNotEmpty && chatEntity.choices!.first.message != null) {
       messages.add(chatEntity.choices!.first.message!);
-
-      int chatId = await haoDatabase.into(haoDatabase.chats).insert(ChatsCompanion.insert(
-        title: chatEntity.choices!.first.message!.content,
-        system: system,
-        isFavorite: false,
-        chatDateTime: DateTime.now(),
-      ));
-      int messageId = await haoDatabase.into(haoDatabase.messages).insert(MessagesCompanion.insert(
-        chatId: chatId,
-        role: chatEntity.choices!.first.message!.role,
-        content: chatEntity.choices!.first.message!.content,
-        isResponse: true,
-        promptTokens: drift.Value(chatEntity.usage?.promptTokens),
-        completionTokens: drift.Value(chatEntity.usage?.completionTokens),
-        totalTokens: drift.Value(chatEntity.usage?.totalTokens),
-        isFavorite: false,
-        msgDateTime: DateTime.fromMillisecondsSinceEpoch(chatEntity.created),
-      ));
-      debugPrint('chatId = $chatId');
-      debugPrint('messageId = $messageId');
+      _lastFinishReason = chatEntity.choices!.first.finishReason;
+      _chatId ??= await _saveChatToDatabase(chatEntity.choices!.first.message!.content, system);
+      await _saveMessageToDatabase(chatEntity);
       if(mounted) {
         setState(() {
-
         });
+        _scrollToEnd();
       }
     }
     return;
   }
 
-  void _onDrawerChanged(bool isEndDrawer, bool isOpened) {
+  Future<int> _saveChatToDatabase(String title, String system) async {
+    int chatId = await haoDatabase.into(haoDatabase.chats).insert(ChatsCompanion.insert(
+      title: title,
+      system: system,
+      isFavorite: false,
+      chatDateTime: DateTime.now(),
+    ));
+    return chatId;
+  }
+
+  Future<int> _saveInputMsgToDatabase(String inputMsg) async {
+    int messageId = await haoDatabase.into(haoDatabase.messages).insert(MessagesCompanion.insert(
+      chatId: _chatId!,
+      role: ChatRole.user,
+      content: inputMsg,
+      isResponse: false,
+      isFavorite: false,
+      msgDateTime: DateTime.now(),
+    ));
+    return messageId;
+  }
+
+  Future<int> _saveMessageToDatabase(ChatEntity chatEntity) async {
+    int messageId = await haoDatabase.into(haoDatabase.messages).insert(MessagesCompanion.insert(
+      chatId: _chatId!,
+      role: chatEntity.choices!.first.message!.role,
+      content: chatEntity.choices!.first.message!.content,
+      isResponse: true,
+      promptTokens: drift.Value(chatEntity.usage?.promptTokens),
+      completionTokens: drift.Value(chatEntity.usage?.completionTokens),
+      totalTokens: drift.Value(chatEntity.usage?.totalTokens),
+      finishReason: drift.Value(chatEntity.choices!.first.finishReason),
+      isFavorite: false,
+      msgDateTime: DateTime.fromMillisecondsSinceEpoch(chatEntity.created * 1000),
+    ));
+    return messageId;
+  }
+
+  void _scrollToEnd() {
+    Future.delayed(const Duration(milliseconds: 50), () {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.bounceInOut,
+      );
+    });
+  }
+
+  void _onDrawerChanged(bool isEndDrawer, bool isOpened) async {
     if(isOpened) {
       FocusManager.instance.primaryFocus?.unfocus();
     } else {
-      debugPrint(ref.read(chatTurboSystemProvider));
+      if(isEndDrawer) {
+        if(_chatId != null) {
+          var statement = haoDatabase.select(haoDatabase.chats);
+          statement.where((tbl) => tbl.id.equals(_chatId!));
+          var chatsTable = await statement.getSingle();
+          if(chatsTable.system != _getSystem()) {
+            var updateStatement = haoDatabase.update(haoDatabase.chats);
+            updateStatement.where((tbl) => tbl.id.equals(_chatId!));
+            updateStatement.write(ChatsCompanion(system: drift.Value(_getSystem())));
+          }
+        }
+      }
     }
+  }
+  
+  String _getSystem() {
+    String system = ref.read(chatTurboSystemProvider);
+    if(system.trim().isEmpty) {
+      system = S.of(context).chatTurboSystemHint;
+    }
+    return system;
   }
 
   @override
@@ -103,9 +162,13 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
             children: [
               Expanded(
                 child: CustomScrollView(
+                  controller: _scrollController,
                   slivers: <Widget>[
                     _buildSliverAppBar(context),
                     _buildSliverList(),
+                    SliverToBoxAdapter(
+                      child: Text('hello'),
+                    ),
                   ],
                 ),
               ),

@@ -46,3 +46,11 @@ class Constants {
   static const String androidActionMain = 'android.intent.action.MAIN';
   static const String androidCategoryHome = 'android.intent.category.HOME';
 }
+
+class ChatRole {
+  static const system = 'system', user = 'user', assistant = 'assistant';
+}
+
+class FinishReason {
+  static const length = 'length', stop = 'stop';
+}
