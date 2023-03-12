@@ -7,6 +7,7 @@ import 'package:hao_chatgpt/src/screens/settings/settings_gpt3.dart';
 import 'package:hao_chatgpt/src/screens/home.dart';
 import 'package:hao_chatgpt/src/screens/settings.dart';
 
+import 'screens/settings/settings_gpt35turbo.dart';
 import 'screens/webview.dart';
 
 class AppUri {
@@ -15,6 +16,7 @@ class AppUri {
   static const chatTurbo = 'chat-turbo';
   static const settings = 'settings';
   static const settingsGpt3 = 'settings/gpt3';
+  static const settingsGpt35Turbo = 'settings/gpt35turbo';
   static const settingsApikey = 'settings/apikey';
   static const webview = 'webview';
 }
@@ -42,7 +44,12 @@ class AppRouter {
               GoRoute(
                 path: AppUri.settingsGpt3.replaceFirst('${AppUri.settings}/', ''),
                 builder: (BuildContext context, GoRouterState state) =>
-                    const CustomizeGpt3Page(),
+                const CustomizeGpt3Page(),
+              ),
+              GoRoute(
+                path: AppUri.settingsGpt35Turbo.replaceFirst('${AppUri.settings}/', ''),
+                builder: (BuildContext context, GoRouterState state) =>
+                const SettingsGpt35Turbo(),
               ),
               GoRoute(
                 path: AppUri.settingsApikey.replaceFirst('${AppUri.settings}/', ''),

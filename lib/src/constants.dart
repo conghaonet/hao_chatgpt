@@ -28,10 +28,14 @@ class Constants {
   static const String aboutChatGPTUrl = 'https://openai.com/blog/chatgpt/';
   static const String aboutGPT3ModelsUrl =
       'https://beta.openai.com/docs/models/gpt-3';
+  static const String aboutGPT35ModelsUrl =
+      'https://platform.openai.com/docs/models/gpt-3-5';
   static const String aboutCodexModelsUrl =
       'https://beta.openai.com/docs/models/codex';
   static const String apiCompletionsUrl =
-      'https://beta.openai.com/docs/api-reference/completions/create';
+      'https://platform.openai.com/docs/api-reference/completions/create';
+  static const String apiReferenceChatUrl =
+      'https://platform.openai.com/docs/api-reference/chat/create';
   static const String haoChatGitHubUrl =
       'https://github.com/conghaonet/hao_chatgpt';
   static const String openAiApiKeysUrl =

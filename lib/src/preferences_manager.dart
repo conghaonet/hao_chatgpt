@@ -7,6 +7,7 @@ import 'package:hao_chatgpt/src/network/entity/api_key_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'constants.dart';
 import 'extensions.dart';
+import 'network/entity/openai/chat_query_entity.dart';
 import 'network/entity/openai/completions_query_entity.dart';
 
 class PreferencesManager {
@@ -79,25 +80,6 @@ class PreferencesManager {
     }
   }
 
-  double? get temperature =>
-      _preferences.getDouble(SharedPreferencesKey.temperature);
-  Future<bool> setTemperature(double? value) {
-    if (value == null) {
-      return _preferences.remove(SharedPreferencesKey.temperature);
-    } else {
-      return _preferences.setDouble(SharedPreferencesKey.temperature, value);
-    }
-  }
-
-  int? get maxTokens => _preferences.getInt(SharedPreferencesKey.maxTokens);
-  Future<bool> setMaxTokens(int? value) {
-    if (value == null) {
-      return _preferences.remove(SharedPreferencesKey.maxTokens);
-    } else {
-      return _preferences.setInt(SharedPreferencesKey.maxTokens, value);
-    }
-  }
-
   CompletionsQueryEntity? get gpt3GenerationSettings {
     String? value =
         _preferences.getString(SharedPreferencesKey.gpt3GenerationSettings);
@@ -119,6 +101,30 @@ class PreferencesManager {
     } else {
       return _preferences.setString(
           SharedPreferencesKey.gpt3GenerationSettings, jsonEncode(entity));
+    }
+  }
+
+  ChatQueryEntity? get gpt35TurboSettings {
+    String? value =
+    _preferences.getString(SharedPreferencesKey.gpt35TurboSettings);
+    if (value.isNotBlank) {
+      try {
+        dynamic jsonMap = jsonDecode(value!);
+        return ChatQueryEntity.fromJson(jsonMap);
+      } catch (e) {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  Future<bool> setGpt35TurboSettings(ChatQueryEntity? entity) {
+    if (entity == null) {
+      return _preferences.remove(SharedPreferencesKey.gpt35TurboSettings);
+    } else {
+      return _preferences.setString(
+          SharedPreferencesKey.gpt35TurboSettings, jsonEncode(entity));
     }
   }
 
@@ -219,6 +225,7 @@ class PreferencesManager {
     }
     return _preferences.setString(SharedPreferencesKey.httpProxy, value);
   }
+
 }
 
 class SharedPreferencesKey {
@@ -228,6 +235,7 @@ class SharedPreferencesKey {
   static const temperature = 'temperature';
   static const maxTokens = 'max_tokens';
   static const gpt3GenerationSettings = 'gpt3_generation_settings';
+  static const gpt35TurboSettings = 'gpt35turbo_settings';
   static const apiKeys = 'api_keys';
   static const shortcutsSend = 'shortcuts_send';
   static const httpProxy = 'http_proxy';

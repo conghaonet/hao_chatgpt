@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/main.dart';
 import 'package:hao_chatgpt/src/network/entity/openai/chat_role.dart';
 import 'package:hao_chatgpt/src/screens/chat_turbo/chat_turbo_menu.dart';
 
 import '../../l10n/generated/l10n.dart';
+import '../app_router.dart';
 import '../extensions.dart';
 import '../network/entity/openai/chat_entity.dart';
 import '../network/entity/openai/chat_message_entity.dart';
@@ -101,6 +103,24 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
       snap: true,
       floating: true,
       title: Text(S.of(context).gpt35turbo),
+      actions: [
+        IconButton(
+          onPressed: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+            context.push('/${AppUri.settingsGpt35Turbo}');
+          },
+          icon: const Icon(Icons.dashboard_customize),
+        ),
+        Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.edit_note),
+            onPressed: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+              Scaffold.of(context).openEndDrawer();
+            },
+          ),
+        ),
+      ],
     );
   }
 
