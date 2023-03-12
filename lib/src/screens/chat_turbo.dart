@@ -26,7 +26,7 @@ class ChatTurbo extends ConsumerStatefulWidget {
 class _ChatTurboState extends ConsumerState<ChatTurbo> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _promptTextController = TextEditingController();
-  final List<ChatMessageEntity> messages = [];
+  final List<Message> messages = [];
   bool _isLoading = false;
   int? _chatId;
   String? _lastFinishReason;
@@ -37,34 +37,34 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
   }
 
   Future<void> _request() async {
-    setState(() {
-      _isLoading = true;
-    });
-    String system = ref.read(chatTurboSystemProvider);
-    if(system.trim().isEmpty) {
-      system = S.of(context).chatTurboSystemHint;
-    }
+    if(_isLoading) return;
+    _isLoading = true;
+    String system = _getSystem();
     String inputMsg = _promptTextController.text.trim();
     if(inputMsg.isNotBlank) {
       _chatId ??= await _saveChatToDatabase(inputMsg, system);
       await _saveInputMsgToDatabase(inputMsg);
-      messages.add(ChatMessageEntity(role: ChatRole.user, content: inputMsg));
     }
-
-    List<ChatMessageEntity> queryMessages = [ChatMessageEntity(role: ChatRole.system, content: system), ...messages];
-
+    if(mounted) {
+      setState(() {
+        _scrollToEnd();
+      });
+    }
+    List<ChatMessageEntity> queryMessages = [
+      ChatMessageEntity(role: ChatRole.system, content: system),
+      ...messages.map((e) => ChatMessageEntity(role: e.role, content: e.content)).toList()
+    ];
     ChatQueryEntity queryEntity = ChatQueryEntity(messages: queryMessages,);
-
     ChatEntity chatEntity = await openaiService.getChatCompletions(queryEntity);
     if(chatEntity.choices != null && chatEntity.choices!.isNotEmpty && chatEntity.choices!.first.message != null) {
-      messages.add(chatEntity.choices!.first.message!);
       _lastFinishReason = chatEntity.choices!.first.finishReason;
       _chatId ??= await _saveChatToDatabase(chatEntity.choices!.first.message!.content, system);
       await _saveMessageToDatabase(chatEntity);
       if(mounted) {
         setState(() {
+          _isLoading = false;
+          _scrollToEnd();
         });
-        _scrollToEnd();
       }
     }
     return;
@@ -80,7 +80,7 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
     return chatId;
   }
 
-  Future<int> _saveInputMsgToDatabase(String inputMsg) async {
+  Future<void> _saveInputMsgToDatabase(String inputMsg) async {
     int messageId = await haoDatabase.into(haoDatabase.messages).insert(MessagesCompanion.insert(
       chatId: _chatId!,
       role: ChatRole.user,
@@ -89,10 +89,11 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
       isFavorite: false,
       msgDateTime: DateTime.now(),
     ));
-    return messageId;
+    await _appendMessage(messageId);
+    return;
   }
 
-  Future<int> _saveMessageToDatabase(ChatEntity chatEntity) async {
+  Future<void> _saveMessageToDatabase(ChatEntity chatEntity) async {
     int messageId = await haoDatabase.into(haoDatabase.messages).insert(MessagesCompanion.insert(
       chatId: _chatId!,
       role: chatEntity.choices!.first.message!.role,
@@ -105,7 +106,13 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
       isFavorite: false,
       msgDateTime: DateTime.fromMillisecondsSinceEpoch(chatEntity.created * 1000),
     ));
-    return messageId;
+    await _appendMessage(messageId);
+  }
+
+  Future<void> _appendMessage(int messageId) async {
+    var query = haoDatabase.select(haoDatabase.messages)..where((tbl) => tbl.id.equals(messageId));
+    var message = await query.getSingle();
+    messages.add(message);
   }
 
   void _scrollToEnd() {
@@ -167,7 +174,7 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
                     _buildSliverAppBar(context),
                     _buildSliverList(),
                     SliverToBoxAdapter(
-                      child: Text('hello'),
+                      child: Center(child: Text('hello')),
                     ),
                   ],
                 ),
@@ -215,7 +222,7 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
           decoration: BoxDecoration(
             border: Border.all(),
           ),
-          child: Text(messages[index].toJson().toString(),),
+          child: Text(messages[index].content,),
         );
       },
         childCount: messages.length,
@@ -245,8 +252,8 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
             ),
           ),
           FilledButton(
-            onPressed: _isLoading ? null : () async {
-              await _request();
+            onPressed: _isLoading ? null : () {
+              _request();
             },
             child: Padding(
               padding: const EdgeInsets.all(12.0),
