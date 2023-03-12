@@ -12,12 +12,14 @@ mixin AutoIncrementingPrimaryKey on Table {
   IntColumn get id => integer().autoIncrement()();
 }
 
+@Deprecated("")
 class ChatTitles extends Table with AutoIncrementingPrimaryKey {
   TextColumn get title => text()();
   BoolColumn get isFavorite => boolean().nullable()();
   DateTimeColumn get chatDate => dateTime()();
 }
 
+@Deprecated("")
 class Conversations extends Table with AutoIncrementingPrimaryKey {
   IntColumn get titleId => integer().references(ChatTitles, #id)();
   TextColumn get inputMessage => text()();
@@ -27,18 +29,47 @@ class Conversations extends Table with AutoIncrementingPrimaryKey {
   DateTimeColumn get promptDate => dateTime()();
 }
 
-@DriftDatabase(tables: [ChatTitles, Conversations])
+class Chats extends Table with AutoIncrementingPrimaryKey {
+  TextColumn get title => text()();
+  TextColumn get system => text()();
+  BoolColumn get isFavorite => boolean()();
+  DateTimeColumn get chatDateTime => dateTime()();
+}
+
+class Messages extends Table with AutoIncrementingPrimaryKey {
+  IntColumn get chatId => integer().references(Chats, #id)();
+  TextColumn get role => text()();
+  TextColumn get content => text()();
+  BoolColumn get isResponse => boolean()();
+  IntColumn get promptTokens => integer().nullable()();
+  IntColumn get completionTokens => integer().nullable()();
+  IntColumn get totalTokens => integer().nullable()();
+  BoolColumn get isFavorite => boolean()();
+  DateTimeColumn get msgDateTime => dateTime()();
+}
+
+@DriftDatabase(tables: [ChatTitles, Conversations, Chats, Messages])
 class HaoDatabase extends _$HaoDatabase {
   HaoDatabase() : super(_openConnection());
 
   // you should bump this number whenever you change or add a table definition.
   // Migrations are covered later in the documentation.
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
+      onUpgrade: (m, from, to) async {
+        for (var step = from + 1; step <= to; step++) {
+          switch (step) {
+            case 2:
+              m.createTable(chats);
+              m.createTable(messages);
+              break;
+          }
+        }
+      },
       beforeOpen: (details) async {
         // Make sure that foreign keys are enabled
         await customStatement('PRAGMA foreign_keys = ON');

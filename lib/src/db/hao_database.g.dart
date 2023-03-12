@@ -639,14 +639,820 @@ class ConversationsCompanion extends UpdateCompanion<Conversation> {
   }
 }
 
+class $ChatsTable extends Chats with TableInfo<$ChatsTable, Chat> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ChatsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+      'title', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _systemMeta = const VerificationMeta('system');
+  @override
+  late final GeneratedColumn<String> system = GeneratedColumn<String>(
+      'system', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _isFavoriteMeta =
+      const VerificationMeta('isFavorite');
+  @override
+  late final GeneratedColumn<bool> isFavorite =
+      GeneratedColumn<bool>('is_favorite', aliasedName, false,
+          type: DriftSqlType.bool,
+          requiredDuringInsert: true,
+          defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
+            SqlDialect.sqlite: 'CHECK ("is_favorite" IN (0, 1))',
+            SqlDialect.mysql: '',
+            SqlDialect.postgres: '',
+          }));
+  static const VerificationMeta _chatDateTimeMeta =
+      const VerificationMeta('chatDateTime');
+  @override
+  late final GeneratedColumn<DateTime> chatDateTime = GeneratedColumn<DateTime>(
+      'chat_date_time', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, title, system, isFavorite, chatDateTime];
+  @override
+  String get aliasedName => _alias ?? 'chats';
+  @override
+  String get actualTableName => 'chats';
+  @override
+  VerificationContext validateIntegrity(Insertable<Chat> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('system')) {
+      context.handle(_systemMeta,
+          system.isAcceptableOrUnknown(data['system']!, _systemMeta));
+    } else if (isInserting) {
+      context.missing(_systemMeta);
+    }
+    if (data.containsKey('is_favorite')) {
+      context.handle(
+          _isFavoriteMeta,
+          isFavorite.isAcceptableOrUnknown(
+              data['is_favorite']!, _isFavoriteMeta));
+    } else if (isInserting) {
+      context.missing(_isFavoriteMeta);
+    }
+    if (data.containsKey('chat_date_time')) {
+      context.handle(
+          _chatDateTimeMeta,
+          chatDateTime.isAcceptableOrUnknown(
+              data['chat_date_time']!, _chatDateTimeMeta));
+    } else if (isInserting) {
+      context.missing(_chatDateTimeMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Chat map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Chat(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      title: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+      system: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}system'])!,
+      isFavorite: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_favorite'])!,
+      chatDateTime: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}chat_date_time'])!,
+    );
+  }
+
+  @override
+  $ChatsTable createAlias(String alias) {
+    return $ChatsTable(attachedDatabase, alias);
+  }
+}
+
+class Chat extends DataClass implements Insertable<Chat> {
+  final int id;
+  final String title;
+  final String system;
+  final bool isFavorite;
+  final DateTime chatDateTime;
+  const Chat(
+      {required this.id,
+      required this.title,
+      required this.system,
+      required this.isFavorite,
+      required this.chatDateTime});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['title'] = Variable<String>(title);
+    map['system'] = Variable<String>(system);
+    map['is_favorite'] = Variable<bool>(isFavorite);
+    map['chat_date_time'] = Variable<DateTime>(chatDateTime);
+    return map;
+  }
+
+  ChatsCompanion toCompanion(bool nullToAbsent) {
+    return ChatsCompanion(
+      id: Value(id),
+      title: Value(title),
+      system: Value(system),
+      isFavorite: Value(isFavorite),
+      chatDateTime: Value(chatDateTime),
+    );
+  }
+
+  factory Chat.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Chat(
+      id: serializer.fromJson<int>(json['id']),
+      title: serializer.fromJson<String>(json['title']),
+      system: serializer.fromJson<String>(json['system']),
+      isFavorite: serializer.fromJson<bool>(json['isFavorite']),
+      chatDateTime: serializer.fromJson<DateTime>(json['chatDateTime']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'title': serializer.toJson<String>(title),
+      'system': serializer.toJson<String>(system),
+      'isFavorite': serializer.toJson<bool>(isFavorite),
+      'chatDateTime': serializer.toJson<DateTime>(chatDateTime),
+    };
+  }
+
+  Chat copyWith(
+          {int? id,
+          String? title,
+          String? system,
+          bool? isFavorite,
+          DateTime? chatDateTime}) =>
+      Chat(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        system: system ?? this.system,
+        isFavorite: isFavorite ?? this.isFavorite,
+        chatDateTime: chatDateTime ?? this.chatDateTime,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('Chat(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('system: $system, ')
+          ..write('isFavorite: $isFavorite, ')
+          ..write('chatDateTime: $chatDateTime')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, title, system, isFavorite, chatDateTime);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Chat &&
+          other.id == this.id &&
+          other.title == this.title &&
+          other.system == this.system &&
+          other.isFavorite == this.isFavorite &&
+          other.chatDateTime == this.chatDateTime);
+}
+
+class ChatsCompanion extends UpdateCompanion<Chat> {
+  final Value<int> id;
+  final Value<String> title;
+  final Value<String> system;
+  final Value<bool> isFavorite;
+  final Value<DateTime> chatDateTime;
+  const ChatsCompanion({
+    this.id = const Value.absent(),
+    this.title = const Value.absent(),
+    this.system = const Value.absent(),
+    this.isFavorite = const Value.absent(),
+    this.chatDateTime = const Value.absent(),
+  });
+  ChatsCompanion.insert({
+    this.id = const Value.absent(),
+    required String title,
+    required String system,
+    required bool isFavorite,
+    required DateTime chatDateTime,
+  })  : title = Value(title),
+        system = Value(system),
+        isFavorite = Value(isFavorite),
+        chatDateTime = Value(chatDateTime);
+  static Insertable<Chat> custom({
+    Expression<int>? id,
+    Expression<String>? title,
+    Expression<String>? system,
+    Expression<bool>? isFavorite,
+    Expression<DateTime>? chatDateTime,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (system != null) 'system': system,
+      if (isFavorite != null) 'is_favorite': isFavorite,
+      if (chatDateTime != null) 'chat_date_time': chatDateTime,
+    });
+  }
+
+  ChatsCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? title,
+      Value<String>? system,
+      Value<bool>? isFavorite,
+      Value<DateTime>? chatDateTime}) {
+    return ChatsCompanion(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      system: system ?? this.system,
+      isFavorite: isFavorite ?? this.isFavorite,
+      chatDateTime: chatDateTime ?? this.chatDateTime,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (system.present) {
+      map['system'] = Variable<String>(system.value);
+    }
+    if (isFavorite.present) {
+      map['is_favorite'] = Variable<bool>(isFavorite.value);
+    }
+    if (chatDateTime.present) {
+      map['chat_date_time'] = Variable<DateTime>(chatDateTime.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ChatsCompanion(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('system: $system, ')
+          ..write('isFavorite: $isFavorite, ')
+          ..write('chatDateTime: $chatDateTime')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MessagesTable extends Messages with TableInfo<$MessagesTable, Message> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MessagesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _chatIdMeta = const VerificationMeta('chatId');
+  @override
+  late final GeneratedColumn<int> chatId = GeneratedColumn<int>(
+      'chat_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES chats (id)'));
+  static const VerificationMeta _roleMeta = const VerificationMeta('role');
+  @override
+  late final GeneratedColumn<String> role = GeneratedColumn<String>(
+      'role', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _contentMeta =
+      const VerificationMeta('content');
+  @override
+  late final GeneratedColumn<String> content = GeneratedColumn<String>(
+      'content', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _isResponseMeta =
+      const VerificationMeta('isResponse');
+  @override
+  late final GeneratedColumn<bool> isResponse =
+      GeneratedColumn<bool>('is_response', aliasedName, false,
+          type: DriftSqlType.bool,
+          requiredDuringInsert: true,
+          defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
+            SqlDialect.sqlite: 'CHECK ("is_response" IN (0, 1))',
+            SqlDialect.mysql: '',
+            SqlDialect.postgres: '',
+          }));
+  static const VerificationMeta _promptTokensMeta =
+      const VerificationMeta('promptTokens');
+  @override
+  late final GeneratedColumn<int> promptTokens = GeneratedColumn<int>(
+      'prompt_tokens', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _completionTokensMeta =
+      const VerificationMeta('completionTokens');
+  @override
+  late final GeneratedColumn<int> completionTokens = GeneratedColumn<int>(
+      'completion_tokens', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _totalTokensMeta =
+      const VerificationMeta('totalTokens');
+  @override
+  late final GeneratedColumn<int> totalTokens = GeneratedColumn<int>(
+      'total_tokens', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _isFavoriteMeta =
+      const VerificationMeta('isFavorite');
+  @override
+  late final GeneratedColumn<bool> isFavorite =
+      GeneratedColumn<bool>('is_favorite', aliasedName, false,
+          type: DriftSqlType.bool,
+          requiredDuringInsert: true,
+          defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
+            SqlDialect.sqlite: 'CHECK ("is_favorite" IN (0, 1))',
+            SqlDialect.mysql: '',
+            SqlDialect.postgres: '',
+          }));
+  static const VerificationMeta _msgDateTimeMeta =
+      const VerificationMeta('msgDateTime');
+  @override
+  late final GeneratedColumn<DateTime> msgDateTime = GeneratedColumn<DateTime>(
+      'msg_date_time', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        chatId,
+        role,
+        content,
+        isResponse,
+        promptTokens,
+        completionTokens,
+        totalTokens,
+        isFavorite,
+        msgDateTime
+      ];
+  @override
+  String get aliasedName => _alias ?? 'messages';
+  @override
+  String get actualTableName => 'messages';
+  @override
+  VerificationContext validateIntegrity(Insertable<Message> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('chat_id')) {
+      context.handle(_chatIdMeta,
+          chatId.isAcceptableOrUnknown(data['chat_id']!, _chatIdMeta));
+    } else if (isInserting) {
+      context.missing(_chatIdMeta);
+    }
+    if (data.containsKey('role')) {
+      context.handle(
+          _roleMeta, role.isAcceptableOrUnknown(data['role']!, _roleMeta));
+    } else if (isInserting) {
+      context.missing(_roleMeta);
+    }
+    if (data.containsKey('content')) {
+      context.handle(_contentMeta,
+          content.isAcceptableOrUnknown(data['content']!, _contentMeta));
+    } else if (isInserting) {
+      context.missing(_contentMeta);
+    }
+    if (data.containsKey('is_response')) {
+      context.handle(
+          _isResponseMeta,
+          isResponse.isAcceptableOrUnknown(
+              data['is_response']!, _isResponseMeta));
+    } else if (isInserting) {
+      context.missing(_isResponseMeta);
+    }
+    if (data.containsKey('prompt_tokens')) {
+      context.handle(
+          _promptTokensMeta,
+          promptTokens.isAcceptableOrUnknown(
+              data['prompt_tokens']!, _promptTokensMeta));
+    }
+    if (data.containsKey('completion_tokens')) {
+      context.handle(
+          _completionTokensMeta,
+          completionTokens.isAcceptableOrUnknown(
+              data['completion_tokens']!, _completionTokensMeta));
+    }
+    if (data.containsKey('total_tokens')) {
+      context.handle(
+          _totalTokensMeta,
+          totalTokens.isAcceptableOrUnknown(
+              data['total_tokens']!, _totalTokensMeta));
+    }
+    if (data.containsKey('is_favorite')) {
+      context.handle(
+          _isFavoriteMeta,
+          isFavorite.isAcceptableOrUnknown(
+              data['is_favorite']!, _isFavoriteMeta));
+    } else if (isInserting) {
+      context.missing(_isFavoriteMeta);
+    }
+    if (data.containsKey('msg_date_time')) {
+      context.handle(
+          _msgDateTimeMeta,
+          msgDateTime.isAcceptableOrUnknown(
+              data['msg_date_time']!, _msgDateTimeMeta));
+    } else if (isInserting) {
+      context.missing(_msgDateTimeMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Message map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Message(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      chatId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}chat_id'])!,
+      role: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}role'])!,
+      content: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}content'])!,
+      isResponse: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_response'])!,
+      promptTokens: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}prompt_tokens']),
+      completionTokens: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}completion_tokens']),
+      totalTokens: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}total_tokens']),
+      isFavorite: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_favorite'])!,
+      msgDateTime: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}msg_date_time'])!,
+    );
+  }
+
+  @override
+  $MessagesTable createAlias(String alias) {
+    return $MessagesTable(attachedDatabase, alias);
+  }
+}
+
+class Message extends DataClass implements Insertable<Message> {
+  final int id;
+  final int chatId;
+  final String role;
+  final String content;
+  final bool isResponse;
+  final int? promptTokens;
+  final int? completionTokens;
+  final int? totalTokens;
+  final bool isFavorite;
+  final DateTime msgDateTime;
+  const Message(
+      {required this.id,
+      required this.chatId,
+      required this.role,
+      required this.content,
+      required this.isResponse,
+      this.promptTokens,
+      this.completionTokens,
+      this.totalTokens,
+      required this.isFavorite,
+      required this.msgDateTime});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['chat_id'] = Variable<int>(chatId);
+    map['role'] = Variable<String>(role);
+    map['content'] = Variable<String>(content);
+    map['is_response'] = Variable<bool>(isResponse);
+    if (!nullToAbsent || promptTokens != null) {
+      map['prompt_tokens'] = Variable<int>(promptTokens);
+    }
+    if (!nullToAbsent || completionTokens != null) {
+      map['completion_tokens'] = Variable<int>(completionTokens);
+    }
+    if (!nullToAbsent || totalTokens != null) {
+      map['total_tokens'] = Variable<int>(totalTokens);
+    }
+    map['is_favorite'] = Variable<bool>(isFavorite);
+    map['msg_date_time'] = Variable<DateTime>(msgDateTime);
+    return map;
+  }
+
+  MessagesCompanion toCompanion(bool nullToAbsent) {
+    return MessagesCompanion(
+      id: Value(id),
+      chatId: Value(chatId),
+      role: Value(role),
+      content: Value(content),
+      isResponse: Value(isResponse),
+      promptTokens: promptTokens == null && nullToAbsent
+          ? const Value.absent()
+          : Value(promptTokens),
+      completionTokens: completionTokens == null && nullToAbsent
+          ? const Value.absent()
+          : Value(completionTokens),
+      totalTokens: totalTokens == null && nullToAbsent
+          ? const Value.absent()
+          : Value(totalTokens),
+      isFavorite: Value(isFavorite),
+      msgDateTime: Value(msgDateTime),
+    );
+  }
+
+  factory Message.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Message(
+      id: serializer.fromJson<int>(json['id']),
+      chatId: serializer.fromJson<int>(json['chatId']),
+      role: serializer.fromJson<String>(json['role']),
+      content: serializer.fromJson<String>(json['content']),
+      isResponse: serializer.fromJson<bool>(json['isResponse']),
+      promptTokens: serializer.fromJson<int?>(json['promptTokens']),
+      completionTokens: serializer.fromJson<int?>(json['completionTokens']),
+      totalTokens: serializer.fromJson<int?>(json['totalTokens']),
+      isFavorite: serializer.fromJson<bool>(json['isFavorite']),
+      msgDateTime: serializer.fromJson<DateTime>(json['msgDateTime']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'chatId': serializer.toJson<int>(chatId),
+      'role': serializer.toJson<String>(role),
+      'content': serializer.toJson<String>(content),
+      'isResponse': serializer.toJson<bool>(isResponse),
+      'promptTokens': serializer.toJson<int?>(promptTokens),
+      'completionTokens': serializer.toJson<int?>(completionTokens),
+      'totalTokens': serializer.toJson<int?>(totalTokens),
+      'isFavorite': serializer.toJson<bool>(isFavorite),
+      'msgDateTime': serializer.toJson<DateTime>(msgDateTime),
+    };
+  }
+
+  Message copyWith(
+          {int? id,
+          int? chatId,
+          String? role,
+          String? content,
+          bool? isResponse,
+          Value<int?> promptTokens = const Value.absent(),
+          Value<int?> completionTokens = const Value.absent(),
+          Value<int?> totalTokens = const Value.absent(),
+          bool? isFavorite,
+          DateTime? msgDateTime}) =>
+      Message(
+        id: id ?? this.id,
+        chatId: chatId ?? this.chatId,
+        role: role ?? this.role,
+        content: content ?? this.content,
+        isResponse: isResponse ?? this.isResponse,
+        promptTokens:
+            promptTokens.present ? promptTokens.value : this.promptTokens,
+        completionTokens: completionTokens.present
+            ? completionTokens.value
+            : this.completionTokens,
+        totalTokens: totalTokens.present ? totalTokens.value : this.totalTokens,
+        isFavorite: isFavorite ?? this.isFavorite,
+        msgDateTime: msgDateTime ?? this.msgDateTime,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('Message(')
+          ..write('id: $id, ')
+          ..write('chatId: $chatId, ')
+          ..write('role: $role, ')
+          ..write('content: $content, ')
+          ..write('isResponse: $isResponse, ')
+          ..write('promptTokens: $promptTokens, ')
+          ..write('completionTokens: $completionTokens, ')
+          ..write('totalTokens: $totalTokens, ')
+          ..write('isFavorite: $isFavorite, ')
+          ..write('msgDateTime: $msgDateTime')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, chatId, role, content, isResponse,
+      promptTokens, completionTokens, totalTokens, isFavorite, msgDateTime);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Message &&
+          other.id == this.id &&
+          other.chatId == this.chatId &&
+          other.role == this.role &&
+          other.content == this.content &&
+          other.isResponse == this.isResponse &&
+          other.promptTokens == this.promptTokens &&
+          other.completionTokens == this.completionTokens &&
+          other.totalTokens == this.totalTokens &&
+          other.isFavorite == this.isFavorite &&
+          other.msgDateTime == this.msgDateTime);
+}
+
+class MessagesCompanion extends UpdateCompanion<Message> {
+  final Value<int> id;
+  final Value<int> chatId;
+  final Value<String> role;
+  final Value<String> content;
+  final Value<bool> isResponse;
+  final Value<int?> promptTokens;
+  final Value<int?> completionTokens;
+  final Value<int?> totalTokens;
+  final Value<bool> isFavorite;
+  final Value<DateTime> msgDateTime;
+  const MessagesCompanion({
+    this.id = const Value.absent(),
+    this.chatId = const Value.absent(),
+    this.role = const Value.absent(),
+    this.content = const Value.absent(),
+    this.isResponse = const Value.absent(),
+    this.promptTokens = const Value.absent(),
+    this.completionTokens = const Value.absent(),
+    this.totalTokens = const Value.absent(),
+    this.isFavorite = const Value.absent(),
+    this.msgDateTime = const Value.absent(),
+  });
+  MessagesCompanion.insert({
+    this.id = const Value.absent(),
+    required int chatId,
+    required String role,
+    required String content,
+    required bool isResponse,
+    this.promptTokens = const Value.absent(),
+    this.completionTokens = const Value.absent(),
+    this.totalTokens = const Value.absent(),
+    required bool isFavorite,
+    required DateTime msgDateTime,
+  })  : chatId = Value(chatId),
+        role = Value(role),
+        content = Value(content),
+        isResponse = Value(isResponse),
+        isFavorite = Value(isFavorite),
+        msgDateTime = Value(msgDateTime);
+  static Insertable<Message> custom({
+    Expression<int>? id,
+    Expression<int>? chatId,
+    Expression<String>? role,
+    Expression<String>? content,
+    Expression<bool>? isResponse,
+    Expression<int>? promptTokens,
+    Expression<int>? completionTokens,
+    Expression<int>? totalTokens,
+    Expression<bool>? isFavorite,
+    Expression<DateTime>? msgDateTime,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (chatId != null) 'chat_id': chatId,
+      if (role != null) 'role': role,
+      if (content != null) 'content': content,
+      if (isResponse != null) 'is_response': isResponse,
+      if (promptTokens != null) 'prompt_tokens': promptTokens,
+      if (completionTokens != null) 'completion_tokens': completionTokens,
+      if (totalTokens != null) 'total_tokens': totalTokens,
+      if (isFavorite != null) 'is_favorite': isFavorite,
+      if (msgDateTime != null) 'msg_date_time': msgDateTime,
+    });
+  }
+
+  MessagesCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? chatId,
+      Value<String>? role,
+      Value<String>? content,
+      Value<bool>? isResponse,
+      Value<int?>? promptTokens,
+      Value<int?>? completionTokens,
+      Value<int?>? totalTokens,
+      Value<bool>? isFavorite,
+      Value<DateTime>? msgDateTime}) {
+    return MessagesCompanion(
+      id: id ?? this.id,
+      chatId: chatId ?? this.chatId,
+      role: role ?? this.role,
+      content: content ?? this.content,
+      isResponse: isResponse ?? this.isResponse,
+      promptTokens: promptTokens ?? this.promptTokens,
+      completionTokens: completionTokens ?? this.completionTokens,
+      totalTokens: totalTokens ?? this.totalTokens,
+      isFavorite: isFavorite ?? this.isFavorite,
+      msgDateTime: msgDateTime ?? this.msgDateTime,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (chatId.present) {
+      map['chat_id'] = Variable<int>(chatId.value);
+    }
+    if (role.present) {
+      map['role'] = Variable<String>(role.value);
+    }
+    if (content.present) {
+      map['content'] = Variable<String>(content.value);
+    }
+    if (isResponse.present) {
+      map['is_response'] = Variable<bool>(isResponse.value);
+    }
+    if (promptTokens.present) {
+      map['prompt_tokens'] = Variable<int>(promptTokens.value);
+    }
+    if (completionTokens.present) {
+      map['completion_tokens'] = Variable<int>(completionTokens.value);
+    }
+    if (totalTokens.present) {
+      map['total_tokens'] = Variable<int>(totalTokens.value);
+    }
+    if (isFavorite.present) {
+      map['is_favorite'] = Variable<bool>(isFavorite.value);
+    }
+    if (msgDateTime.present) {
+      map['msg_date_time'] = Variable<DateTime>(msgDateTime.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MessagesCompanion(')
+          ..write('id: $id, ')
+          ..write('chatId: $chatId, ')
+          ..write('role: $role, ')
+          ..write('content: $content, ')
+          ..write('isResponse: $isResponse, ')
+          ..write('promptTokens: $promptTokens, ')
+          ..write('completionTokens: $completionTokens, ')
+          ..write('totalTokens: $totalTokens, ')
+          ..write('isFavorite: $isFavorite, ')
+          ..write('msgDateTime: $msgDateTime')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$HaoDatabase extends GeneratedDatabase {
   _$HaoDatabase(QueryExecutor e) : super(e);
   late final $ChatTitlesTable chatTitles = $ChatTitlesTable(this);
   late final $ConversationsTable conversations = $ConversationsTable(this);
+  late final $ChatsTable chats = $ChatsTable(this);
+  late final $MessagesTable messages = $MessagesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [chatTitles, conversations];
+      [chatTitles, conversations, chats, messages];
 }

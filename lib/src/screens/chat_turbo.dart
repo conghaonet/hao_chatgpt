@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/main.dart';
+import 'package:hao_chatgpt/src/db/hao_database.dart';
 import 'package:hao_chatgpt/src/network/entity/openai/chat_role.dart';
 import 'package:hao_chatgpt/src/screens/chat_turbo/chat_turbo_menu.dart';
 
@@ -13,6 +14,7 @@ import '../network/entity/openai/chat_message_entity.dart';
 import '../network/entity/openai/chat_query_entity.dart';
 import '../network/openai_service.dart';
 import 'chat_turbo/chat_turbo_system.dart';
+import 'package:drift/drift.dart' as drift;
 
 class ChatTurbo extends ConsumerStatefulWidget {
   const ChatTurbo({Key? key}) : super(key: key);
@@ -47,14 +49,32 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
     ChatEntity chatEntity = await openaiService.getChatCompletions(queryEntity);
     if(chatEntity.choices != null && chatEntity.choices!.isNotEmpty && chatEntity.choices!.first.message != null) {
       messages.add(chatEntity.choices!.first.message!);
+
+      int chatId = await haoDatabase.into(haoDatabase.chats).insert(ChatsCompanion.insert(
+        title: chatEntity.choices!.first.message!.content,
+        system: system,
+        isFavorite: false,
+        chatDateTime: DateTime.now(),
+      ));
+      int messageId = await haoDatabase.into(haoDatabase.messages).insert(MessagesCompanion.insert(
+        chatId: chatId,
+        role: chatEntity.choices!.first.message!.role,
+        content: chatEntity.choices!.first.message!.content,
+        isResponse: true,
+        promptTokens: drift.Value(chatEntity.usage?.promptTokens),
+        completionTokens: drift.Value(chatEntity.usage?.completionTokens),
+        totalTokens: drift.Value(chatEntity.usage?.totalTokens),
+        isFavorite: false,
+        msgDateTime: DateTime.fromMillisecondsSinceEpoch(chatEntity.created),
+      ));
+      debugPrint('chatId = $chatId');
+      debugPrint('messageId = $messageId');
       if(mounted) {
         setState(() {
 
         });
       }
     }
-    print(chatEntity.toJson());
-
     return;
   }
 
