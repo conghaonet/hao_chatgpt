@@ -333,12 +333,6 @@ abstract class S {
   /// **'Port number'**
   String get portNumber;
 
-  /// No description provided for @submit.
-  ///
-  /// In en, this message translates to:
-  /// **'Submit'**
-  String get submit;
-
   /// No description provided for @resume.
   ///
   /// In en, this message translates to:

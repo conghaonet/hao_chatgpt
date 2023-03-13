@@ -39,7 +39,6 @@
   "enableProxy": "启用代理",
   "hostName": "主机名",
   "portNumber": "端口号",
-  "submit": "提交",
   "resume": "继续",
   "system": "系统",
   "retry": "重试",

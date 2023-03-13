@@ -136,9 +136,6 @@ class SEn extends S {
   String get portNumber => 'Port number';
 
   @override
-  String get submit => 'Submit';
-
-  @override
   String get resume => 'Resume';
 
   @override

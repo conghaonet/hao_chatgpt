@@ -321,14 +321,10 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
               ),
             ),
           ),
-          FilledButton(
-            onPressed: _isLoading ? null : () {
-              _request();
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(S.of(context).submit),
-            ),
+          IconButton(
+            iconSize: 32,
+            onPressed: _isLoading ? null : () => _request(),
+            icon: Icon(Icons.send, color: _isLoading ? Colors.grey : Colors.blueAccent,),
           ),
         ],
       ),

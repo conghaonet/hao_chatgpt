@@ -136,9 +136,6 @@ class SZh extends S {
   String get portNumber => '端口号';
 
   @override
-  String get submit => '提交';
-
-  @override
   String get resume => '继续';
 
   @override
