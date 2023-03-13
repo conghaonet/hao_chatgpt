@@ -262,10 +262,13 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SelectableText(
-              _errorEntity?.message ?? _errorEntity?.error ?? 'ERROR!',
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-              selectionControls: Platform.isIOS ? myCupertinoTextSelectionControls : null,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: SelectableText(
+                _errorEntity?.message ?? _errorEntity?.error ?? 'ERROR!',
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+                selectionControls: Platform.isIOS ? myCupertinoTextSelectionControls : null,
+              ),
             ),
             OutlinedButton(
               onPressed: () => _request(),
