@@ -103,6 +103,7 @@ class _SettingsGpt35TurboState extends State<SettingsGpt35Turbo> {
   }
 
   Future<void> _save() async {
+    FocusScope.of(context).requestFocus(_confirmButtonFocusNode);
     await Future(() async {
       _queryEntity.maxTokens = int.parse(_maxLengthController.text);
       _queryEntity.temperature = double.parse(_temperatureController.text);
@@ -137,10 +138,9 @@ class _SettingsGpt35TurboState extends State<SettingsGpt35Turbo> {
                 _initValues();
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(S.of(context).resetToDefault),
-                  duration: const Duration(milliseconds: 1000),
                   action: SnackBarAction(
                     label: 'ok',
-                    onPressed: () {},
+                    onPressed: () async => await _save(),
                   ),
                 ));
               });
@@ -227,11 +227,7 @@ class _SettingsGpt35TurboState extends State<SettingsGpt35Turbo> {
                 Expanded(
                   child: TextButton(
                     focusNode: _confirmButtonFocusNode,
-                    onPressed: () async {
-                      FocusScope.of(context)
-                          .requestFocus(_confirmButtonFocusNode);
-                      await _save();
-                    },
+                    onPressed: () async => await _save(),
                     child: Text(S.of(context).confirm),
                   ),
                 ),
