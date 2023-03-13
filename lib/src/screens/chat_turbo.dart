@@ -112,7 +112,7 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
 
   Future<int> _saveChatToDatabase(String title, String system) async {
     int chatId = await haoDatabase.into(haoDatabase.chats).insert(ChatsCompanion.insert(
-      title: title,
+      title: title.trim(),
       system: system,
       isFavorite: false,
       chatDateTime: DateTime.now(),
