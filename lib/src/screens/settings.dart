@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/l10n/generated/l10n.dart';
@@ -45,12 +44,14 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 trailing: const Icon(Icons.keyboard_arrow_right),
                 onTap: () => context.go('/${AppUri.settingsGpt35Turbo}'),
               ),
+/*
               ListTile(
                 leading: const Icon(Icons.data_object),
                 title: Text(S.of(context).gpt3),
                 trailing: const Icon(Icons.keyboard_arrow_right),
                 onTap: () => context.go('/${AppUri.settingsGpt3}'),
               ),
+*/
               if(getShortcuts().length > 1) _buildShortcuts(),
               _buildProxySetting(context),
               _buildLanguageSetting(context),
