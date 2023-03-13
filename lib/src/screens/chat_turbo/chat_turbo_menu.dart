@@ -1,6 +1,8 @@
 import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hao_chatgpt/main.dart';
 
 import '../../../l10n/generated/l10n.dart';
 import '../../app_router.dart';
@@ -8,16 +10,16 @@ import '../../db/hao_database.dart';
 import '../../extensions.dart';
 
 typedef OnClickChat = void Function(int? titleId);
-class ChatTurboMenu extends StatefulWidget {
+class ChatTurboMenu extends ConsumerStatefulWidget {
   final OnClickChat? onClickChat;
   final int? chatId;
   const ChatTurboMenu({this.chatId, this.onClickChat, Key? key}) : super(key: key);
 
   @override
-  State<ChatTurboMenu> createState() => _ChatTurboMenuState();
+  ConsumerState<ChatTurboMenu> createState() => _ChatTurboMenuState();
 }
 
-class _ChatTurboMenuState extends State<ChatTurboMenu> {
+class _ChatTurboMenuState extends ConsumerState<ChatTurboMenu> {
   final List<Chat> _chats = [];
   final int _rowsOfPage = 20;
   int _pageNo = 0;
@@ -136,6 +138,7 @@ class _ChatTurboMenuState extends State<ChatTurboMenu> {
               onTap: () {
                 context.pop();
                 if(widget.onClickChat != null) {
+                  ref.read(chatTurboSystemProvider.notifier).state = '';
                   widget.onClickChat!(null);
                 }
               },
@@ -214,6 +217,7 @@ class _ChatTurboMenuState extends State<ChatTurboMenu> {
       onTap: () {
         context.pop();
         if(widget.onClickChat != null) {
+          ref.read(chatTurboSystemProvider.notifier).state = chat.system;
           widget.onClickChat!(chat.id);
         }
       },

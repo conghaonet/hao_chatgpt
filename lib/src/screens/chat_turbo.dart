@@ -61,23 +61,25 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
 
   Future<void> _request() async {
     if(_isLoading) return;
-    _isLoading = true;
-    _errorEntity = null;
-    String system = _getSystem();
-    String inputMsg = _promptTextController.text.trim();
-    if(inputMsg.isNotBlank) {
-      _chatId ??= await _saveChatToDatabase(inputMsg, system);
-      await _saveInputMsgToDatabase(inputMsg);
-      _promptTextController.text = '';
-    }
-    if(mounted) {
-      setState(() {
-      });
-      Future.delayed(const Duration(milliseconds: 100), () {
-        _scrollToEnd();
-      });
-    }
+    setState(() {
+      _isLoading = true;
+      _errorEntity = null;
+    });
     try {
+      String system = _getSystem();
+      String inputMsg = _promptTextController.text.trim();
+      if(inputMsg.isNotBlank) {
+        _chatId ??= await _saveChatToDatabase(inputMsg, system);
+        await _saveInputMsgToDatabase(inputMsg);
+        _promptTextController.text = '';
+        if(mounted) {
+          setState(() {
+          });
+          Future.delayed(const Duration(milliseconds: 100), () {
+            _scrollToEnd();
+          });
+        }
+      }
       List<ChatMessageEntity> queryMessages = [
         ChatMessageEntity(role: ChatRole.system, content: system),
         ..._messages.map((e) => ChatMessageEntity(role: e.role, content: e.content)).toList()
