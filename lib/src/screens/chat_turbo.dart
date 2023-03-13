@@ -150,8 +150,10 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
 
   Future<void> _appendMessage(int messageId) async {
     var query = haoDatabase.select(haoDatabase.messages)..where((tbl) => tbl.id.equals(messageId));
-    var message = await query.getSingle();
-    _messages.add(message);
+    var message = await query.getSingleOrNull();
+    if(message != null) {
+      _messages.add(message);
+    }
   }
 
   void _scrollToEnd() {
@@ -172,8 +174,8 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
         if(_chatId != null) {
           var statement = haoDatabase.select(haoDatabase.chats);
           statement.where((tbl) => tbl.id.equals(_chatId!));
-          var chatsTable = await statement.getSingle();
-          if(chatsTable.system != _getSystem()) {
+          var chatsTable = await statement.getSingleOrNull();
+          if(chatsTable != null && chatsTable.system != _getSystem()) {
             var updateStatement = haoDatabase.update(haoDatabase.chats);
             updateStatement.where((tbl) => tbl.id.equals(_chatId!));
             updateStatement.write(ChatsCompanion(system: drift.Value(_getSystem())));
