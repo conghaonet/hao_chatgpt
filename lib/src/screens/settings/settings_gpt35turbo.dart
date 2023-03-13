@@ -135,8 +135,14 @@ class _SettingsGpt35TurboState extends State<SettingsGpt35Turbo> {
               setState(() {
                 _queryEntity = ChatQueryEntity(messages: []);
                 _initValues();
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text(S.of(context).resetToDefault)));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(S.of(context).resetToDefault),
+                  duration: const Duration(milliseconds: 1000),
+                  action: SnackBarAction(
+                    label: 'ok',
+                    onPressed: () {},
+                  ),
+                ));
               });
             },
             icon: const Icon(Icons.settings_backup_restore),

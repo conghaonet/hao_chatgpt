@@ -138,8 +138,14 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
               setState(() {
                 _queryEntity = CompletionsQueryEntity.generation();
                 _initValues();
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text(S.of(context).resetToDefault)));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(S.of(context).resetToDefault),
+                  duration: const Duration(milliseconds: 1000),
+                  action: SnackBarAction(
+                    label: 'ok',
+                    onPressed: () {},
+                  ),
+                ));
               });
             },
             icon: const Icon(Icons.settings_backup_restore),

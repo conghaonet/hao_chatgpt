@@ -79,6 +79,7 @@ class ChatTurboContent extends StatelessWidget {
         Clipboard.setData(ClipboardData(text: message.content));
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(S.of(context).copied),
+          duration: const Duration(milliseconds: 1000),
           action: SnackBarAction(
             label: 'ok',
             onPressed: () {},
