@@ -21,7 +21,7 @@ class _ChatTurboMenuState extends State<ChatTurboMenu> {
         widthFactor: isDesktop() ? 0.4 : 0.7,
         child: Column(
           children: [
-            Expanded(child: const Placeholder()),
+            Expanded(child: Container()),
             const Divider(height: 1,),
             ListTile(
               leading: const Icon(Icons.home),
