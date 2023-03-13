@@ -7,7 +7,10 @@ import '../../../l10n/generated/l10n.dart';
 import '../../constants.dart';
 import '../../network/entity/openai/completions_query_entity.dart';
 import '../../preferences_manager.dart';
+import '../../screens/settings/settings_gpt35turbo.dart';
 
+/// see [SettingsGpt35Turbo]
+@Deprecated('Use SettingsGpt35Turbo instead')
 class CustomizeGpt3Page extends StatefulWidget {
   const CustomizeGpt3Page({Key? key}) : super(key: key);
 

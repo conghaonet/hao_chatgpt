@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:hao_chatgpt/src/screens/chat/chat_drawer.dart';
 import 'package:hao_chatgpt/src/screens/chat/no_key_view.dart';
 import 'package:hao_chatgpt/src/preferences_manager.dart';
+import 'package:hao_chatgpt/src/screens/chat_turbo.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../l10n/generated/l10n.dart';
@@ -22,6 +23,8 @@ import '../network/openai_service.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 
+/// see [ChatTurbo]
+@Deprecated('Use ChatTurbo instead')
 class ChatPage extends StatefulWidget {
   final int? chatId;
   const ChatPage({this.chatId, Key? key}) : super(key: key);

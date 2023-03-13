@@ -5,8 +5,12 @@ import 'package:hao_chatgpt/src/app_router.dart';
 
 import '../../../l10n/generated/l10n.dart';
 import '../../db/hao_database.dart';
+import '../../screens/chat_turbo/chat_turbo_menu.dart';
 
 typedef OnClickChat = void Function(int? titleId);
+
+/// see [ChatTurboMenu]
+@Deprecated('Use ChatTurboMenu instead')
 class ChatDrawer extends StatefulWidget {
   final OnClickChat? onClickChat;
   final int? chatId;

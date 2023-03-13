@@ -41,13 +41,14 @@ class _HomePageState extends State<HomePage> {
               ),
               Expanded(flex: 3, child: Container()),
               ListTile(
-                leading: const Icon(Icons.chat_outlined),
-                title: Text('${S.of(context).chatGPT} (GPT-3.5-turbo)'),
+                leading: const Icon(Icons.chat),
+                title: Text('${S.of(context).gpt35turbo}'),
                 trailing: const Icon(Icons.keyboard_arrow_right),
                 onTap: () {
                   context.go('/${AppUri.chatTurbo}');
                 },
               ),
+/*
               Container(
                 height: 1,
                 width: double.infinity,
@@ -61,6 +62,7 @@ class _HomePageState extends State<HomePage> {
                   context.go('/${AppUri.chat}');
                 },
               ),
+*/
               Container(
                 height: 1,
                 width: double.infinity,
