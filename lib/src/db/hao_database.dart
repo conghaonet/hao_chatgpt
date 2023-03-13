@@ -12,14 +12,14 @@ mixin AutoIncrementingPrimaryKey on Table {
   IntColumn get id => integer().autoIncrement()();
 }
 
-@Deprecated("for gpt3")
+@Deprecated('Use Chats instead')
 class ChatTitles extends Table with AutoIncrementingPrimaryKey {
   TextColumn get title => text()();
   BoolColumn get isFavorite => boolean().nullable()();
   DateTimeColumn get chatDate => dateTime()();
 }
 
-@Deprecated("for gpt3")
+@Deprecated('Use Messages instead')
 class Conversations extends Table with AutoIncrementingPrimaryKey {
   IntColumn get titleId => integer().references(ChatTitles, #id)();
   TextColumn get inputMessage => text()();
