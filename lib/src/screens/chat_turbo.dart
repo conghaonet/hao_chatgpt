@@ -15,6 +15,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../l10n/generated/l10n.dart';
 import '../app_manager.dart';
 import '../app_router.dart';
+import '../app_shortcuts.dart';
 import '../constants.dart';
 import '../extensions.dart';
 import '../network/entity/dio_error_entity.dart';
@@ -193,53 +194,71 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
     return system;
   }
 
+  Map<Type, Action<Intent>> _getShortcutsActions() {
+    if(Platform.isAndroid || Platform.isIOS) {
+      return {};
+    } else {
+      return {
+        SendIntent: SendAction(_request),
+        NewLineIntent: NewLineAction(_promptTextController)
+      };
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: SafeArea(child: ChatTurboMenu(
-        chatId: _chatId,
-        onClickChat: (int? chatId) {
-          context.pushReplacement('/${AppUri.chatTurbo}?id=$chatId');
-        },
-      )),
-      onDrawerChanged: (isOpened) => _onDrawerChanged(false, isOpened),
-      endDrawer: const SafeArea(child: ChatTurboSystem()),
-      onEndDrawerChanged: (isOpened) => _onDrawerChanged(true, isOpened),
-      body: WillPopScope(
-        onWillPop: () async {
-          await androidBackToHome();
-          return false;
-        },
-        child: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: CustomScrollView(
-                  controller: _scrollController,
-                  slivers: <Widget>[
-                    _buildSliverAppBar(context),
-                    if(appManager.openaiApiKey != null) _buildSliverList(),
-                    SliverToBoxAdapter(
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 24.0),
-                          child: _buildUnderList(),
+    return Shortcuts(
+      shortcuts: getShortcutsIntents(),
+      child: Actions(
+        dispatcher: LoggingActionDispatcher(),
+        actions: _getShortcutsActions(),
+        child: Scaffold(
+          drawer: SafeArea(child: ChatTurboMenu(
+            chatId: _chatId,
+            onClickChat: (int? chatId) {
+              context.pushReplacement('/${AppUri.chatTurbo}?id=$chatId');
+            },
+          )),
+          onDrawerChanged: (isOpened) => _onDrawerChanged(false, isOpened),
+          endDrawer: const SafeArea(child: ChatTurboSystem()),
+          onEndDrawerChanged: (isOpened) => _onDrawerChanged(true, isOpened),
+          body: WillPopScope(
+            onWillPop: () async {
+              await androidBackToHome();
+              return false;
+            },
+            child: SafeArea(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: CustomScrollView(
+                      controller: _scrollController,
+                      slivers: <Widget>[
+                        _buildSliverAppBar(context),
+                        if(appManager.openaiApiKey != null) _buildSliverList(),
+                        SliverToBoxAdapter(
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 24.0),
+                              child: _buildUnderList(),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  if(appManager.openaiApiKey == null) ...[
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: NoKeyView(onFinished: () {
+                        setState(() {});
+                      },),
+                    ),
+                    const Expanded(child: SizedBox(),),
+                  ] else _buildInputView(context),
+                ],
               ),
-              if(appManager.openaiApiKey == null) ...[
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: NoKeyView(onFinished: () {
-                    setState(() {});
-                  },),
-                ),
-                const Expanded(child: SizedBox(),),
-              ] else _buildInputView(context),
-            ],
+            ),
           ),
         ),
       ),
@@ -321,9 +340,20 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
     return const SizedBox();
   }
 
-
-
   Widget _buildInputView(BuildContext context) {
+    String? getSendButtonTooltip() {
+      LogicalKeySet? keySet = appPref.shortcutsSend;
+      if(keySet == null) {
+        return null;
+      } else {
+        for(String key in getShortcutsKeys().keys) {
+          if(getShortcutsKeys()[key] == keySet) {
+            return key;
+          }
+        }
+        return null;
+      }
+    }
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       decoration: BoxDecoration(
@@ -348,6 +378,7 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
             iconSize: 32,
             onPressed: _isLoading ? null : () => _request(),
             icon: Icon(Icons.send, color: _isLoading ? Colors.grey : Colors.blueAccent,),
+            tooltip: getSendButtonTooltip(),
           ),
         ],
       ),

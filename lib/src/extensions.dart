@@ -141,17 +141,6 @@ Future<void> androidBackToHome() async {
   }
 }
 
-Map<String, LogicalKeySet> getShortcuts() {
-  Map<String, LogicalKeySet> keyMap = {'Enter': LogicalKeySet(LogicalKeyboardKey.enter)};
-  if(Platform.isWindows || Platform.isLinux || Platform.isFuchsia) {
-    keyMap['Ctrl + Enter'] = LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter);
-  } else if(Platform.isMacOS) {
-    // \u2318 + Enter
-    // ⌘ + Enter
-    keyMap['⌘ + Enter'] = LogicalKeySet(LogicalKeyboardKey.meta, LogicalKeyboardKey.enter);
-  }
-  return keyMap;
-}
 
 bool isDesktop() {
   return Platform.isMacOS || Platform.isWindows || Platform.isLinux || Platform.isFuchsia;

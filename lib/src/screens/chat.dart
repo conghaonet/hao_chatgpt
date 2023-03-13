@@ -16,6 +16,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../l10n/generated/l10n.dart';
 import '../app_router.dart';
+import '../app_shortcuts.dart';
 import '../network/entity/openai/completions_entity.dart';
 import '../network/entity/openai/completions_query_entity.dart';
 import '../network/openai_service.dart';
@@ -150,7 +151,7 @@ class ChatPageState extends State<ChatPage> {
     }
   }
 
-  void prepareSendPrompt() {
+  void _prepareSendPrompt() {
     if(_isEnabledSendButton()) {
       setState(() {
         _isRequesting = true;
@@ -182,24 +183,12 @@ class ChatPageState extends State<ChatPage> {
     });
   }
 
-  Map<LogicalKeySet, Intent> _getShortcuts() {
-    if(Platform.isAndroid || Platform.isAndroid) {
-      return {};
-    } else {
-      List<LogicalKeySet> keySets = getShortcuts().values.toList();
-      keySets.remove(appPref.shortcutsSend);
-      return {
-        appPref.shortcutsSend!: const SendIntent(),
-        keySets.first: const NewLineIntent(),
-      };
-    }
-  }
   Map<Type, Action<Intent>> _getShortcutsActions() {
     if(Platform.isAndroid || Platform.isIOS) {
       return {};
     } else {
       return {
-        SendIntent: SendAction(prepareSendPrompt),
+        SendIntent: SendAction(_prepareSendPrompt),
         NewLineIntent: NewLineAction(_msgController)
       };
     }
@@ -209,7 +198,7 @@ class ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     final myColors = Theme.of(context).extension<MyColors>();
     return Shortcuts(
-      shortcuts: _getShortcuts(),
+      shortcuts: getShortcutsIntents(),
       child: Actions(
         dispatcher: LoggingActionDispatcher(),
         actions: _getShortcutsActions(),
@@ -369,8 +358,8 @@ class ChatPageState extends State<ChatPage> {
       if(keySet == null) {
         return null;
       } else {
-        for(String key in getShortcuts().keys) {
-          if(getShortcuts()[key] == keySet) {
+        for(String key in getShortcutsKeys().keys) {
+          if(getShortcutsKeys()[key] == keySet) {
             return key;
           }
         }
@@ -416,7 +405,7 @@ class ChatPageState extends State<ChatPage> {
           ),
         ),
         IconButton(
-          onPressed: prepareSendPrompt,
+          onPressed: _prepareSendPrompt,
           icon: Icon(Icons.send, color: _isEnabledSendButton() ? Colors.blueAccent : Colors.grey,),
           tooltip: getSendButtonTooltip(),
         ),
@@ -455,54 +444,4 @@ class CompletionItem extends ListItem {
 class ErrorItem extends ListItem {
   final DioErrorEntity error;
   ErrorItem(this.error);
-}
-
-class NewLineIntent extends Intent {
-  const NewLineIntent();
-}
-
-class NewLineAction extends Action<NewLineIntent> {
-  NewLineAction(this.controller);
-  final TextEditingController controller;
-
-  @override
-  Object? invoke(covariant NewLineIntent intent) {
-    String value = controller.text;
-    int start = controller.selection.start;
-    String newValue = value.replaceRange(controller.selection.start, controller.selection.end, '\n');
-    controller.text = newValue;
-    controller.selection = TextSelection.fromPosition(TextPosition(offset: start+1),);
-    return null;
-  }
-}
-
-class SendIntent extends Intent {
-  const SendIntent();
-}
-
-class SendAction extends Action<SendIntent> {
-  SendAction(this.callback);
-
-  final VoidCallback callback;
-
-  @override
-  Object? invoke(covariant SendIntent intent) {
-    callback();
-    return null;
-  }
-}
-
-/// An ActionDispatcher that logs all the actions that it invokes.
-class LoggingActionDispatcher extends ActionDispatcher {
-  @override
-  Object? invokeAction(
-      covariant Action<Intent> action,
-      covariant Intent intent, [
-        BuildContext? context,
-      ]) {
-    debugPrint('Action invoked: $action($intent) from $context');
-    super.invokeAction(action, intent, context);
-
-    return null;
-  }
 }

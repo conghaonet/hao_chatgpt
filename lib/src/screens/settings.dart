@@ -11,6 +11,7 @@ import 'package:hao_chatgpt/src/preferences_manager.dart';
 import 'package:hao_chatgpt/src/screens/settings/settings_proxy.dart';
 import 'package:yaml/yaml.dart';
 
+import '../app_shortcuts.dart';
 import '../constants.dart';
 
 class SettingsPage extends ConsumerStatefulWidget {
@@ -69,7 +70,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 onTap: () => context.go('/${AppUri.settingsGpt3}'),
               ),
 */
-              if(getShortcuts().length > 1) _buildShortcuts(),
+              if(getShortcutsKeys().length > 1) _buildShortcuts(),
               _buildProxySetting(context),
               _buildLanguageSetting(context),
               _buildThemeSetting(context),
@@ -94,7 +95,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ...getShortcuts().entries.map((e) {
+          ...getShortcutsKeys().entries.map((e) {
             return RadioListTile<LogicalKeySet>(
               title: Text(S.of(context).sendWith(e.key)),
               value: e.value,
