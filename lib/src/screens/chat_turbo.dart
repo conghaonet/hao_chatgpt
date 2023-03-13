@@ -7,11 +7,13 @@ import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/main.dart';
 import 'package:hao_chatgpt/src/db/hao_database.dart';
 import 'package:hao_chatgpt/src/preferences_manager.dart';
+import 'package:hao_chatgpt/src/screens/chat/no_key_view.dart';
 import 'package:hao_chatgpt/src/screens/chat_turbo/chat_turbo_content.dart';
 import 'package:hao_chatgpt/src/screens/chat_turbo/chat_turbo_menu.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../l10n/generated/l10n.dart';
+import '../app_manager.dart';
 import '../app_router.dart';
 import '../constants.dart';
 import '../extensions.dart';
@@ -193,7 +195,7 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
                   controller: _scrollController,
                   slivers: <Widget>[
                     _buildSliverAppBar(context),
-                    _buildSliverList(),
+                    if(appManager.openaiApiKey != null) _buildSliverList(),
                     SliverToBoxAdapter(
                       child: Center(
                         child: Padding(
@@ -205,7 +207,15 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
                   ],
                 ),
               ),
-              _buildInputView(context),
+              if(appManager.openaiApiKey == null) ...[
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: NoKeyView(onFinished: () {
+                    setState(() {});
+                  },),
+                ),
+                const Expanded(child: SizedBox(),),
+              ] else _buildInputView(context),
             ],
           ),
         ),
