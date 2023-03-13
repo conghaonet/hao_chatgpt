@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/l10n/generated/l10n.dart';
@@ -8,6 +9,7 @@ import 'package:hao_chatgpt/src/app_router.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
 import 'package:hao_chatgpt/src/preferences_manager.dart';
 import 'package:hao_chatgpt/src/screens/settings/settings_proxy.dart';
+import 'package:yaml/yaml.dart';
 
 import '../constants.dart';
 
@@ -19,6 +21,21 @@ class SettingsPage extends ConsumerStatefulWidget {
 }
 
 class _SettingsPageState extends ConsumerState<SettingsPage> {
+  String _appVersion = '';
+  @override
+  void initState() {
+    super.initState();
+    Future(() async {
+      String str = await rootBundle.loadString('pubspec.yaml');
+      var doc = loadYaml(str);
+      if(mounted) {
+        setState(() {
+          _appVersion = doc['version'];
+          _appVersion = _appVersion.split('+')[0];
+        });
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +73,13 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               _buildProxySetting(context),
               _buildLanguageSetting(context),
               _buildThemeSetting(context),
+              if(_appVersion.isNotEmpty)
+                ListTile(
+                  leading: const Icon(Icons.info),
+                  title: const Text('Version'),
+                  subtitle: Text(_appVersion),
+                  onTap: null,
+                ),
             ],
           ),
         ),
