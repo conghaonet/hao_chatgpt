@@ -26,7 +26,8 @@ import 'chat_turbo/chat_turbo_system.dart';
 import 'package:drift/drift.dart' as drift;
 
 class ChatTurbo extends ConsumerStatefulWidget {
-  const ChatTurbo({Key? key}) : super(key: key);
+  final int? chatId;
+  const ChatTurbo({this.chatId, Key? key}) : super(key: key);
 
   @override
   ConsumerState<ChatTurbo> createState() => _ChatTurboState();
@@ -43,6 +44,19 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
   @override
   void initState() {
     super.initState();
+    _chatId = widget.chatId;
+    if(_chatId != null) {
+      Future(() async {
+        var statement = haoDatabase.select(haoDatabase.messages);
+        statement.where((tbl) => tbl.chatId.equals(_chatId!));
+        final List<Message> messages = await statement.get();
+        _messages.addAll(messages);
+        if(mounted) {
+          setState(() {
+          });
+        }
+      });
+    }
   }
 
   Future<void> _request() async {
@@ -178,7 +192,12 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const SafeArea(child: ChatTurboMenu()),
+      drawer: SafeArea(child: ChatTurboMenu(
+        chatId: _chatId,
+        onClickChat: (int? chatId) {
+          context.pushReplacement('/${AppUri.chatTurbo}?id=$chatId');
+        },
+      )),
       onDrawerChanged: (isOpened) => _onDrawerChanged(false, isOpened),
       endDrawer: const SafeArea(child: ChatTurboSystem()),
       onEndDrawerChanged: (isOpened) => _onDrawerChanged(true, isOpened),

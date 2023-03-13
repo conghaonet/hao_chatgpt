@@ -66,7 +66,7 @@ class AppRouter {
           GoRoute(
             path: AppUri.chatTurbo,
             builder: (BuildContext context, GoRouterState state) =>
-                const ChatTurbo(),
+                ChatTurbo(chatId: int.tryParse(state.queryParams['id'] ?? ''),),
           ),
           GoRoute(
             path: AppUri.webview,
