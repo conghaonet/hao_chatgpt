@@ -30,7 +30,7 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
   final _presenceController = TextEditingController();
   final _confirmButtonFocusNode = FocusNode();
   static const List<double> rangeZeroToOne = [0.0, 1.0];
-  static const List<int> maxLengthRange = [1, 4000];
+  static const List<int> maxLengthRange = [1, 4096];
   static const List<double> rangeZeroToTwo = [0.0, 2.0];
 
   @override
