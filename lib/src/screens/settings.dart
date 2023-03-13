@@ -40,8 +40,14 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 onTap: () => context.go('/${AppUri.settingsApikey}'),
               ),
               ListTile(
+                leading: const Icon(Icons.dashboard_customize),
+                title: Text(S.of(context).gpt35turbo),
+                trailing: const Icon(Icons.keyboard_arrow_right),
+                onTap: () => context.go('/${AppUri.settingsGpt35Turbo}'),
+              ),
+              ListTile(
                 leading: const Icon(Icons.data_object),
-                title: Text('${S.of(context).chatGPT} ${S.of(context).gpt3}'),
+                title: Text(S.of(context).gpt3),
                 trailing: const Icon(Icons.keyboard_arrow_right),
                 onTap: () => context.go('/${AppUri.settingsGpt3}'),
               ),
