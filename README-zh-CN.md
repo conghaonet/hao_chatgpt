@@ -6,6 +6,13 @@
 
 <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/flutter_logo.png" height="40"/>&emsp;&emsp;<img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/openai_logo.png" height="40"/>
 
+## 支持的模型：
+* gpt-3.5-turbo
+* text-davinci-003
+* text-curie-001
+* text-babbage-001
+* text-ada-001
+
 ## 支持的平台：
 * iOS
 * Android
