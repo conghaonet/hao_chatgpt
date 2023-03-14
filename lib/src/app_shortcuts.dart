@@ -18,7 +18,7 @@ Map<String, LogicalKeySet> getShortcutsKeys() {
 }
 
 Map<LogicalKeySet, Intent> getShortcutsIntents() {
-  if(Platform.isAndroid || Platform.isAndroid) {
+  if(Platform.isAndroid || Platform.isIOS) {
     return {};
   } else {
     List<LogicalKeySet> keySets = getShortcutsKeys().values.toList();
