@@ -7,7 +7,7 @@
 <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/flutter_logo.png" height="40"/>&emsp;&emsp;<img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/openai_logo.png" height="40"/>
 
 ## 支持的模型：
-* gpt-3.5-turbo
+* [gpt-3.5-turbo](https://platform.openai.com/docs/models/gpt-3-5)
 * text-davinci-003
 * text-curie-001
 * text-babbage-001
