@@ -35,7 +35,7 @@ api_key: 'YOUR-API-KEY'
 For security reasons, I cannot upload my **openai.yaml**.
 
 ## Tips
-Set the task or role of the AI in this SYSTEM input box.
+Set the task or role of the AI in this **SYSTEM** input box.
 
 For example: You are a helpful assistant that translates Chinese to English to.
 
