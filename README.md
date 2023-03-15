@@ -20,11 +20,6 @@ An unofficial ChatGPT application developed with Flutter.
 * Windows
 * Linux (untested)
 
-## Under development
-- [x] GPT4
-- [x] Chat history
-- [ ] Code completion (Codex)
-
 ## Setup your OpenAI API key
 
 Create a file named **openai.yaml** in the root directory of the project and fill it with your [**OpenAI API key**](https://beta.openai.com/account/api-keys).
@@ -33,6 +28,10 @@ Create a file named **openai.yaml** in the root directory of the project and fil
 api_key: 'YOUR-API-KEY'
 ```
 For security reasons, I cannot upload my **openai.yaml**.
+
+## Under development
+- [x] GPT4
+- [ ] Code completion (Codex)
 
 ## Tips
 Set the task or role of the AI in this **SYSTEM** input box.  
