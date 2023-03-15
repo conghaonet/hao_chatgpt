@@ -21,6 +21,7 @@ An unofficial ChatGPT application developed with Flutter.
 * Linux (untested)
 
 ## Under development
+- [x] GPT4
 - [x] Chat history
 - [ ] Code completion (Codex)
 
