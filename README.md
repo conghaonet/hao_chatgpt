@@ -44,10 +44,10 @@ For example: You are a helpful assistant that translates Chinese to English to.
 <Table>
     <tr>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/en/screenshot04.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/screenshot04.jpg"/>
         </td>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/en/screenshot03.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/screenshot03.jpg"/>
         </td>
     </tr>
 </Table>
