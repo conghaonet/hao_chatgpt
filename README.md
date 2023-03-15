@@ -50,4 +50,20 @@ For example: You are a helpful assistant that translates Chinese to English to.
             <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/screenshot03.jpg"/>
         </td>
     </tr>
+    <tr>
+        <td width="50%">
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/screenshot01.jpg"/>
+        </td>
+        <td width="50%">
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/screenshot02.jpg"/>
+        </td>
+    </tr>
+    <tr>
+        <td width="50%">
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/home.jpg"/>
+        </td>
+        <td width="50%">
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/leftmenu02.jpg"/>
+        </td>
+    </tr>
 </Table>
