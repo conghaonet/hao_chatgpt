@@ -47,7 +47,7 @@ For security reasons, I cannot upload my **openai.yaml**.
     </tr>
     <tr>
         <td colspan="2">
-            Set the task or role of the AI in this SYSTEM input box. 
+            Set the task or role of the AI in this **SYSTEM** input box. <br/>
 For example: You are a helpful assistant that translates Chinese to English to.<br/>
 <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/en/setsystem01.jpg"/>
         </td>
