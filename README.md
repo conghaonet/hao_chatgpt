@@ -34,59 +34,60 @@ api_key: 'YOUR-API-KEY'
 ```
 For security reasons, I cannot upload my **openai.yaml**.
 
+## Tips
+Set the task or role of the AI in this **SYSTEM** input box.  
+For example: You are a helpful assistant that translates Chinese to English to.
+
+![](https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/setsystem01.jpg) ![](https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/setsystem02.jpg)
 
 ## Screenshots
 <Table>
-    <tr align="center">
-        <td width="50%"><br/><b>Conversation</b></td>
-        <td width="50%"><br/><b>Generation</b></td>
-    </tr>
     <tr>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot02.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/screenshot04.jpg"/>
         </td>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot03.jpg"/>
-        </td>
-    </tr>
-    <tr align="center">
-        <td width="50%"><br/><b>Improving the classifier's efficiency</b></td>
-        <td width="50%"><br/><b>Conversion</b></td>
-    </tr>
-    <tr>
-        <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot04.jpg"/>
-        </td>
-        <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot05.jpg"/>
-        </td>
-    </tr>
-    <tr align="center">
-        <td width="50%"><br/><b>Summarization</b></td>
-        <td width="50%"><br/><b>Translation</b></td>
-    </tr>
-    <tr>
-        <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot08.jpg"/>
-        </td>
-        <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot09.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/screenshot03.jpg"/>
         </td>
     </tr>
     <tr>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot01.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/screenshot01.jpg"/>
         </td>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot10.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/screenshot02.jpg"/>
         </td>
     </tr>
     <tr>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot06.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/home.jpg"/>
         </td>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/screenshot07.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/leftmenu02.jpg"/>
+        </td>
+    </tr>
+    <tr>
+        <td width="50%">
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/screenshot05.jpg"/>
+        </td>
+        <td width="50%">
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/screenshot06.jpg"/>
+        </td>
+    </tr>
+    <tr>
+        <td width="50%">
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/gpt35turbo.jpg"/>
+        </td>
+        <td width="50%">
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/nokey.jpg"/>
+        </td>
+    </tr>
+    <tr>
+        <td width="50%">
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/settings.jpg"/>
+        </td>
+        <td width="50%">
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/leftmenu01.jpg"/>
         </td>
     </tr>
 </Table>
