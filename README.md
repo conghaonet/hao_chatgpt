@@ -39,10 +39,17 @@ For security reasons, I cannot upload my **openai.yaml**.
 <Table>
     <tr>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/en/screenshot03.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/en/screenshot04.jpg"/>
         </td>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/en/screenshot04.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/en/screenshot03.jpg"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            Set the task or role of the AI in this SYSTEM input box. 
+For example: You are a helpful assistant that translates Chinese to English to.<br/>
+<img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/en/setsystem01.jpg"/>
         </td>
     </tr>
 </Table>
