@@ -43,50 +43,50 @@ For example: You are a helpful assistant that translates Chinese to English to.
 <Table>
     <tr>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/screenshot04.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/en/screenshot04.jpg"/>
         </td>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/screenshot03.jpg"/>
-        </td>
-    </tr>
-    <tr>
-        <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/screenshot01.jpg"/>
-        </td>
-        <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/screenshot02.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/en/screenshot03.jpg"/>
         </td>
     </tr>
     <tr>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/home.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/en/screenshot01.jpg"/>
         </td>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/leftmenu02.jpg"/>
-        </td>
-    </tr>
-    <tr>
-        <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/screenshot05.jpg"/>
-        </td>
-        <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/screenshot06.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/en/screenshot02.jpg"/>
         </td>
     </tr>
     <tr>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/gpt35turbo.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/en/home.jpg"/>
         </td>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/nokey.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/en/leftmenu02.jpg"/>
         </td>
     </tr>
     <tr>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/settings.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/en/screenshot05.jpg"/>
         </td>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/leftmenu01.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/en/screenshot06.jpg"/>
+        </td>
+    </tr>
+    <tr>
+        <td width="50%">
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/en/gpt35turbo.jpg"/>
+        </td>
+        <td width="50%">
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/en/nokey.jpg"/>
+        </td>
+    </tr>
+    <tr>
+        <td width="50%">
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/en/settings.jpg"/>
+        </td>
+        <td width="50%">
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/en/leftmenu01.jpg"/>
         </td>
     </tr>
 </Table>
