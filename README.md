@@ -30,7 +30,7 @@ api_key: 'YOUR-API-KEY'
 For security reasons, I cannot upload my **openai.yaml**.
 
 ## Under development
-- [x] GPT4
+- [x] GPT-4
 - [ ] Code completion (Codex)
 
 ## Tips
