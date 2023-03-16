@@ -39,56 +39,56 @@ api_key: 'YOUR-API-KEY'
 Set the task or role of the AI in this **SYSTEM** input box.  
 For example: You are a helpful assistant that translates Chinese to English to.
 
-![](https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/setsystem01.jpg) ![](https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/en/setsystem02.jp
+![](https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/en/setsystem01.jpg) ![](https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/en/setsystem02.jp
 
 ## 截图
 <Table>
     <tr>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/zh/screenshot04.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/zh/screenshot04.jpg"/>
         </td>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/zh/screenshot03.jpg"/>
-        </td>
-    </tr>
-    <tr>
-        <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/zh/screenshot01.jpg"/>
-        </td>
-        <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/zh/screenshot02.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/zh/screenshot03.jpg"/>
         </td>
     </tr>
     <tr>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/zh/home.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/zh/screenshot01.jpg"/>
         </td>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/zh/leftmenu02.jpg"/>
-        </td>
-    </tr>
-    <tr>
-        <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/zh/screenshot05.jpg"/>
-        </td>
-        <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/zh/screenshot06.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/zh/screenshot02.jpg"/>
         </td>
     </tr>
     <tr>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/zh/gpt35turbo.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/zh/home.jpg"/>
         </td>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/zh/nokey.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/zh/leftmenu02.jpg"/>
         </td>
     </tr>
     <tr>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/zh/settings.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/zh/screenshot05.jpg"/>
         </td>
         <td width="50%">
-            <img src="https://github.com/conghaonet/hao_chatgpt/blob/readme/screenshots/zh/leftmenu01.jpg"/>
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/zh/screenshot06.jpg"/>
+        </td>
+    </tr>
+    <tr>
+        <td width="50%">
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/zh/gpt35turbo.jpg"/>
+        </td>
+        <td width="50%">
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/zh/nokey.jpg"/>
+        </td>
+    </tr>
+    <tr>
+        <td width="50%">
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/zh/settings.jpg"/>
+        </td>
+        <td width="50%">
+            <img src="https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/zh/leftmenu01.jpg"/>
         </td>
     </tr>
 </Table>
