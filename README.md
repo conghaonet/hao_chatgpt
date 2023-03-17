@@ -1,6 +1,6 @@
 English | [简体中文](README-zh-CN.md)
 
-# hao_chatgpt
+# HaoChat
 
 An unofficial ChatGPT application developed with Flutter.
 
