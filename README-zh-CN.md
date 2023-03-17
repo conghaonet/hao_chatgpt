@@ -1,6 +1,6 @@
 [English](README.md) | 简体中文
 
-# hao_chatgpt
+# HaoChat
 
 一款用Flutter开发的非官方的 ChatGPT 应用。
 
