@@ -138,7 +138,7 @@ class _ChatTurboMenuState extends ConsumerState<ChatTurboMenu> {
               onTap: () {
                 context.pop();
                 if(widget.onClickChat != null) {
-                  ref.read(chatTurboSystemProvider.notifier).state = '';
+                  ref.read(systemPromptProvider.notifier).state = '';
                   widget.onClickChat!(null);
                 }
               },
@@ -217,7 +217,7 @@ class _ChatTurboMenuState extends ConsumerState<ChatTurboMenu> {
       onTap: () {
         context.pop();
         if(widget.onClickChat != null) {
-          ref.read(chatTurboSystemProvider.notifier).state = chat.system;
+          ref.read(systemPromptProvider.notifier).state = chat.system;
           widget.onClickChat!(chat.id);
         }
       },

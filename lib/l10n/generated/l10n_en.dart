@@ -139,7 +139,7 @@ class SEn extends S {
   String get resume => 'Resume';
 
   @override
-  String get system => 'SYSTEM';
+  String get systemPrompt => 'System prompt: ';
 
   @override
   String get retry => 'Retry';
@@ -148,7 +148,7 @@ class SEn extends S {
   String get copied => 'Copied';
 
   @override
-  String get chatTurboSystemHint => 'You are a helpful assistant.';
+  String get defaultSystemPrompt => 'You are a helpful assistant.';
 
   @override
   String get haoChat => 'HaoChat';

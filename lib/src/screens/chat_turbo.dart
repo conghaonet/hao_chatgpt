@@ -67,7 +67,7 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
       _errorEntity = null;
     });
     try {
-      String system = _getSystem();
+      String system = _getSystemPrompt();
       String inputMsg = _promptTextController.text.trim();
       if(inputMsg.isNotBlank) {
         _chatId ??= await _saveChatToDatabase(inputMsg, system);
@@ -176,22 +176,22 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
           var statement = haoDatabase.select(haoDatabase.chats);
           statement.where((tbl) => tbl.id.equals(_chatId!));
           var chatsTable = await statement.getSingleOrNull();
-          if(chatsTable != null && chatsTable.system != _getSystem()) {
+          if(chatsTable != null && chatsTable.system != _getSystemPrompt()) {
             var updateStatement = haoDatabase.update(haoDatabase.chats);
             updateStatement.where((tbl) => tbl.id.equals(_chatId!));
-            updateStatement.write(ChatsCompanion(system: drift.Value(_getSystem())));
+            updateStatement.write(ChatsCompanion(system: drift.Value(_getSystemPrompt())));
           }
         }
       }
     }
   }
   
-  String _getSystem() {
-    String system = ref.read(chatTurboSystemProvider);
-    if(system.trim().isEmpty) {
-      system = S.of(context).chatTurboSystemHint;
+  String _getSystemPrompt() {
+    String systemPrompt = ref.read(systemPromptProvider);
+    if(systemPrompt.trim().isEmpty) {
+      systemPrompt = S.of(context).defaultSystemPrompt;
     }
-    return system;
+    return systemPrompt;
   }
 
   Map<Type, Action<Intent>> _getShortcutsActions() {
@@ -235,6 +235,7 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
                       controller: _scrollController,
                       slivers: <Widget>[
                         _buildSliverAppBar(context),
+                        _buildSystemPrompt(),
                         if(appManager.openaiApiKey != null) _buildSliverList(),
                         SliverToBoxAdapter(
                           child: Center(
@@ -289,6 +290,26 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
           ),
         ),
       ],
+    );
+  }
+
+  SliverToBoxAdapter _buildSystemPrompt() {
+    return SliverToBoxAdapter(
+      child: Builder(builder: (context) => TextButton(
+        onPressed: () => Scaffold.of(context).openEndDrawer(),
+        child: RichText(
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          text: TextSpan(
+            style: Theme.of(context).textTheme.bodySmall,
+            children: <TextSpan>[
+              TextSpan(text: S.of(context).systemPrompt, style: const TextStyle(fontWeight: FontWeight.bold)),
+              TextSpan(text: _getSystemPrompt(),),
+            ],
+          ),
+        ),
+      ),
+      ),
     );
   }
 

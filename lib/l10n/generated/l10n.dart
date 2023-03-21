@@ -339,11 +339,11 @@ abstract class S {
   /// **'Resume'**
   String get resume;
 
-  /// No description provided for @system.
+  /// No description provided for @systemPrompt.
   ///
   /// In en, this message translates to:
-  /// **'SYSTEM'**
-  String get system;
+  /// **'System prompt: '**
+  String get systemPrompt;
 
   /// No description provided for @retry.
   ///
@@ -357,11 +357,11 @@ abstract class S {
   /// **'Copied'**
   String get copied;
 
-  /// No description provided for @chatTurboSystemHint.
+  /// No description provided for @defaultSystemPrompt.
   ///
   /// In en, this message translates to:
   /// **'You are a helpful assistant.'**
-  String get chatTurboSystemHint;
+  String get defaultSystemPrompt;
 
   /// No description provided for @haoChat.
   ///

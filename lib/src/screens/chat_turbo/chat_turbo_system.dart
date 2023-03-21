@@ -18,7 +18,7 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
   @override
   void initState() {
     super.initState();
-    _systemTextController.text = ref.read(chatTurboSystemProvider);
+    _systemTextController.text = ref.read(systemPromptProvider);
   }
 
   @override
@@ -41,7 +41,7 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(S.of(context).system, style: const TextStyle(fontWeight: FontWeight.bold),),
+                    Text(S.of(context).systemPrompt, style: const TextStyle(fontWeight: FontWeight.bold),),
                     Expanded(
                       child: TextField(
                         autofocus: true,
@@ -51,11 +51,11 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
                         controller: _systemTextController,
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: S.of(context).chatTurboSystemHint,
+                          hintText: S.of(context).defaultSystemPrompt,
                           contentPadding: const EdgeInsets.all(4),
                         ),
                         onChanged: (value) {
-                          ref.read(chatTurboSystemProvider.notifier).state = value;
+                          ref.read(systemPromptProvider.notifier).state = value;
                         },
                       ),
                     ),

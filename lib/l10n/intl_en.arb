@@ -64,11 +64,11 @@
   "hostName": "Host name",
   "portNumber": "Port number",
   "resume": "Resume",
-  "system": "SYSTEM",
+  "systemPrompt": "System prompt: ",
   "retry": "Retry",
   "copied": "Copied",
+  "defaultSystemPrompt": "You are a helpful assistant.",
 
-  "chatTurboSystemHint": "You are a helpful assistant.",
   "haoChat": "HaoChat",
   "openAI": "OpenAI",
   "chatGPT": "ChatGPT",

@@ -139,7 +139,7 @@ class SZh extends S {
   String get resume => '继续';
 
   @override
-  String get system => '系统';
+  String get systemPrompt => '系统提示：';
 
   @override
   String get retry => '重试';
@@ -148,7 +148,7 @@ class SZh extends S {
   String get copied => '已复制';
 
   @override
-  String get chatTurboSystemHint => 'You are a helpful assistant.';
+  String get defaultSystemPrompt => '你是一个乐于助人的助手。';
 
   @override
   String get haoChat => 'HaoChat';
