@@ -226,6 +226,14 @@ class PreferencesManager {
     return _preferences.setString(SharedPreferencesKey.httpProxy, value);
   }
 
+  int get systemPromptLimit => _preferences.getInt(SharedPreferencesKey.systemPromptLimit) ?? Constants.systemPromptLimit;
+  Future<bool> setSystemPromptLimit(int? value) {
+    if (value != null && value > 0) {
+      return _preferences.setInt(SharedPreferencesKey.systemPromptLimit, value);
+    } else {
+      return _preferences.remove(SharedPreferencesKey.systemPromptLimit);
+    }
+  }
 }
 
 class SharedPreferencesKey {
@@ -239,6 +247,7 @@ class SharedPreferencesKey {
   static const apiKeys = 'api_keys';
   static const shortcutsSend = 'shortcuts_send';
   static const httpProxy = 'http_proxy';
+  static const systemPromptLimit = 'system_prompt_limit';
 }
 
 PreferencesManager appPref = PreferencesManager();

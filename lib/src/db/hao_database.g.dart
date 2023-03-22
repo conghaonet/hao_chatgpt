@@ -1494,16 +1494,228 @@ class MessagesCompanion extends UpdateCompanion<Message> {
   }
 }
 
+class $SystemPromptsTable extends SystemPrompts
+    with TableInfo<$SystemPromptsTable, SystemPrompt> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SystemPromptsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _promptMeta = const VerificationMeta('prompt');
+  @override
+  late final GeneratedColumn<String> prompt = GeneratedColumn<String>(
+      'prompt', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _createDateTimeMeta =
+      const VerificationMeta('createDateTime');
+  @override
+  late final GeneratedColumn<DateTime> createDateTime =
+      GeneratedColumn<DateTime>('create_date_time', aliasedName, false,
+          type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, prompt, createDateTime];
+  @override
+  String get aliasedName => _alias ?? 'system_prompts';
+  @override
+  String get actualTableName => 'system_prompts';
+  @override
+  VerificationContext validateIntegrity(Insertable<SystemPrompt> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('prompt')) {
+      context.handle(_promptMeta,
+          prompt.isAcceptableOrUnknown(data['prompt']!, _promptMeta));
+    } else if (isInserting) {
+      context.missing(_promptMeta);
+    }
+    if (data.containsKey('create_date_time')) {
+      context.handle(
+          _createDateTimeMeta,
+          createDateTime.isAcceptableOrUnknown(
+              data['create_date_time']!, _createDateTimeMeta));
+    } else if (isInserting) {
+      context.missing(_createDateTimeMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SystemPrompt map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SystemPrompt(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      prompt: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}prompt'])!,
+      createDateTime: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}create_date_time'])!,
+    );
+  }
+
+  @override
+  $SystemPromptsTable createAlias(String alias) {
+    return $SystemPromptsTable(attachedDatabase, alias);
+  }
+}
+
+class SystemPrompt extends DataClass implements Insertable<SystemPrompt> {
+  final int id;
+  final String prompt;
+  final DateTime createDateTime;
+  const SystemPrompt(
+      {required this.id, required this.prompt, required this.createDateTime});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['prompt'] = Variable<String>(prompt);
+    map['create_date_time'] = Variable<DateTime>(createDateTime);
+    return map;
+  }
+
+  SystemPromptsCompanion toCompanion(bool nullToAbsent) {
+    return SystemPromptsCompanion(
+      id: Value(id),
+      prompt: Value(prompt),
+      createDateTime: Value(createDateTime),
+    );
+  }
+
+  factory SystemPrompt.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SystemPrompt(
+      id: serializer.fromJson<int>(json['id']),
+      prompt: serializer.fromJson<String>(json['prompt']),
+      createDateTime: serializer.fromJson<DateTime>(json['createDateTime']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'prompt': serializer.toJson<String>(prompt),
+      'createDateTime': serializer.toJson<DateTime>(createDateTime),
+    };
+  }
+
+  SystemPrompt copyWith({int? id, String? prompt, DateTime? createDateTime}) =>
+      SystemPrompt(
+        id: id ?? this.id,
+        prompt: prompt ?? this.prompt,
+        createDateTime: createDateTime ?? this.createDateTime,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('SystemPrompt(')
+          ..write('id: $id, ')
+          ..write('prompt: $prompt, ')
+          ..write('createDateTime: $createDateTime')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, prompt, createDateTime);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SystemPrompt &&
+          other.id == this.id &&
+          other.prompt == this.prompt &&
+          other.createDateTime == this.createDateTime);
+}
+
+class SystemPromptsCompanion extends UpdateCompanion<SystemPrompt> {
+  final Value<int> id;
+  final Value<String> prompt;
+  final Value<DateTime> createDateTime;
+  const SystemPromptsCompanion({
+    this.id = const Value.absent(),
+    this.prompt = const Value.absent(),
+    this.createDateTime = const Value.absent(),
+  });
+  SystemPromptsCompanion.insert({
+    this.id = const Value.absent(),
+    required String prompt,
+    required DateTime createDateTime,
+  })  : prompt = Value(prompt),
+        createDateTime = Value(createDateTime);
+  static Insertable<SystemPrompt> custom({
+    Expression<int>? id,
+    Expression<String>? prompt,
+    Expression<DateTime>? createDateTime,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (prompt != null) 'prompt': prompt,
+      if (createDateTime != null) 'create_date_time': createDateTime,
+    });
+  }
+
+  SystemPromptsCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? prompt,
+      Value<DateTime>? createDateTime}) {
+    return SystemPromptsCompanion(
+      id: id ?? this.id,
+      prompt: prompt ?? this.prompt,
+      createDateTime: createDateTime ?? this.createDateTime,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (prompt.present) {
+      map['prompt'] = Variable<String>(prompt.value);
+    }
+    if (createDateTime.present) {
+      map['create_date_time'] = Variable<DateTime>(createDateTime.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SystemPromptsCompanion(')
+          ..write('id: $id, ')
+          ..write('prompt: $prompt, ')
+          ..write('createDateTime: $createDateTime')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$HaoDatabase extends GeneratedDatabase {
   _$HaoDatabase(QueryExecutor e) : super(e);
   late final $ChatTitlesTable chatTitles = $ChatTitlesTable(this);
   late final $ConversationsTable conversations = $ConversationsTable(this);
   late final $ChatsTable chats = $ChatsTable(this);
   late final $MessagesTable messages = $MessagesTable(this);
+  late final $SystemPromptsTable systemPrompts = $SystemPromptsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [chatTitles, conversations, chats, messages];
+      [chatTitles, conversations, chats, messages, systemPrompts];
 }

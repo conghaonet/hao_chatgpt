@@ -4,6 +4,7 @@ import 'package:hao_chatgpt/main.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
 
 import '../../../l10n/generated/l10n.dart';
+import '../../db/hao_database.dart';
 
 class ChatTurboSystem extends ConsumerStatefulWidget {
   const ChatTurboSystem({Key? key}) : super(key: key);
@@ -19,6 +20,24 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
   void initState() {
     super.initState();
     _systemTextController.text = ref.read(systemPromptProvider);
+    Future(() {
+      if(S.of(context).defaultSystemPrompt == ref.read(systemPromptProvider)) {
+        _systemTextController.text = '';
+        if(mounted) {
+          setState(() {
+
+          });
+        }
+      }
+    });
+  }
+
+  Future<int> _saveSystemPrompt() async {
+    int id = await haoDatabase.into(haoDatabase.systemPrompts).insert(SystemPromptsCompanion.insert(
+      prompt: _systemTextController.text.trim(),
+      createDateTime: DateTime.now(),
+    ));
+    return id;
   }
 
   @override
@@ -41,7 +60,19 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(S.of(context).systemPrompt, style: const TextStyle(fontWeight: FontWeight.bold),),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(S.of(context).systemPrompt, style: const TextStyle(fontWeight: FontWeight.bold),),
+                        ),
+                        IconButton(
+                          onPressed: _saveSystemPrompt,
+                          isSelected: true,
+                          selectedIcon: const Icon(Icons.star, color: Colors.yellow,),
+                          icon: const Icon(Icons.star_border),
+                        ),
+                      ],
+                    ),
                     Expanded(
                       child: TextField(
                         autofocus: true,
@@ -55,7 +86,7 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
                           contentPadding: const EdgeInsets.all(4),
                         ),
                         onChanged: (value) {
-                          ref.read(systemPromptProvider.notifier).state = value;
+                          ref.read(systemPromptProvider.notifier).state = value.trim();
                         },
                       ),
                     ),

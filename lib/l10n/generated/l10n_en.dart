@@ -7,14 +7,6 @@ class SEn extends S {
   SEn([String locale = 'en']) : super(locale);
 
   @override
-  String get arbExample1 => 'arbExample1';
-
-  @override
-  String arbExample2(String name) {
-    return 'arbExample2 $name';
-  }
-
-  @override
   String get settings => 'Settings';
 
   @override
@@ -139,7 +131,7 @@ class SEn extends S {
   String get resume => 'Resume';
 
   @override
-  String get systemPrompt => 'System prompt: ';
+  String get systemPrompt => 'System prompt';
 
   @override
   String get retry => 'Retry';
@@ -149,6 +141,9 @@ class SEn extends S {
 
   @override
   String get defaultSystemPrompt => 'You are a helpful assistant.';
+
+  @override
+  String get addToFavorites => 'Add to favorites';
 
   @override
   String get haoChat => 'HaoChat';

@@ -1,13 +1,4 @@
 {
-  "arbExample1": "arbExample1",
-  "arbExample2": "arbExample2 {name}",
-  "@arbExample2": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "settings": "Settings",
   "theme": "Theme",
   "chooseTheme": "Choose theme",
@@ -64,10 +55,11 @@
   "hostName": "Host name",
   "portNumber": "Port number",
   "resume": "Resume",
-  "systemPrompt": "System prompt: ",
+  "systemPrompt": "System prompt",
   "retry": "Retry",
   "copied": "Copied",
   "defaultSystemPrompt": "You are a helpful assistant.",
+  "addToFavorites": "Add to favorites",
 
   "haoChat": "HaoChat",
   "openAI": "OpenAI",

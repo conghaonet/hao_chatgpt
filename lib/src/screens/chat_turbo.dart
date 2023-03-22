@@ -67,31 +67,33 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
       _errorEntity = null;
     });
     try {
-      String system = _getSystemPrompt();
-      String inputMsg = _promptTextController.text.trim();
-      if(inputMsg.isNotBlank) {
-        _chatId ??= await _saveChatToDatabase(inputMsg, system);
-        await _saveInputMsgToDatabase(inputMsg);
-        _promptTextController.text = '';
-        if(mounted) {
-          setState(() {
-          });
-          Future.delayed(const Duration(milliseconds: 100), () {
-            _scrollToEnd();
-          });
+      if(context.mounted) {
+        String systemPrompt = _getSystemPrompt();
+        String inputMsg = _promptTextController.text.trim();
+        if(inputMsg.isNotBlank) {
+          _chatId ??= await _saveChatToDatabase(inputMsg, systemPrompt);
+          await _saveInputMsgToDatabase(inputMsg);
+          _promptTextController.text = '';
+          if(mounted) {
+            setState(() {
+            });
+            Future.delayed(const Duration(milliseconds: 100), () {
+              _scrollToEnd();
+            });
+          }
         }
-      }
-      List<ChatMessageEntity> queryMessages = [
-        ChatMessageEntity(role: ChatRole.system, content: system),
-        ..._messages.map((e) => ChatMessageEntity(role: e.role, content: e.content)).toList()
-      ];
-      ChatQueryEntity queryEntity = appPref.gpt35TurboSettings ?? ChatQueryEntity(messages: [],);
-      queryEntity.messages = queryMessages;
+        List<ChatMessageEntity> queryMessages = [
+          ChatMessageEntity(role: ChatRole.system, content: systemPrompt),
+          ..._messages.map((e) => ChatMessageEntity(role: e.role, content: e.content)).toList()
+        ];
+        ChatQueryEntity queryEntity = appPref.gpt35TurboSettings ?? ChatQueryEntity(messages: [],);
+        queryEntity.messages = queryMessages;
 
-      ChatEntity chatEntity = await openaiService.getChatCompletions(queryEntity);
-      if(chatEntity.choices != null && chatEntity.choices!.isNotEmpty && chatEntity.choices!.first.message != null) {
-        _chatId ??= await _saveChatToDatabase(chatEntity.choices!.first.message!.content, system);
-        await _saveMessageToDatabase(chatEntity);
+        ChatEntity chatEntity = await openaiService.getChatCompletions(queryEntity);
+        if(chatEntity.choices != null && chatEntity.choices!.isNotEmpty && chatEntity.choices!.first.message != null) {
+          _chatId ??= await _saveChatToDatabase(chatEntity.choices!.first.message!.content, systemPrompt);
+          await _saveMessageToDatabase(chatEntity);
+        }
       }
     } on DioError catch (e) {
       _errorEntity = e.toDioErrorEntity;
@@ -110,10 +112,10 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
     return;
   }
 
-  Future<int> _saveChatToDatabase(String title, String system) async {
+  Future<int> _saveChatToDatabase(String title, String systemPrompt) async {
     int chatId = await haoDatabase.into(haoDatabase.chats).insert(ChatsCompanion.insert(
       title: title.trim(),
-      system: system,
+      system: systemPrompt,
       isFavorite: false,
       chatDateTime: DateTime.now(),
     ));
@@ -303,8 +305,8 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
           text: TextSpan(
             style: Theme.of(context).textTheme.bodySmall,
             children: <TextSpan>[
-              TextSpan(text: S.of(context).systemPrompt, style: const TextStyle(fontWeight: FontWeight.bold)),
-              TextSpan(text: _getSystemPrompt(),),
+              TextSpan(text: '${S.of(context).systemPrompt}: ', style: const TextStyle(fontWeight: FontWeight.bold)),
+              TextSpan(text: ref.watch(systemPromptProvider).isNotEmpty ? ref.read(systemPromptProvider) : S.of(context).defaultSystemPrompt,),
             ],
           ),
         ),

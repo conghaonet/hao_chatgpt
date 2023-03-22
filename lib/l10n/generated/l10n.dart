@@ -93,18 +93,6 @@ abstract class S {
     Locale('zh')
   ];
 
-  /// No description provided for @arbExample1.
-  ///
-  /// In en, this message translates to:
-  /// **'arbExample1'**
-  String get arbExample1;
-
-  /// No description provided for @arbExample2.
-  ///
-  /// In en, this message translates to:
-  /// **'arbExample2 {name}'**
-  String arbExample2(String name);
-
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:
@@ -342,7 +330,7 @@ abstract class S {
   /// No description provided for @systemPrompt.
   ///
   /// In en, this message translates to:
-  /// **'System prompt: '**
+  /// **'System prompt'**
   String get systemPrompt;
 
   /// No description provided for @retry.
@@ -362,6 +350,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'You are a helpful assistant.'**
   String get defaultSystemPrompt;
+
+  /// No description provided for @addToFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to favorites'**
+  String get addToFavorites;
 
   /// No description provided for @haoChat.
   ///

@@ -49,14 +49,19 @@ class Messages extends Table with AutoIncrementingPrimaryKey {
   DateTimeColumn get msgDateTime => dateTime()();
 }
 
-@DriftDatabase(tables: [ChatTitles, Conversations, Chats, Messages])
+class SystemPrompts extends Table with AutoIncrementingPrimaryKey {
+  TextColumn get prompt => text()();
+  DateTimeColumn get createDateTime => dateTime()();
+}
+
+@DriftDatabase(tables: [ChatTitles, Conversations, Chats, Messages, SystemPrompts])
 class HaoDatabase extends _$HaoDatabase {
   HaoDatabase() : super(_openConnection());
 
   // you should bump this number whenever you change or add a table definition.
   // Migrations are covered later in the documentation.
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration {
@@ -67,6 +72,9 @@ class HaoDatabase extends _$HaoDatabase {
             case 2:
               m.createTable(chats);
               m.createTable(messages);
+              break;
+            case 3:
+              m.createTable(systemPrompts);
               break;
           }
         }

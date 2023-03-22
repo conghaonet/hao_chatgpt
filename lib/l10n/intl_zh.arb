@@ -1,6 +1,4 @@
 {
-  "arbExample1": "arb示例1",
-  "arbExample2": "arb示例2 {name}",
   "settings": "设置",
   "theme": "主题",
   "chooseTheme": "选择主题",
@@ -40,8 +38,9 @@
   "hostName": "主机名",
   "portNumber": "端口号",
   "resume": "继续",
-  "systemPrompt": "系统提示：",
+  "systemPrompt": "系统提示",
   "retry": "重试",
   "copied": "已复制",
-  "defaultSystemPrompt": "你是一个乐于助人的助手。"
+  "defaultSystemPrompt": "你是一个乐于助人的助手。",
+  "addToFavorites": "加入收藏"
 }

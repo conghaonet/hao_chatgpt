@@ -7,14 +7,6 @@ class SZh extends S {
   SZh([String locale = 'zh']) : super(locale);
 
   @override
-  String get arbExample1 => 'arb示例1';
-
-  @override
-  String arbExample2(String name) {
-    return 'arb示例2 $name';
-  }
-
-  @override
   String get settings => '设置';
 
   @override
@@ -139,7 +131,7 @@ class SZh extends S {
   String get resume => '继续';
 
   @override
-  String get systemPrompt => '系统提示：';
+  String get systemPrompt => '系统提示';
 
   @override
   String get retry => '重试';
@@ -149,6 +141,9 @@ class SZh extends S {
 
   @override
   String get defaultSystemPrompt => '你是一个乐于助人的助手。';
+
+  @override
+  String get addToFavorites => '加入收藏';
 
   @override
   String get haoChat => 'HaoChat';
