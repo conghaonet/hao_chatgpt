@@ -46,7 +46,7 @@ class Constants {
   static const String androidActionMain = 'android.intent.action.MAIN';
   static const String androidCategoryHome = 'android.intent.category.HOME';
 
-  static const int systemPromptLimit = 5;
+  static const int systemPromptLimit = 15;
 }
 
 class ChatRole {
