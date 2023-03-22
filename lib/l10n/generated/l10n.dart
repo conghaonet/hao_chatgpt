@@ -351,12 +351,6 @@ abstract class S {
   /// **'You are a helpful assistant.'**
   String get defaultSystemPrompt;
 
-  /// No description provided for @addToFavorites.
-  ///
-  /// In en, this message translates to:
-  /// **'Add to favorites'**
-  String get addToFavorites;
-
   /// No description provided for @haoChat.
   ///
   /// In en, this message translates to:
