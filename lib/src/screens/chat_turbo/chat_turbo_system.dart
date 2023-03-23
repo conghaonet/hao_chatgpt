@@ -18,11 +18,12 @@ class ChatTurboSystem extends ConsumerStatefulWidget {
 class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
   final TextEditingController _systemTextController = TextEditingController();
   final List<SystemPrompt> _systemPrompts = [];
+  int _selectedPromptId = -1;
 
   @override
   void initState() {
     super.initState();
-    _systemTextController.text = ref.read(systemPromptProvider);
+    _setPromptText(ref.read(systemPromptProvider));
     Future(() async {
       var statement = haoDatabase.select(haoDatabase.systemPrompts);
       statement.orderBy([(t) => drift.OrderingTerm(expression: t.id, mode: drift.OrderingMode.desc)]);
@@ -30,13 +31,34 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
       var results = await statement.get();
       _systemPrompts.addAll(results);
       if(mounted) {
-        if(S.of(context).defaultSystemPrompt == ref.read(systemPromptProvider)) {
-          _systemTextController.text = '';
-        }
+        _checkSelectedPrompt();
         setState(() {
         });
       }
     });
+  }
+
+  void _setPromptText(String value) {
+    _systemTextController.value = TextEditingValue(
+      text: value,
+      selection: TextSelection.fromPosition(TextPosition(
+        affinity: TextAffinity.downstream,
+        offset: value.length,
+      )),
+    );
+  }
+
+  void _checkSelectedPrompt() {
+    _selectedPromptId = -1;
+    final trimmedValue = _systemTextController.text.trim();
+    if(trimmedValue.isNotEmpty) {
+      for(SystemPrompt systemPrompt in _systemPrompts) {
+        if(systemPrompt.prompt == trimmedValue) {
+          _selectedPromptId = systemPrompt.id;
+          break;
+        }
+      }
+    }
   }
 
   Future _saveSystemPrompt() async {
@@ -45,6 +67,7 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
       createDateTime: DateTime.now(),
     ));
     SystemPrompt newSystemPrompt = await (haoDatabase.select(haoDatabase.systemPrompts)..where((tbl) => tbl.id.equals(id))).getSingle();
+    _selectedPromptId = newSystemPrompt.id;
     _systemPrompts.insert(0, newSystemPrompt);
     if(_systemPrompts.length > appPref.systemPromptLimit) {
       _systemPrompts.removeLast();
@@ -54,6 +77,13 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
       setState(() {
       });
     }
+  }
+  Future _delSystemPrompt() async {
+    _systemPrompts.removeWhere((element) => element.id == _selectedPromptId);
+    (haoDatabase.delete(haoDatabase.systemPrompts)..where((tbl) => tbl.id.equals(_selectedPromptId))).go();
+    _selectedPromptId = -1;
+    setState(() {
+    });
   }
 
   @override
@@ -69,64 +99,96 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
                 margin: const EdgeInsets.all(4),
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                  border: Border.all(
-                  ),
+                  border: Border.all(),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(S.of(context).systemPrompt, style: const TextStyle(fontWeight: FontWeight.bold),),
-                        ),
-                        IconButton(
-                          onPressed: _saveSystemPrompt,
-                          isSelected: true,
-                          selectedIcon: const Icon(Icons.star, color: Colors.yellow,),
-                          icon: const Icon(Icons.star_border),
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: TextField(
-                        autofocus: true,
-                        maxLines: null,
-                        minLines: null,
-                        expands: true,
-                        controller: _systemTextController,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: S.of(context).defaultSystemPrompt,
-                          contentPadding: const EdgeInsets.all(4),
-                        ),
-                        onChanged: (value) {
-                          ref.read(systemPromptProvider.notifier).state = value.trim();
-                        },
-                      ),
-                    ),
+                    _buildInputHeader(context),
+                    Expanded(child: _buildInput(context)),
                   ],
                 ),
               ),
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _systemPrompts.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: Text(
-                      _systemPrompts[index].prompt,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  );
-                },
-              ),
-            ),
+            Expanded(child: _buildListView(),),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildInputHeader(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4.0),
+            child: Text(S.of(context).systemPrompt, style: const TextStyle(fontWeight: FontWeight.bold),),
+          ),
+        ),
+        Visibility(
+          visible: _systemTextController.text.isNotEmpty,
+          maintainSize: true,
+          maintainAnimation: true,
+          maintainState: true,
+          child: IconButton(
+            onPressed: _selectedPromptId > 0 ? _delSystemPrompt : _saveSystemPrompt,
+            isSelected: _selectedPromptId > 0,
+            selectedIcon: const Icon(Icons.star, color: Colors.yellow,),
+            icon: const Icon(Icons.star_border,),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildInput(BuildContext context) {
+    return TextField(
+      autofocus: true,
+      maxLines: null,
+      minLines: null,
+      expands: true,
+      controller: _systemTextController,
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        hintText: S.of(context).defaultSystemPrompt,
+        contentPadding: const EdgeInsets.all(4),
+      ),
+      onChanged: (value) {
+        _checkSelectedPrompt();
+        setState(() {
+          ref.read(systemPromptProvider.notifier).state = value.trim();
+        });
+      },
+    );
+  }
+
+  ListView _buildListView() {
+    return ListView.builder(
+      itemCount: _systemPrompts.length,
+      itemBuilder: (context, index) {
+        return GestureDetector(
+          onTap: () {
+            _setPromptText(_systemPrompts[index].prompt);
+            setState(() {
+              _selectedPromptId = _systemPrompts[index].id;
+              ref.read(systemPromptProvider.notifier).state = _systemPrompts[index].prompt;
+            });
+          },
+          child: Card(
+            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(2.0))),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              child: Text(
+                _systemPrompts[index].prompt,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
