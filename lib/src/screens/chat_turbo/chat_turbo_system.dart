@@ -70,16 +70,17 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
       duration: const Duration(milliseconds: 500),
       curve: Curves.bounceInOut,
     );
-    int id = await haoDatabase.into(haoDatabase.systemPrompts).insert(SystemPromptsCompanion.insert(
+    _selectedPromptId = await haoDatabase.into(haoDatabase.systemPrompts).insert(SystemPromptsCompanion.insert(
       prompt: _systemTextController.text.trim(),
       createDateTime: DateTime.now(),
     ));
-    SystemPrompt newSystemPrompt = await (haoDatabase.select(haoDatabase.systemPrompts)..where((tbl) => tbl.id.equals(id))).getSingle();
-    _selectedPromptId = newSystemPrompt.id;
+    final statement = haoDatabase.select(haoDatabase.systemPrompts);
+    statement.where((tbl) => tbl.id.equals(_selectedPromptId));
+    SystemPrompt newSystemPrompt = await statement.getSingle();
     _systemPrompts.insert(0, newSystemPrompt);
     if(_systemPrompts.length > appPref.systemPromptLimit) {
-      _systemPrompts.removeLast();
-      (haoDatabase.delete(haoDatabase.systemPrompts)..where((tbl) => tbl.id.equals(id))).go();
+      final lastPrompt = _systemPrompts.removeLast();
+      (haoDatabase.delete(haoDatabase.systemPrompts)..where((tbl) => tbl.id.equals(lastPrompt.id))).go();
     }
     if(mounted) {
       setState(() {

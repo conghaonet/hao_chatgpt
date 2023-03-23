@@ -35,6 +35,7 @@ class ChatTurbo extends ConsumerStatefulWidget {
 }
 
 class _ChatTurboState extends ConsumerState<ChatTurbo> {
+  bool _drawerIsOpened = false;
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _promptTextController = TextEditingController();
   final List<Message> _messages = [];
@@ -170,6 +171,9 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
   }
 
   void _onDrawerChanged(bool isEndDrawer, bool isOpened) async {
+    setState(() {
+      _drawerIsOpened = isOpened;
+    });
     if(isOpened) {
       FocusManager.instance.primaryFocus?.unfocus();
     } else {
@@ -210,7 +214,7 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
   @override
   Widget build(BuildContext context) {
     return Shortcuts(
-      shortcuts: getShortcutsIntents(),
+      shortcuts: _drawerIsOpened ? {} : getShortcutsIntents(),
       child: Actions(
         dispatcher: LoggingActionDispatcher(),
         actions: _getShortcutsActions(),
