@@ -143,6 +143,9 @@ class SEn extends S {
   String get defaultSystemPrompt => 'You are a helpful assistant.';
 
   @override
+  String get systemPromptRecords => 'System prompt records';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override

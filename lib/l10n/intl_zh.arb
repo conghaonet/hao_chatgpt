@@ -41,5 +41,6 @@
   "systemPrompt": "系统提示",
   "retry": "重试",
   "copied": "已复制",
-  "defaultSystemPrompt": "你是一个乐于助人的助手。"
+  "defaultSystemPrompt": "你是一个乐于助人的助手。",
+  "systemPromptRecords": "系统提示记录"
 }

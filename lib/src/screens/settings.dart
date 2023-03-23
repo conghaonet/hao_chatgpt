@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -62,14 +64,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 trailing: const Icon(Icons.keyboard_arrow_right),
                 onTap: () => context.go('/${AppUri.settingsGpt35Turbo}'),
               ),
-/*
-              ListTile(
-                leading: const Icon(Icons.data_object),
-                title: Text(S.of(context).gpt3),
-                trailing: const Icon(Icons.keyboard_arrow_right),
-                onTap: () => context.go('/${AppUri.settingsGpt3}'),
-              ),
-*/
+              _buildSystemPrompt(),
               if(getShortcutsKeys().length > 1) _buildShortcuts(),
               _buildProxySetting(context),
               _buildLanguageSetting(context),
@@ -87,6 +82,29 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       ),
     );
   }
+
+  Widget _buildSystemPrompt() {
+    List<int> maxRecords = [Constants.systemPromptLimit, Constants.systemPromptLimit+10, Constants.systemPromptLimit+20];
+    return ListTile(
+      leading: const Icon(Icons.table_rows),
+      title: Text(S.of(context).systemPromptRecords),
+      trailing: DropdownButton<int>(
+        value: appPref.systemPromptLimit,
+        items: maxRecords.map((e) {
+          return DropdownMenuItem<int>(
+            value: e,
+            child: Text('$e'),
+          );
+        }).toList(growable: false),
+        onChanged: (value) {
+          setState(() {
+            appPref.setSystemPromptLimit(value);
+          });
+        },
+      ),
+    );
+  }
+
   Widget _buildShortcuts() {
     return ListTile(
       leading: const Icon(Icons.shortcut),

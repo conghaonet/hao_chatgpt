@@ -59,6 +59,7 @@
   "retry": "Retry",
   "copied": "Copied",
   "defaultSystemPrompt": "You are a helpful assistant.",
+  "systemPromptRecords": "System prompt records",
 
   "haoChat": "HaoChat",
   "openAI": "OpenAI",

@@ -143,6 +143,9 @@ class SZh extends S {
   String get defaultSystemPrompt => '你是一个乐于助人的助手。';
 
   @override
+  String get systemPromptRecords => '系统提示记录';
+
+  @override
   String get haoChat => 'HaoChat';
 
   @override

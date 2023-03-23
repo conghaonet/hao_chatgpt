@@ -351,6 +351,12 @@ abstract class S {
   /// **'You are a helpful assistant.'**
   String get defaultSystemPrompt;
 
+  /// No description provided for @systemPromptRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'System prompt records'**
+  String get systemPromptRecords;
+
   /// No description provided for @haoChat.
   ///
   /// In en, this message translates to:
