@@ -17,6 +17,7 @@ class ChatTurboSystem extends ConsumerStatefulWidget {
 
 class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
   final TextEditingController _systemTextController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   final List<SystemPrompt> _systemPrompts = [];
   int _selectedPromptId = -1;
 
@@ -62,6 +63,10 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
   }
 
   Future _saveSystemPrompt() async {
+    _scrollController.animateTo(0,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.bounceInOut,
+    );
     int id = await haoDatabase.into(haoDatabase.systemPrompts).insert(SystemPromptsCompanion.insert(
       prompt: _systemTextController.text.trim(),
       createDateTime: DateTime.now(),
@@ -124,7 +129,31 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(left: 4.0),
-            child: Text(S.of(context).systemPrompt, style: const TextStyle(fontWeight: FontWeight.bold),),
+            child: Row(
+              children: [
+                Text(S.of(context).systemPrompt, style: const TextStyle(fontWeight: FontWeight.bold,),),
+                Visibility(
+                  visible: _systemTextController.text.isNotEmpty,
+                  maintainSize: true,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  child: SizedBox(
+                    width: 36,
+                    height: 36,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () {
+                        setState(() {
+                          _selectedPromptId = -1;
+                          _systemTextController.clear();
+                        });
+                      },
+                      icon: const Icon(Icons.clear_all,),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         Visibility(
@@ -132,11 +161,16 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
           maintainSize: true,
           maintainAnimation: true,
           maintainState: true,
-          child: IconButton(
-            onPressed: _selectedPromptId > 0 ? _delSystemPrompt : _saveSystemPrompt,
-            isSelected: _selectedPromptId > 0,
-            selectedIcon: const Icon(Icons.star, color: Colors.yellow,),
-            icon: const Icon(Icons.star_border,),
+          child: SizedBox(
+            width: 36,
+            height: 36,
+            child: IconButton(
+              padding: EdgeInsets.zero,
+              onPressed: _selectedPromptId > 0 ? _delSystemPrompt : _saveSystemPrompt,
+              isSelected: _selectedPromptId > 0,
+              selectedIcon: const Icon(Icons.star, ),
+              icon: const Icon(Icons.star_border,),
+            ),
           ),
         ),
       ],
@@ -164,37 +198,47 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
     );
   }
 
-  ListView _buildListView() {
-    return ListView.builder(
-      itemCount: _systemPrompts.length,
-      itemBuilder: (context, index) {
-        return GestureDetector(
-          onTap: () {
-            _setPromptText(_systemPrompts[index].prompt);
-            setState(() {
-              _selectedPromptId = _systemPrompts[index].id;
-              ref.read(systemPromptProvider.notifier).state = _systemPrompts[index].prompt;
-            });
-          },
-          child: Card(
-            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(2.0))),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-              child: Text(
-                _systemPrompts[index].prompt,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+  Widget _buildListView() {
+    return NotificationListener(
+      onNotification: (ScrollNotification notification) {
+        if(notification is ScrollStartNotification) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        }
+        return true;
+      },
+      child: ListView.builder(
+        controller: _scrollController,
+        itemCount: _systemPrompts.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              _setPromptText(_systemPrompts[index].prompt);
+              setState(() {
+                _selectedPromptId = _systemPrompts[index].id;
+                ref.read(systemPromptProvider.notifier).state = _systemPrompts[index].prompt;
+              });
+            },
+            child: Card(
+              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(2.0))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                child: Text(
+                  _systemPrompts[index].prompt,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
   @override
   void dispose() {
     _systemTextController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 }
