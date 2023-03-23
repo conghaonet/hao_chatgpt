@@ -32,6 +32,9 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
       var results = await statement.get();
       _systemPrompts.addAll(results);
       if(mounted) {
+        if(S.of(context).defaultSystemPrompt == ref.read(systemPromptProvider)) {
+          _systemTextController.text = '';
+        }
         _checkSelectedPrompt();
         setState(() {
         });
@@ -146,6 +149,7 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
                         setState(() {
                           _selectedPromptId = -1;
                           _systemTextController.clear();
+                          ref.read(systemPromptProvider.notifier).state = '';
                         });
                       },
                       icon: const Icon(Icons.clear_all,),
@@ -191,8 +195,8 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
       ),
       onChanged: (value) {
         _checkSelectedPrompt();
+        ref.read(systemPromptProvider.notifier).state = value.trim();
         setState(() {
-          ref.read(systemPromptProvider.notifier).state = value.trim();
         });
       },
     );

@@ -138,7 +138,6 @@ class _ChatTurboMenuState extends ConsumerState<ChatTurboMenu> {
               onTap: () {
                 context.pop();
                 if(widget.onClickChat != null) {
-                  ref.read(systemPromptProvider.notifier).state = '';
                   widget.onClickChat!(null);
                 }
               },
