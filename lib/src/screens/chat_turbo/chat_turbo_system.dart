@@ -101,27 +101,34 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
       color: Theme.of(context).scaffoldBackgroundColor,
       child: FractionallySizedBox(
         widthFactor: isDesktop() ? 0.4 : 0.7,
-        child: Column(
-          children: [
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.all(4),
-                padding: const EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildInputHeader(context),
-                    Expanded(child: _buildInput(context)),
-                  ],
+        child: Listener(
+          onPointerMove: (PointerMoveEvent event) {
+            if(MediaQuery.of(context).viewInsets.bottom > 0) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            }
+          },
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildInputHeader(context),
+                      Expanded(child: _buildInput(context)),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Expanded(child: _buildListView(),),
-          ],
+              Expanded(child: _buildListView(),),
+            ],
+          ),
         ),
       ),
     );
@@ -204,39 +211,31 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
   }
 
   Widget _buildListView() {
-    return NotificationListener(
-      onNotification: (ScrollNotification notification) {
-        if(notification is ScrollStartNotification) {
-          FocusManager.instance.primaryFocus?.unfocus();
-        }
-        return true;
-      },
-      child: ListView.builder(
-        controller: _scrollController,
-        itemCount: _systemPrompts.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              _setPromptText(_systemPrompts[index].prompt);
-              setState(() {
-                _selectedPromptId = _systemPrompts[index].id;
-                ref.read(systemPromptProvider.notifier).state = _systemPrompts[index].prompt;
-              });
-            },
-            child: Card(
-              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(2.0))),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                child: Text(
-                  _systemPrompts[index].prompt,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
+    return ListView.builder(
+      controller: _scrollController,
+      itemCount: _systemPrompts.length,
+      itemBuilder: (context, index) {
+        return GestureDetector(
+          onTap: () {
+            _setPromptText(_systemPrompts[index].prompt);
+            setState(() {
+              _selectedPromptId = _systemPrompts[index].id;
+              ref.read(systemPromptProvider.notifier).state = _systemPrompts[index].prompt;
+            });
+          },
+          child: Card(
+            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(2.0))),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              child: Text(
+                _systemPrompts[index].prompt,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
