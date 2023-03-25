@@ -33,7 +33,7 @@ For security reasons, I cannot upload my **openai.yaml**.
 - [x] GPT-4
 
 ## Tips
-Set the task or role of the AI in this **SYSTEM** input box.  
+Set the task or role of the AI in this **SYSTEM** input field.  
 For example: You are a helpful assistant that translates Chinese to English to.
 
 ![](https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/en/setsystem01.jpg) ![](https://github.com/conghaonet/hao_chatgpt/blob/master/screenshots/en/setsystem02.jpg)
