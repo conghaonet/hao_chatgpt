@@ -3,6 +3,7 @@ English | [简体中文](README-zh-CN.md)
 # HaoChat
 
 An unofficial ChatGPT application developed with Flutter.
+If this repository has been helpful to you, please support us by giving it a star!
 
 <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/flutter_logo.png" height="40"/>&emsp;&emsp;<img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/openai_logo.png" height="40"/>
 
