@@ -1,22 +1,22 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hao_chatgpt/main.dart';
 import 'package:hao_chatgpt/src/constants.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
 import 'package:hao_chatgpt/src/app_config.dart';
 
 import '../../../l10n/generated/l10n.dart';
 
-class SettingsProxy extends StatefulWidget {
+class SettingsProxy extends ConsumerStatefulWidget {
   const SettingsProxy({Key? key}) : super(key: key);
 
   @override
-  State<SettingsProxy> createState() => _SettingsProxyState();
+  ConsumerState<SettingsProxy> createState() => _SettingsProxyState();
 }
 
-class _SettingsProxyState extends State<SettingsProxy> {
+class _SettingsProxyState extends ConsumerState<SettingsProxy> {
   final _hostnameController = TextEditingController();
   final _portNumberController = TextEditingController();
   final GlobalKey _formKey  = GlobalKey<FormState>();
@@ -100,6 +100,7 @@ class _SettingsProxyState extends State<SettingsProxy> {
           onPressed: () async {
             if((_formKey.currentState as FormState).validate()) {
               await appConfig.setHttpProxy(_enableProxy, _hostnameController.text, int.tryParse(_portNumberController.text));
+              ref.read(proxyProvider.notifier).state = appConfig.httpProxy;
               setState(() {
                 context.pop();
               });

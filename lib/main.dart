@@ -14,23 +14,15 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await appManager.init();
   runApp(const ProviderScope(child: MyApp()));
-
-  // This callback is called every time the system brightness changes.
-  // SingletonFlutterWindow window = WidgetsBinding.instance.window;
-  // window.onPlatformBrightnessChanged = () {
-  //   print('BrightnessChanged = '+window.platformBrightness.toString());
-  // };
 }
 
-final StateProvider<ThemeMode> themeProvider =
-    StateProvider((ref) => appConfig.themeMode);
-final StateProvider<Locale?> localeProvider =
-    StateProvider((ref) => appConfig.locale);
+final StateProvider<ThemeMode> themeProvider = StateProvider((ref) => appConfig.themeMode);
+final StateProvider<Locale?> localeProvider = StateProvider((ref) => appConfig.locale);
 final StateProvider<String> systemPromptProvider = StateProvider<String>((ref) => '');
+final StateProvider<String?> proxyProvider = StateProvider((ref) => appConfig.httpProxy);
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     setSystemNavigationBarColor(ref.watch(themeProvider));

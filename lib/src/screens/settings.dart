@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -131,9 +129,23 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   }
 
   Widget _buildProxySetting(BuildContext context) {
+    String? value = ref.watch(proxyProvider);
+    String proxyValue = '';
+    if(value.isNotBlank) {
+      List<String> args = value!.split(Constants.splitTag);
+      if(args.length == 3) {
+        bool enableProxy = args[0] == true.toString();
+        String hostname = args[1];
+        String portNumber = args[2];
+        if(enableProxy && hostname.isNotEmpty && portNumber.isNotEmpty) {
+          proxyValue = '$hostname:$portNumber';
+        }
+      }
+    }
     return ListTile(
       leading: const Icon(Icons.swap_vert),
       title: Text(S.of(context).httpProxy),
+      subtitle: proxyValue.isNotEmpty ? Text(proxyValue) : null,
       onTap: () {
         showDialog(
           context: context,
