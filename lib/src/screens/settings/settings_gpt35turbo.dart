@@ -6,7 +6,7 @@ import 'package:hao_chatgpt/src/extensions.dart';
 import '../../../l10n/generated/l10n.dart';
 import '../../constants.dart';
 import '../../network/entity/openai/chat_query_entity.dart';
-import '../../preferences_manager.dart';
+import '../../app_config.dart';
 
 class SettingsGpt35Turbo extends StatefulWidget {
   const SettingsGpt35Turbo({Key? key}) : super(key: key);
@@ -36,7 +36,7 @@ class _SettingsGpt35TurboState extends State<SettingsGpt35Turbo> {
   void initState() {
     super.initState();
     _queryEntity =
-        appPref.gpt35TurboSettings ?? ChatQueryEntity(messages: []);
+        appConfig.gpt35TurboSettings ?? ChatQueryEntity(messages: []);
     _initValues();
     _initListener(
       controller: _maxLengthController,
@@ -110,7 +110,7 @@ class _SettingsGpt35TurboState extends State<SettingsGpt35Turbo> {
       _queryEntity.topP = double.parse(_topPController.text);
       _queryEntity.frequencyPenalty = double.parse(_frequencyController.text);
       _queryEntity.presencePenalty = double.parse(_presenceController.text);
-      await appPref.setGpt35TurboSettings(_queryEntity);
+      await appConfig.setGpt35TurboSettings(_queryEntity);
     }).then((value) {
       context.pop();
     });

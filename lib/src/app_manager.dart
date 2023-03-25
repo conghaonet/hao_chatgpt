@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:hao_chatgpt/src/preferences_manager.dart';
+import 'package:hao_chatgpt/src/app_config.dart';
 import 'package:yaml/yaml.dart';
 
 class AppManager {
@@ -12,7 +12,7 @@ class AppManager {
 
   String? get innerApiKey => _innerApiKey;
 
-  String? get openaiApiKey => appPref.apiKey ?? _innerApiKey;
+  String? get openaiApiKey => appConfig.apiKey ?? _innerApiKey;
 
   AppManager._internal();
 
@@ -22,7 +22,7 @@ class AppManager {
 
   Future<void> init() async {
     if (!_isInitialized) {
-      await appPref.init();
+      await appConfig.init();
       await _loadInnerApiKey();
     }
     _isInitialized = true;

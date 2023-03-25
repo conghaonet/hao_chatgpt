@@ -6,7 +6,7 @@ import 'package:hao_chatgpt/src/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hao_chatgpt/src/preferences_manager.dart';
+import 'package:hao_chatgpt/src/app_config.dart';
 
 import 'l10n/generated/l10n.dart';
 
@@ -23,9 +23,9 @@ void main() async {
 }
 
 final StateProvider<ThemeMode> themeProvider =
-    StateProvider((ref) => appPref.themeMode);
+    StateProvider((ref) => appConfig.themeMode);
 final StateProvider<Locale?> localeProvider =
-    StateProvider((ref) => appPref.locale);
+    StateProvider((ref) => appConfig.locale);
 final StateProvider<String> systemPromptProvider = StateProvider<String>((ref) => '');
 
 class MyApp extends ConsumerWidget {

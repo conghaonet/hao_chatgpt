@@ -6,7 +6,7 @@ import 'package:hao_chatgpt/src/extensions.dart';
 import '../../../l10n/generated/l10n.dart';
 import '../../constants.dart';
 import '../../network/entity/openai/completions_query_entity.dart';
-import '../../preferences_manager.dart';
+import '../../app_config.dart';
 import '../../screens/settings/settings_gpt35turbo.dart';
 
 /// see [SettingsGpt35Turbo]
@@ -40,7 +40,7 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
   void initState() {
     super.initState();
     _queryEntity =
-        appPref.gpt3GenerationSettings ?? CompletionsQueryEntity.generation();
+        appConfig.gpt3GenerationSettings ?? CompletionsQueryEntity.generation();
     _initValues();
     _initListener(
       controller: _maxLengthController,
@@ -115,7 +115,7 @@ class _CustomizeGpt3PageState extends State<CustomizeGpt3Page> {
       _queryEntity.topP = double.parse(_topPController.text);
       _queryEntity.frequencyPenalty = double.parse(_frequencyController.text);
       _queryEntity.presencePenalty = double.parse(_presenceController.text);
-      await appPref.setGpt3GenerationSettings(_queryEntity);
+      await appConfig.setGpt3GenerationSettings(_queryEntity);
     }).then((value) {
       context.pop();
     });

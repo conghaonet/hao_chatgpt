@@ -10,7 +10,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:hao_chatgpt/src/screens/chat/chat_drawer.dart';
 import 'package:hao_chatgpt/src/screens/chat/no_key_view.dart';
-import 'package:hao_chatgpt/src/preferences_manager.dart';
+import 'package:hao_chatgpt/src/app_config.dart';
 import 'package:hao_chatgpt/src/screens/chat_turbo.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -83,7 +83,7 @@ class ChatPageState extends State<ChatPage> {
         isFavorite: const drift.Value(false)
     ));
     CompletionsQueryEntity queryEntity =
-        appPref.gpt3GenerationSettings ?? CompletionsQueryEntity.generation();
+        appConfig.gpt3GenerationSettings ?? CompletionsQueryEntity.generation();
     queryEntity.prompt = promptItem.appendedPrompt;
     try {
       CompletionsEntity entity =
@@ -354,7 +354,7 @@ class ChatPageState extends State<ChatPage> {
 
   Widget _buildPromptInput() {
     String? getSendButtonTooltip() {
-      LogicalKeySet? keySet = appPref.shortcutsSend;
+      LogicalKeySet? keySet = appConfig.shortcutsSend;
       if(keySet == null) {
         return null;
       } else {

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'preferences_manager.dart';
+import 'app_config.dart';
 
 Map<String, LogicalKeySet> getShortcutsKeys() {
   Map<String, LogicalKeySet> keyMap = {'Enter': LogicalKeySet(LogicalKeyboardKey.enter)};
@@ -22,9 +22,9 @@ Map<LogicalKeySet, Intent> getShortcutsIntents() {
     return {};
   } else {
     List<LogicalKeySet> keySets = getShortcutsKeys().values.toList();
-    keySets.remove(appPref.shortcutsSend);
+    keySets.remove(appConfig.shortcutsSend);
     return {
-      appPref.shortcutsSend!: const SendIntent(),
+      appConfig.shortcutsSend!: const SendIntent(),
       keySets.first: const NewLineIntent(),
     };
   }

@@ -9,7 +9,7 @@ import 'package:hao_chatgpt/main.dart';
 import 'package:hao_chatgpt/src/app_manager.dart';
 import 'package:hao_chatgpt/src/app_router.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
-import 'package:hao_chatgpt/src/preferences_manager.dart';
+import 'package:hao_chatgpt/src/app_config.dart';
 import 'package:hao_chatgpt/src/screens/settings/settings_proxy.dart';
 import 'package:yaml/yaml.dart';
 
@@ -89,7 +89,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       leading: const Icon(Icons.table_rows),
       title: Text(S.of(context).systemPromptRecords),
       trailing: DropdownButton<int>(
-        value: appPref.systemPromptLimit,
+        value: appConfig.systemPromptLimit,
         items: maxRecords.map((e) {
           return DropdownMenuItem<int>(
             value: e,
@@ -98,7 +98,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         }).toList(growable: false),
         onChanged: (value) {
           setState(() {
-            appPref.setSystemPromptLimit(value);
+            appConfig.setSystemPromptLimit(value);
           });
         },
       ),
@@ -117,9 +117,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             return RadioListTile<LogicalKeySet>(
               title: Text(S.of(context).sendWith(e.key)),
               value: e.value,
-              groupValue: appPref.shortcutsSend,
+              groupValue: appConfig.shortcutsSend,
               onChanged: (value) async {
-                await appPref.setShortcutsSend(value);
+                await appConfig.setShortcutsSend(value);
                 setState(() {
                 });
               },
@@ -174,9 +174,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     return RadioListTile<ThemeMode>(
                       title: Text(e.value),
                       value: e.key,
-                      groupValue: appPref.themeMode,
+                      groupValue: appConfig.themeMode,
                       onChanged: (value) {
-                        appPref.setThemeMode(value!);
+                        appConfig.setThemeMode(value!);
                         ref.read(themeProvider.notifier).state = value;
                         setSystemNavigationBarColor(value);
                         ctx.pop();
@@ -232,11 +232,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     return RadioListTile<Locale>(
                       title: Text(e.value),
                       value: e.key,
-                      groupValue: appPref.locale ?? undefinedLocale,
+                      groupValue: appConfig.locale ?? undefinedLocale,
                       onChanged: (value) {
                         Locale? convertedLocale =
                             (value == undefinedLocale) ? null : value;
-                        appPref.setLocale(convertedLocale);
+                        appConfig.setLocale(convertedLocale);
                         ref.read(localeProvider.notifier).state =
                             convertedLocale;
                         ctx.pop();

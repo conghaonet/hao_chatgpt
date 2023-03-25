@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/main.dart';
 import 'package:hao_chatgpt/src/db/hao_database.dart';
-import 'package:hao_chatgpt/src/preferences_manager.dart';
+import 'package:hao_chatgpt/src/app_config.dart';
 import 'package:hao_chatgpt/src/screens/chat/no_key_view.dart';
 import 'package:hao_chatgpt/src/screens/chat_turbo/chat_turbo_content.dart';
 import 'package:hao_chatgpt/src/screens/chat_turbo/chat_turbo_menu.dart';
@@ -87,7 +87,7 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
           ChatMessageEntity(role: ChatRole.system, content: systemPrompt),
           ..._messages.map((e) => ChatMessageEntity(role: e.role, content: e.content)).toList()
         ];
-        ChatQueryEntity queryEntity = appPref.gpt35TurboSettings ?? ChatQueryEntity(messages: [],);
+        ChatQueryEntity queryEntity = appConfig.gpt35TurboSettings ?? ChatQueryEntity(messages: [],);
         queryEntity.messages = queryMessages;
 
         ChatEntity chatEntity = await openaiService.getChatCompletions(queryEntity);
@@ -369,7 +369,7 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
 
   Widget _buildInputView(BuildContext context) {
     String? getSendButtonTooltip() {
-      LogicalKeySet? keySet = appPref.shortcutsSend;
+      LogicalKeySet? keySet = appConfig.shortcutsSend;
       if(keySet == null) {
         return null;
       } else {

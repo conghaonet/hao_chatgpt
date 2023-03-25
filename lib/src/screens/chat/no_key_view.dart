@@ -4,7 +4,7 @@ import 'package:hao_chatgpt/src/extensions.dart';
 import '../../../l10n/generated/l10n.dart';
 import '../../constants.dart';
 import '../../network/entity/api_key_entity.dart';
-import '../../preferences_manager.dart';
+import '../../app_config.dart';
 
 class NoKeyView extends StatefulWidget {
   final VoidCallback? onFinished;
@@ -53,7 +53,7 @@ class _NoKeyViewState extends State<NoKeyView> {
                   if(_apiKeyValue.isNotBlank) {
                     ApiKeyEntity entity =
                     ApiKeyEntity(_apiKeyValue.trim(), DateTime.now());
-                    appPref.addApiKey(entity).then((_) {
+                    appConfig.addApiKey(entity).then((_) {
                       if(widget.onFinished != null) {
                         widget.onFinished!();
                       }

@@ -5,7 +5,7 @@ import 'package:hao_chatgpt/src/extensions.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:hao_chatgpt/src/preferences_manager.dart';
+import 'package:hao_chatgpt/src/app_config.dart';
 
 import '../constants.dart';
 
@@ -40,7 +40,7 @@ class OpenaiClient {
         // return "PROXY localhost:8888;PROXY localhost:7777";
         // 设置代理与未设置代理均支持  ‘DIRECT’一定要放在最后
         // return "PROXY localhost:8888;DIRECT";
-        String? value = appPref.httpProxy;
+        String? value = appConfig.httpProxy;
         if(value.isNotBlank) {
           List<String> args = value!.split(Constants.splitTag);
           if(args.length == 3) {

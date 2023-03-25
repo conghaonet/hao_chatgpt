@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hao_chatgpt/src/app_manager.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
-import 'package:hao_chatgpt/src/preferences_manager.dart';
+import 'package:hao_chatgpt/src/app_config.dart';
 
 import '../../../l10n/generated/l10n.dart';
 
@@ -20,13 +20,13 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
   @override
   void initState() {
     super.initState();
-    keys.addAll(appPref.apiKeys);
+    keys.addAll(appConfig.apiKeys);
   }
 
   void _refreshApiKeys() {
     setState(() {
       keys.clear();
-      keys.addAll(appPref.apiKeys);
+      keys.addAll(appConfig.apiKeys);
     });
   }
 
@@ -64,7 +64,7 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
                     value: keys[index].key,
                     groupValue: appManager.openaiApiKey,
                     onChanged: (value) async {
-                      await appPref.setApiKey(value);
+                      await appConfig.setApiKey(value);
                       _refreshApiKeys();
                     },
                     title: Text(getMaskedApiKey(keys[index].key)),
@@ -91,7 +91,7 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
               value: appManager.innerApiKey!,
               groupValue: appManager.openaiApiKey,
               onChanged: (value) async {
-                await appPref.setApiKey(null);
+                await appConfig.setApiKey(null);
                 _refreshApiKeys();
               },
               title: Text(
@@ -120,7 +120,7 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
           actions: [
             TextButton(
               onPressed: () async {
-                await appPref
+                await appConfig
                     .removeApiKey(keyValue)
                     .then((_) => Navigator.of(ctx).pop(true));
               },
@@ -163,7 +163,7 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
                   keyValue = keyValue!.trim();
                   try {
                     // duplicate API key
-                    appPref.apiKeys
+                    appConfig.apiKeys
                         .firstWhere((element) => element.key == keyValue);
                     ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
                       content: Text(S.of(ctx).duplicateApiKey),
@@ -179,7 +179,7 @@ class _SettingsApikeyPageState extends State<SettingsApikeyPage> {
                     } else {
                       ApiKeyEntity entity =
                           ApiKeyEntity(keyValue!, DateTime.now());
-                      await appPref
+                      await appConfig
                           .addApiKey(entity)
                           .then((_) => Navigator.of(ctx).pop(true));
                     }

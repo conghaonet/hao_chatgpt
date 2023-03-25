@@ -10,11 +10,11 @@ import 'extensions.dart';
 import 'network/entity/openai/chat_query_entity.dart';
 import 'network/entity/openai/completions_query_entity.dart';
 
-class PreferencesManager {
-  PreferencesManager._internal();
-  static final PreferencesManager _preferencesManager =
-      PreferencesManager._internal();
-  factory PreferencesManager() => _preferencesManager;
+class AppConfig {
+  AppConfig._internal();
+  static final AppConfig _preferencesManager =
+      AppConfig._internal();
+  factory AppConfig() => _preferencesManager;
 
   bool _isInitialized = false;
   bool get isInitialized => _isInitialized;
@@ -250,4 +250,4 @@ class SharedPreferencesKey {
   static const systemPromptLimit = 'system_prompt_limit';
 }
 
-PreferencesManager appPref = PreferencesManager();
+AppConfig appConfig = AppConfig();

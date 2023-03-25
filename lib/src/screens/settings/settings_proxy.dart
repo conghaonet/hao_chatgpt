@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hao_chatgpt/src/constants.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
-import 'package:hao_chatgpt/src/preferences_manager.dart';
+import 'package:hao_chatgpt/src/app_config.dart';
 
 import '../../../l10n/generated/l10n.dart';
 
@@ -25,7 +25,7 @@ class _SettingsProxyState extends State<SettingsProxy> {
   @override
   void initState() {
     super.initState();
-    String? value = appPref.httpProxy;
+    String? value = appConfig.httpProxy;
     if(value.isNotBlank) {
       List<String> args = value!.split(Constants.splitTag);
       if(args.length == 3) {
@@ -99,7 +99,7 @@ class _SettingsProxyState extends State<SettingsProxy> {
         TextButton(
           onPressed: () async {
             if((_formKey.currentState as FormState).validate()) {
-              await appPref.setHttpProxy(_enableProxy, _hostnameController.text, int.tryParse(_portNumberController.text));
+              await appConfig.setHttpProxy(_enableProxy, _hostnameController.text, int.tryParse(_portNumberController.text));
               setState(() {
                 context.pop();
               });

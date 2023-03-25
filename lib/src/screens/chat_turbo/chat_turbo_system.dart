@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hao_chatgpt/main.dart';
 import 'package:hao_chatgpt/src/extensions.dart';
 import 'package:drift/drift.dart' as drift;
-import 'package:hao_chatgpt/src/preferences_manager.dart';
+import 'package:hao_chatgpt/src/app_config.dart';
 
 import '../../../l10n/generated/l10n.dart';
 import '../../db/hao_database.dart';
@@ -28,7 +28,7 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
     Future(() async {
       var statement = haoDatabase.select(haoDatabase.systemPrompts);
       statement.orderBy([(t) => drift.OrderingTerm(expression: t.id, mode: drift.OrderingMode.desc)]);
-      statement.limit(appPref.systemPromptLimit);
+      statement.limit(appConfig.systemPromptLimit);
       var results = await statement.get();
       _systemPrompts.addAll(results);
       if(mounted) {
@@ -78,7 +78,7 @@ class _ChatTurboSystemState extends ConsumerState<ChatTurboSystem> {
     statement.where((tbl) => tbl.id.equals(_selectedPromptId));
     SystemPrompt newSystemPrompt = await statement.getSingle();
     _systemPrompts.insert(0, newSystemPrompt);
-    if(_systemPrompts.length > appPref.systemPromptLimit) {
+    if(_systemPrompts.length > appConfig.systemPromptLimit) {
       final lastPrompt = _systemPrompts.removeLast();
       (haoDatabase.delete(haoDatabase.systemPrompts)..where((tbl) => tbl.id.equals(lastPrompt.id))).go();
     }

@@ -7,7 +7,7 @@ import 'package:hao_chatgpt/src/network/entity/openai/completions_query_entity.d
 import 'package:hao_chatgpt/src/network/entity/openai/model_entity.dart';
 import 'package:hao_chatgpt/src/network/openai_service.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hao_chatgpt/src/preferences_manager.dart';
+import 'package:hao_chatgpt/src/app_config.dart';
 import 'package:logger/logger.dart';
 import 'dart:io' as io;
 import 'package:dio/dio.dart';
@@ -73,7 +73,7 @@ void main() async {
     //   return APIKeyEntity('$index$index$index', DateTime.now());
     // });
     // await appPref.setAPIKeys(entities);
-    List<ApiKeyEntity> keys = appPref.apiKeys;
+    List<ApiKeyEntity> keys = appConfig.apiKeys;
     logger.i(keys.map((e) => e.toJson()));
   });
 

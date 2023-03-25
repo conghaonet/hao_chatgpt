@@ -8,7 +8,7 @@ import 'package:hao_chatgpt/src/extensions.dart';
 import '../../l10n/generated/l10n.dart';
 import '../app_shortcuts.dart';
 import '../constants.dart';
-import '../preferences_manager.dart';
+import '../app_config.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
