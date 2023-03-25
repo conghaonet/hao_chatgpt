@@ -31,7 +31,6 @@ For security reasons, I cannot upload my **openai.yaml**.
 
 ## Under development
 - [x] GPT-4
-- [ ] Code completion (Codex)
 
 ## Tips
 Set the task or role of the AI in this **SYSTEM** input box.  
