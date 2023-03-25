@@ -22,7 +22,6 @@
 
 ## 开发中的特性
 - [x] GPT-4
-- [ ] 生成代码 (Codex)
 
 ## 设置你自己的 OpenAI API key
 
