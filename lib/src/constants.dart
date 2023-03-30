@@ -3,7 +3,6 @@ import 'dart:ui';
 
 class Constants {
   static const String splitTag = '<|>';
-  static const String gpt35turbo = 'gpt-3.5-turbo';
   static const String gpt3ModelDavinci003 = 'text-davinci-003';
   static const String gpt3ModelCurie001 = 'text-curie-001';
   static const String gpt3ModelBabbage001 = 'text-babbage-001';
@@ -13,13 +12,6 @@ class Constants {
     gpt3ModelCurie001,
     gpt3ModelBabbage001,
     gpt3ModelAda001
-  ];
-
-  static const String codexModelDavinci002 = 'code-davinci-002';
-  static const String codexModelCushman001 = 'code-cushman-001';
-  static const List<String> codexModels = [
-    codexModelDavinci002,
-    codexModelCushman001,
   ];
 
   static const Locale enLocale = Locale('en', '');
@@ -55,4 +47,13 @@ class ChatRole {
 
 class FinishReason {
   static const length = 'length', stop = 'stop';
+}
+
+enum GptModel {
+  gpt35Turbo(model: 'gpt-3.5-turbo', maxTokens: 4096);
+
+  const GptModel({required this.model, required this.maxTokens});
+
+  final String model;
+  final int maxTokens;
 }

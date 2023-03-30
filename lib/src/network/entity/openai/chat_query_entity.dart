@@ -55,7 +55,7 @@ class ChatQueryEntity {
   double frequencyPenalty;
 
   ChatQueryEntity({
-    this.model = Constants.gpt35turbo,
+    String? model,
     required this.messages,
     this.temperature = 0.7,
     this.topP = 1.0,
@@ -65,7 +65,7 @@ class ChatQueryEntity {
     this.maxTokens = 256,
     this.presencePenalty = 0.0,
     this.frequencyPenalty = 0.0
-  });
+  }) : model = model ?? GptModel.gpt35Turbo.model;
   factory ChatQueryEntity.fromJson(Map<String, dynamic> json) =>
       _$ChatQueryEntityFromJson(json);
 

@@ -29,7 +29,7 @@ class _SettingsGpt35TurboState extends State<SettingsGpt35Turbo> {
   final _presenceController = TextEditingController();
   final _confirmButtonFocusNode = FocusNode();
   static const List<double> rangeZeroToOne = [0.0, 1.0];
-  static const List<int> maxLengthRange = [1, 4096];
+  static final List<int> maxLengthRange = [1, GptModel.gpt35Turbo.maxTokens];
   static const List<double> rangeZeroToTwo = [0.0, 2.0];
 
   @override

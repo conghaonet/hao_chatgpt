@@ -8,7 +8,7 @@ part of 'chat_query_entity.dart';
 
 ChatQueryEntity _$ChatQueryEntityFromJson(Map<String, dynamic> json) =>
     ChatQueryEntity(
-      model: json['model'] as String? ?? Constants.gpt35turbo,
+      model: json['model'] as String?,
       messages: (json['messages'] as List<dynamic>)
           .map((e) => ChatMessageEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
