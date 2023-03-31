@@ -2,7 +2,8 @@
 
 # HaoChat
 
-一款用Flutter开发的非官方的 ChatGPT 应用。
+一款用Flutter开发的非官方的 ChatGPT 应用。  
+如果这个库对你有帮助，请给它一个star来支持我们！
 
 <img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/flutter_logo.png" height="40"/>&emsp;&emsp;<img src="https://github.com/conghaonet/hao_chatgpt/raw/master/screenshots/openai_logo.png" height="40"/>
 
