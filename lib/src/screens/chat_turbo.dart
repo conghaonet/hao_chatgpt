@@ -63,6 +63,10 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
 
   Future<void> _request() async {
     if(_isLoading) return;
+    int? adjustedTokens;
+    if(_errorEntity?.code == 'context_length_exceeded') {
+      adjustedTokens = _errorEntity!.adjustedTokens;
+    }
     setState(() {
       _isLoading = true;
       _errorEntity = null;
@@ -89,6 +93,7 @@ class _ChatTurboState extends ConsumerState<ChatTurbo> {
         ];
         ChatQueryEntity queryEntity = appConfig.gpt35TurboSettings ?? ChatQueryEntity(messages: [],);
         queryEntity.messages = queryMessages;
+        queryEntity.maxTokens = adjustedTokens ?? queryEntity.maxTokens;
 
         ChatEntity chatEntity = await openaiService.getChatCompletions(queryEntity);
         if(chatEntity.choices != null && chatEntity.choices!.isNotEmpty && chatEntity.choices!.first.message != null) {

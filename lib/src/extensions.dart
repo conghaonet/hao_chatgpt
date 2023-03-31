@@ -64,6 +64,25 @@ extension ExceptionExt on Exception {
   }
 }
 
+extension DioErrorEntityExt on DioErrorEntity {
+  int? get adjustedTokens {
+    if(code == 'context_length_exceeded' && message != null && message!.contains(' tokens')) {
+      RegExp digits = RegExp(r'\d+ tokens');
+      List<Match> matches = digits.allMatches(message!).toList(growable: false);
+      if(matches.length == 2) {
+        int maxTokens = int.parse(matches[0].group(0)!.replaceAll(' tokens', ''));
+        digits = RegExp(r'\d+ in the messages');
+        matches = digits.allMatches(message!).toList(growable: false);
+        if(matches.length == 1) {
+          int inMessages = int.parse(matches[0].group(0)!.replaceAll(' in the messages', ''));
+          return (maxTokens - inMessages - 1);
+        }
+      }
+    }
+    return null;
+  }
+}
+
 extension DoubleExt on double {
   String toStringAsFixedNoRound(int fractionDigits, {bool isTight = false}) {
     String str = toString();

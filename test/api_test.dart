@@ -20,7 +20,7 @@ void main() async {
   /// https://github.com/flutter/flutter/issues/48050
   TestWidgetsFlutterBinding.ensureInitialized();
   io.HttpOverrides.global = null;
-  await appManager.init();
+  // await appManager.init();
   final logger = Logger();
 
   test('/models', () async {
@@ -83,5 +83,14 @@ void main() async {
     logger.i(regExp.hasMatch(str));
     logger.i(str);
     logger.i(str.replaceAll(regExp, ''));
+  });
+
+  test('RegExp', (){
+    String input = 'This model\'s maximum context length is 4097 tokens. However, you requested 4141 tokens (3885 in the messages, 256 in the completion). Please reduce the length of the messages or completion.';
+    RegExp digits = RegExp(r'\d+ tokens');
+    Iterable<Match> matches = digits.allMatches(input);
+    for (Match match in matches) {
+      print(match.group(0));
+    }
   });
 }
