@@ -15,8 +15,8 @@ class OpenaiClient {
   /// 'Content-Type: application/json'
   static BaseOptions baseOptions = BaseOptions(
     baseUrl: baseUrl,
-    connectTimeout: 60000,
-    receiveTimeout: 30000,
+    connectTimeout: 5000,
+    receiveTimeout: 60000,
   );
 
   late Dio _dio;
